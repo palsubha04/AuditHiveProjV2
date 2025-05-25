@@ -3,7 +3,7 @@ import { Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { PanelLeft, PanelRight } from 'lucide-react';
+import { PanelLeft, PanelRight, CircleChevronLeft, CircleChevronRight } from 'lucide-react';
 import './Sidenav.css';
 
 function Sidenav({ isOpen, toggleSidenav }) {
@@ -69,14 +69,12 @@ function Sidenav({ isOpen, toggleSidenav }) {
 
   return (
     <div className={`h-100 sidenav ${isOpen ? 'open' : 'collapsed'}`}>
-      <div className="logo-container">
-        <button className='sidenav-toggle-btn' style={{ paddingLeft: '1rem' }} onClick={toggleSidenav}>
-          {isOpen ?
-            <PanelLeft className='sidenav-toggle-icon' style={{ color: '#65728c' }} /> :
-            <PanelRight className='sidenav-toggle-icon' style={{ color: '#65728c' }} />
-          }
-        </button>
-      </div>
+      <button className='sidenav-toggle-btn' style={{ paddingLeft: '1rem' }} onClick={toggleSidenav}>
+        {isOpen ?
+          <CircleChevronLeft className='sidenav-toggle-icon' /> :
+          <CircleChevronRight className='sidenav-toggle-icon' />
+        }
+      </button>
       <Nav className="flex-column">
         <div className="">
           <Nav.Link onClick={toggleDashboard} className="nav-item">
