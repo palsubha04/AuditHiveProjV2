@@ -172,20 +172,20 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
         //   temp.push(...currentData[i].records);
         // }
         // setRecords(temp);
-            const currentData = response[taxType];
+        const currentData = response[taxType];
         let temp = [];
-    const result = Object.entries(currentData).flatMap(([category, { records }]) =>
-      records.map(({ tin, taxpayer_name }) => ({
-        Tin: tin,
-        "Taxpayer Name" : taxpayer_name,
-        Segmentation: category,
-      }))
-    );
-    for (let i in currentData) {
-      temp.push(...currentData[i].records);
-      temp = temp.map(item => {return {...item, category : i}})
-    }
-   setRecords(result);
+        const result = Object.entries(currentData).flatMap(([category, { records }]) =>
+          records.map(({ tin, taxpayer_name }) => ({
+            Tin: tin,
+            "Taxpayer Name": taxpayer_name,
+            Segmentation: category,
+          }))
+        );
+        for (let i in currentData) {
+          temp.push(...currentData[i].records);
+          temp = temp.map(item => { return { ...item, category: i } })
+        }
+        setRecords(result);
 
         const segments = ['micro', 'small', 'medium', 'large'];
         const series = [
@@ -268,6 +268,9 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
   if (loading) {
     return (
       <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
+        </Card.Header>
         <Card.Body
           className="d-flex align-items-center justify-content-center"
           style={{ height: '470px' }}
@@ -283,6 +286,9 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
   if (error) {
     return (
       <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
+        </Card.Header>
         <Card.Body
           className="text-center text-danger"
           style={{ height: '430px' }}
@@ -295,22 +301,17 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
 
   return (
     <Card className="mb-4 box-background">
-      <Card.Body>
-        <Row className="mb-4">
-          <Col>
-            <span className="chart-headers">
-              Risk Flagged vs Non-Risk Flagged Taxpayers
-            </span>
-          </Col>
-          <Col className="text-end">
+      <Card.Header className="chart-card-header">
+        <div className='d-flex align-items-center justify-content-between'>
+          <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
           <CSVExportButton
-          records={records}
-          filename="risk_taxpayers.csv"
-          buttonLabel="Download Risk Taxpayers List"
-        />
-            </Col>
-         
-        </Row>
+            records={records}
+            filename="risk_taxpayers.csv"
+            buttonLabel="Download Risk Taxpayers List"
+          />
+        </div>
+      </Card.Header>
+      <Card.Body>
         <ReactApexChart
           options={chartData.options}
           series={chartData.series}

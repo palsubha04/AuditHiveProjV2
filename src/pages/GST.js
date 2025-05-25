@@ -49,7 +49,7 @@ function GST() {
           />
         </div>
         <div className="row chart-columns-div pe-0">
-          <div className="col-md-6">
+          <div className="col-md-6 pe-4">
             <SegmentationDistributionChart
               startDate={dateRange.start_date}
               endDate={dateRange.end_date}

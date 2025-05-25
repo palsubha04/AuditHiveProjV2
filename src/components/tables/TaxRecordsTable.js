@@ -4,6 +4,7 @@ import Table from '../Table';
 import gstService from '../../services/gst.service';
 import debounce from 'lodash/debounce';
 import '../../pages/Dashboard.css';
+import { Search } from 'lucide-react';
 
 const TaxRecordsTable = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
@@ -179,6 +180,36 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
+      <Card.Header className="chart-card-header">
+        <div className='d-flex align-items-center justify-content-between'>
+          <span className="chart-headers">Tax Records</span>
+          <Form.Group className="mb-0" style={{ width: '300px' }}>
+            <div style={{ position: 'relative', width: '300px' }}>
+              <Search style={{
+                position: 'absolute',
+                top: '50%',
+                left: '10px',
+                transform: 'translateY(-50%)',
+                color: '#aaa',
+                pointerEvents: 'none'
+              }} />
+
+              <Form.Control
+                type="text"
+                placeholder=" Search by TIN"
+                value={searchTin}
+                onChange={handleSearchChange}
+                style={{
+                  paddingLeft: '35px', // Make room for the icon
+                  border: '1px solid #fff',
+                  borderRadius: '10px'
+                }}
+              />
+            </div>
+
+          </Form.Group>
+        </div>
+      </Card.Header>
       <Card.Body>
         {loading ? (
           <div className="text-center">Loading...</div>
@@ -186,26 +217,12 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
           <div className="text-center text-danger">{error}</div>
         ) : records.length === 0 ? (
           <>
-            <Card.Title>Tax Records</Card.Title>
             <div className="text-center text-muted" style={{ padding: '2rem' }}>
               No Data Found
             </div>
           </>
         ) : (
           <>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <Card.Title>
-                <span className="chart-headers">Tax Records</span>
-              </Card.Title>
-              <Form.Group className="mb-0" style={{ width: '300px' }}>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by TIN"
-                  value={searchTin}
-                  onChange={handleSearchChange}
-                />
-              </Form.Group>
-            </div>
             <Table
               columns={columns}
               data={records}
