@@ -1,9 +1,10 @@
 .sidenav {
   width: 20.357rem;
   padding: 24px 24px 24px 60px;
-  border-right: 1px solid #E6EDFF;
+  border-right: 1px solid #dfe8ff;
   z-index: 10000;
   transition: width 0.3s ease;
+  background: #f9f9f9
 }
 
 .sidenav.collapsed {

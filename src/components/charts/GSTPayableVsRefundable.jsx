@@ -146,15 +146,15 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
           series: allZero
             ? []
             : [
-                {
-                  name: 'GST Payable',
-                  data: payableData,
-                },
-                {
-                  name: 'GST Refundable',
-                  data: refundableData,
-                },
-              ],
+              {
+                name: 'GST Payable',
+                data: payableData,
+              },
+              {
+                name: 'GST Refundable',
+                data: refundableData,
+              },
+            ],
           options: {
             ...prevData.options,
             xaxis: {
@@ -180,7 +180,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
-      <Card.Body>
+      <Card.Header className="chart-card-header">
         <Row className="mb-4">
           <Col md={4}>
             <span className="chart-headers">GST Payable vs Refundable</span>
@@ -226,6 +226,8 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
             </div>
           </Col>
         </Row>
+      </Card.Header>
+      <Card.Body>
         <div id="chart">
           <ReactApexChart
             options={chartData.options}

@@ -4,9 +4,9 @@ import gstService from '../../services/gst.service';
 import '../../pages/Dashboard.css';
 
 const MetricCard = ({ value, label, color }) => (
-  <div style={{ textAlign: 'center', minWidth: 150 }}>
+  <div style={{ textAlign: 'start', minWidth: 150, paddingLeft: '0.5rem' }}>
     <div style={{ fontWeight: 700, fontSize: 24, color }}>{value}</div>
-    <div style={{ fontSize: 15, color: '#222', marginBottom: 4 }}>{label}</div>
+    <div style={{ fontSize: 15, color: '#fff', marginBottom: 4 }}>{label}</div>
   </div>
 );
 
@@ -54,49 +54,32 @@ const GSTSummaryCards = ({ startDate, endDate }) => {
   if (!summary) return null;
 
   return (
-    <Card
-      style={{
-        borderColor: '#e6edff',
-        borderRadius: 16,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
-        padding: 24,
-        marginBottom: 32,
-      }}
-    >
-      <Row
-        className="justify-content-between"
-        style={{ flexWrap: 'nowrap', overflowX: 'auto' }}
-      >
-        <Col className='border-end'>
-          <MetricCard
-            value={formatNumber(summary.total_tax_payers)}
-            label="Total Tax payers"
-            color="#31303B"
-          />
-        </Col>
-        <Col className='border-end'>
-          <MetricCard
-            value={formatNumber(summary.total_sales_income)}
-            label="Total Sales Income"
-            color="#31303B"
-          />
-        </Col>
-        <Col className='border-end'>
-          <MetricCard
-            value={formatNumber(summary.total_gst_payable)}
-            label="Total GST Payable"
-            color="#F36464"
-          />
-        </Col>
-        <Col>
-          <MetricCard
-            value={formatNumber(summary.total_gst_refundable)}
-            label="Total GST Refundable"
-            color="#31303B"
-          />
-        </Col>
-      </Row>
-    </Card>
+    <div className='widget-main-div'>
+      <Card className='widget-card' style={{ background: '#5096ff'}}>
+        <MetricCard
+          value={formatNumber(summary.total_tax_payers)}
+          label="Total Tax payers"
+        />
+      </Card>
+      <Card className='widget-card' style={{ background: '#47C99E'}}>
+        <MetricCard
+          value={formatNumber(summary.total_sales_income)}
+          label="Total Sales Income"
+        />
+      </Card>
+      <Card className='widget-card' style={{ background: '#F96992'}}>
+        <MetricCard
+          value={formatNumber(summary.total_gst_payable)}
+          label="Total GST Payable"
+        />
+      </Card>
+      <Card className='widget-card' style={{ background: '#FFA56D'}}>
+        <MetricCard
+          value={formatNumber(summary.total_gst_refundable)}
+          label="Total GST Refundable"
+        />
+      </Card>
+    </div>
   );
 };
 

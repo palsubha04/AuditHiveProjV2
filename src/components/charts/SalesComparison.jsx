@@ -160,12 +160,10 @@ const SalesComparison = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
+      <Card.Header className="chart-card-header">
+        <span className="chart-headers">Sales Comparison</span>
+      </Card.Header>
       <Card.Body>
-        <Row className="mb-4">
-          <Col>
-            <span className="chart-headers">Sales Comparison</span>
-          </Col>
-        </Row>
         <ReactApexChart
           options={chartOptions}
           series={chartData.series}

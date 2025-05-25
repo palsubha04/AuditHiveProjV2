@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
 import Layout from '../components/Layout';
 import SalesComparison from '../components/charts/SalesComparison';
 import GSTPayableVsRefundable from '../components/charts/GSTPayableVsRefundable';
@@ -24,7 +23,7 @@ function GST() {
     <Layout>
       <div className="top-filter-class">
         <TenureFilter onFilterChange={handleFilterChange} />
-        <div className="d-flex ps-2 gap-2 justify-center align-items-center">
+        <div className="d-flex ps-3 gap-2 justify-center align-items-center">
           <span>{dateRange.start_date}</span>
           <span>to</span>
           <span>{dateRange.end_date}</span>
