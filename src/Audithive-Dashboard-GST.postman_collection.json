@@ -1,0 +1,311 @@
+{
+	"info": {
+		"_postman_id": "f5e4e67e-1c5c-4ec2-828e-9cb765dc96d9",
+		"name": "Audithive-Dashboard-GST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23379962",
+		"_collection_link": "https://adzguru.postman.co/workspace/adzguru-Workspace~9b49c851-15b8-46f5-8a3e-ffdd4afaede3/collection/23379962-f5e4e67e-1c5c-4ec2-828e-9cb765dc96d9?action=share&source=collection_link&creator=23379962"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"charub@gmail.com\",\r\n  \"password\": \"cybage@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payable Vs Refundable",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjQ4ODk3LCJpYXQiOjE3NDY2NDUyOTcsImp0aSI6IjBmYmZlNDM0NzdkMjRmMzQ5NmMxNGY5NTM5OTRjODg3IiwidXNlcl9pZCI6ImFmOTMzNDkyLTk1YzUtNDBiNS04ZjlmLWQ3MWU0NmFlMTdlYSJ9.08TvKeh4dZm-xAST365a0KLOE1iwPJC0HedFCX3sVUY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/dashboard/gst/payable-vs-refundable-summary?start_date=01-01-2021&end_date=31-12-2022",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"gst",
+						"payable-vs-refundable-summary"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "01-01-2021"
+						},
+						{
+							"key": "end_date",
+							"value": "31-12-2022"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Segmentation Distribution",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjQ5OTQ4LCJpYXQiOjE3NDY2NDYzNDgsImp0aSI6ImJkYmMzYTg4YTg4MDQ1MjA5NzgyYmZkNmY5YmI4NGI1IiwidXNlcl9pZCI6ImFmOTMzNDkyLTk1YzUtNDBiNS04ZjlmLWQ3MWU0NmFlMTdlYSJ9.M-ZwYc2ZqPpLid7Bz59dc0Fr15WyLdQgMGEqteFt0u4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/dashboard/segmentation-summary?tax_type=gst&start_date=01-01-2021&end_date=31-12-2022",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"segmentation-summary"
+					],
+					"query": [
+						{
+							"key": "tax_type",
+							"value": "gst"
+						},
+						{
+							"key": "start_date",
+							"value": "01-01-2021"
+						},
+						{
+							"key": "end_date",
+							"value": "31-12-2022"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tax Records",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjQ5OTQ4LCJpYXQiOjE3NDY2NDYzNDgsImp0aSI6ImJkYmMzYTg4YTg4MDQ1MjA5NzgyYmZkNmY5YmI4NGI1IiwidXNlcl9pZCI6ImFmOTMzNDkyLTk1YzUtNDBiNS04ZjlmLWQ3MWU0NmFlMTdlYSJ9.M-ZwYc2ZqPpLid7Bz59dc0Fr15WyLdQgMGEqteFt0u4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/dashboard/tax-records?tax_type=gst&start_date=01-01-2021&end_date=31-12-2022",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"tax-records"
+					],
+					"query": [
+						{
+							"key": "tax_type",
+							"value": "gst"
+						},
+						{
+							"key": "start_date",
+							"value": "01-01-2021"
+						},
+						{
+							"key": "end_date",
+							"value": "31-12-2022"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Tax Records By TIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjQ5OTQ4LCJpYXQiOjE3NDY2NDYzNDgsImp0aSI6ImJkYmMzYTg4YTg4MDQ1MjA5NzgyYmZkNmY5YmI4NGI1IiwidXNlcl9pZCI6ImFmOTMzNDkyLTk1YzUtNDBiNS04ZjlmLWQ3MWU0NmFlMTdlYSJ9.M-ZwYc2ZqPpLid7Bz59dc0Fr15WyLdQgMGEqteFt0u4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/dashboard/440773661?tax_type=gst",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"440773661"
+					],
+					"query": [
+						{
+							"key": "tax_type",
+							"value": "gst"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Summary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjQ5OTQ4LCJpYXQiOjE3NDY2NDYzNDgsImp0aSI6ImJkYmMzYTg4YTg4MDQ1MjA5NzgyYmZkNmY5YmI4NGI1IiwidXNlcl9pZCI6ImFmOTMzNDkyLTk1YzUtNDBiNS04ZjlmLWQ3MWU0NmFlMTdlYSJ9.M-ZwYc2ZqPpLid7Bz59dc0Fr15WyLdQgMGEqteFt0u4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/dashboard/gst/summary?start_date=01-01-2021&end_date=31-12-2022",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"gst",
+						"summary"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "01-01-2021"
+						},
+						{
+							"key": "end_date",
+							"value": "31-12-2022"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sales Comparison",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2NjQ5OTQ4LCJpYXQiOjE3NDY2NDYzNDgsImp0aSI6ImJkYmMzYTg4YTg4MDQ1MjA5NzgyYmZkNmY5YmI4NGI1IiwidXNlcl9pZCI6ImFmOTMzNDkyLTk1YzUtNDBiNS04ZjlmLWQ3MWU0NmFlMTdlYSJ9.M-ZwYc2ZqPpLid7Bz59dc0Fr15WyLdQgMGEqteFt0u4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/dashboard/gst/sales-comparison?start_date=01-01-2021&end_date=31-12-2022",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dashboard",
+						"gst",
+						"sales-comparison"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "01-01-2021"
+						},
+						{
+							"key": "end_date",
+							"value": "31-12-2022"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

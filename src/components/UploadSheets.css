@@ -1,0 +1,71 @@
+.upload-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  margin-bottom: 2rem;
+}
+
+.dropzone.active {
+  border-color: #4a90e2;
+  background-color: #e3f2fd;
+}
+
+.dropzone p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.loading {
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #e3f2fd;
+  border-radius: 4px;
+  color: #1976d2;
+}
+
+.error {
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #ffebee;
+  border-radius: 4px;
+  color: #d32f2f;
+}
+
+.status {
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #f1f8e9;
+  border-radius: 4px;
+  color: #689f38;
+}
+
+.table-wrapper {
+  margin-top: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.job-info {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #e3f2fd;
+  border-radius: 4px;
+  color: #1976d2;
+  font-size: 14px;
+} 

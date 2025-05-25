@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "2cbec651-8717-4512-9a54-43d7cbf9c6f8",
+		"name": "Audithive-Technology",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23379962",
+		"_collection_link": "https://adzguru.postman.co/workspace/adzguru-Workspace~9b49c851-15b8-46f5-8a3e-ffdd4afaede3/collection/23379962-2cbec651-8717-4512-9a54-43d7cbf9c6f8?action=share&source=collection_link&creator=23379962"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"audithive@gmail.com\",\r\n  \"password\": \"mindstar#tech@2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "File Upload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1OTUyMTA1LCJpYXQiOjE3NDU5NTEyMDUsImp0aSI6IjdjZjEzYmYwNGUzMDRlN2Y5NmMxMTM4YjNmNDk1MzQzIiwidXNlcl9pZCI6ImE5MGU5MWM2LTUxN2UtNDkyZi1hOTlmLTBkZTdhNmNkNGE0YyJ9.LS1AJEdI7Z4M3SrjUDheGLY1BipgL4H9uLEwJUt3--c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/ssumi/Downloads/gst_demo_raw_2021.csv"
+						},
+						{
+							"key": "tax_type",
+							"value": "gst",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/tax/upload",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tax",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Job Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1OTUyMTA1LCJpYXQiOjE3NDU5NTEyMDUsImp0aSI6IjdjZjEzYmYwNGUzMDRlN2Y5NmMxMTM4YjNmNDk1MzQzIiwidXNlcl9pZCI6ImE5MGU5MWM2LTUxN2UtNDkyZi1hOTlmLTBkZTdhNmNkNGE0YyJ9.LS1AJEdI7Z4M3SrjUDheGLY1BipgL4H9uLEwJUt3--c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/tax/jobs/5e8f7c45-cf5a-4b7f-916f-ba15baf79166/status",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tax",
+						"jobs",
+						"5e8f7c45-cf5a-4b7f-916f-ba15baf79166",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Valid_Records",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1OTUyMTA1LCJpYXQiOjE3NDU5NTEyMDUsImp0aSI6IjdjZjEzYmYwNGUzMDRlN2Y5NmMxMTM4YjNmNDk1MzQzIiwidXNlcl9pZCI6ImE5MGU5MWM2LTUxN2UtNDkyZi1hOTlmLTBkZTdhNmNkNGE0YyJ9.LS1AJEdI7Z4M3SrjUDheGLY1BipgL4H9uLEwJUt3--c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/tax/jobs/5e8f7c45-cf5a-4b7f-916f-ba15baf79166/valid-records",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tax",
+						"jobs",
+						"5e8f7c45-cf5a-4b7f-916f-ba15baf79166",
+						"valid-records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid_Records",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1OTUyMTA1LCJpYXQiOjE3NDU5NTEyMDUsImp0aSI6IjdjZjEzYmYwNGUzMDRlN2Y5NmMxMTM4YjNmNDk1MzQzIiwidXNlcl9pZCI6ImE5MGU5MWM2LTUxN2UtNDkyZi1hOTlmLTBkZTdhNmNkNGE0YyJ9.LS1AJEdI7Z4M3SrjUDheGLY1BipgL4H9uLEwJUt3--c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/tax/jobs/5e8f7c45-cf5a-4b7f-916f-ba15baf79166/invalid-records",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tax",
+						"jobs",
+						"5e8f7c45-cf5a-4b7f-916f-ba15baf79166",
+						"invalid-records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fraud-Records",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1OTUyMTA1LCJpYXQiOjE3NDU5NTEyMDUsImp0aSI6IjdjZjEzYmYwNGUzMDRlN2Y5NmMxMTM4YjNmNDk1MzQzIiwidXNlcl9pZCI6ImE5MGU5MWM2LTUxN2UtNDkyZi1hOTlmLTBkZTdhNmNkNGE0YyJ9.LS1AJEdI7Z4M3SrjUDheGLY1BipgL4H9uLEwJUt3--c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/tax/jobs/5e8f7c45-cf5a-4b7f-916f-ba15baf79166/fraud-records",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tax",
+						"jobs",
+						"5e8f7c45-cf5a-4b7f-916f-ba15baf79166",
+						"fraud-records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Audi History",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1OTUyMTA1LCJpYXQiOjE3NDU5NTEyMDUsImp0aSI6IjdjZjEzYmYwNGUzMDRlN2Y5NmMxMTM4YjNmNDk1MzQzIiwidXNlcl9pZCI6ImE5MGU5MWM2LTUxN2UtNDkyZi1hOTlmLTBkZTdhNmNkNGE0YyJ9.LS1AJEdI7Z4M3SrjUDheGLY1BipgL4H9uLEwJUt3--c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.audithive.in/api/v1/tax/audit-history/latest?tax_type=gst",
+					"protocol": "http",
+					"host": [
+						"api",
+						"audithive",
+						"in"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tax",
+						"audit-history",
+						"latest"
+					],
+					"query": [
+						{
+							"key": "tax_type",
+							"value": "gst"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,93 @@
+.header {
+  height: 83px;
+  background: #5671FF;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  transition: left 0.3s ease;
+}
+
+/* Override Bootstrap's container-fluid padding */
+.header .container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header-titles h1 {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  color: #fff;
+}
+
+.header-titles p {
+  margin: 0;
+  font-size: 1.143rem;
+  color: #fff;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-dropdown {
+  background: none !important;
+  border: none !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0;
+  height: auto !important;
+}
+
+.dropdown-arrow {
+  font-size: 1rem;
+  /* 14px */
+  margin-left: 0.286rem;
+  /* 4px */
+}
+
+.user-dropdown::after {
+  display: none !important;
+}
+
+.avatar {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  color: var(--color-primary);
+}
+
+.toggle-sidenav-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 20px;
+}
