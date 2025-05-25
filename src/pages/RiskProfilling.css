@@ -1,10 +1,12 @@
 .top-filter-class{
     border-radius: 10px;
     padding-left: 1rem;
+    padding-right: 1rem;
     margin-bottom: 32px;
     display: flex;
-    height: 50px;
-    border: solid 1px #e6edff;
+    height: 53px;
+    width: fit-content;
+    border: solid 1px #dfe4f0;
 }
 
 .filter-conatiner {
