@@ -181,51 +181,53 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
   return (
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header">
-        <Row className="mb-4">
-          <Col md={4}>
+        <div className="align-items-center d-flex justify-content-between">
+          <div className='col-auto'>
             <span className="chart-headers">GST Payable vs Refundable</span>
-          </Col>
-          <Col md={4}>
-            <div className="d-flex align-items-center pb-2">
-              <div
-                className="me-2"
-                style={{
-                  width: '12px',
-                  height: '12px',
-                  backgroundColor: '#008FFB',
-                  borderRadius: '50%',
-                }}
-              ></div>
-              <span>
-                Sum of GST Payable: $
-                {totals.payable.toLocaleString('en-US', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </span>
+          </div>
+          <div className="d-flex align-items-center justify-content-end gap-3">
+            <div className='col-auto'>
+              <div className="d-flex align-items-center">
+                <div
+                  className="me-2"
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    backgroundColor: '#008FFB',
+                    borderRadius: '50%',
+                  }}
+                ></div>
+                <span>
+                  Sum of GST Payable: $
+                  {totals.payable.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
+              </div>
             </div>
-          </Col>
-          <Col md={4}>
-            <div className="d-flex align-items-center">
-              <div
-                className="me-2"
-                style={{
-                  width: '12px',
-                  height: '12px',
-                  backgroundColor: '#00E396',
-                  borderRadius: '50%',
-                }}
-              ></div>
-              <span>
-                Sum of GST Refundable: $
-                {totals.refundable.toLocaleString('en-US', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </span>
+            <div className='col-auto'>
+              <div className="d-flex align-items-center">
+                <div
+                  className="me-2"
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    backgroundColor: '#00E396',
+                    borderRadius: '50%',
+                  }}
+                ></div>
+                <span>
+                  Sum of GST Refundable: $
+                  {totals.refundable.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
+              </div>
             </div>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Card.Header>
       <Card.Body>
         <div id="chart">

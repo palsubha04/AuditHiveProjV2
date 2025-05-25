@@ -52,11 +52,12 @@ const CSVExportButton = ({
   return (
     <Button
       onClick={exportToCSV}
-      variant="outline-secondary"
+      variant="outline-default"
       className="chart-filter"
       title={buttonLabel}
+      style={{background:"#fff", padding: '5px', cursor: 'pointer'}}
     >
-      <Download style={{height : "18px",width:"18px"}}/>
+      <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/>
     </Button>
   );
 };

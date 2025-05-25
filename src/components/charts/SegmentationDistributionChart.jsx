@@ -293,8 +293,10 @@ function SegmentationDistributionChart({ startDate, endDate }) {
   if (loading) {
     return (
       <Card className="chart-card">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Segmentation Distribution</span>
+        </Card.Header>
         <Card.Body>
-          <Card.Title>Segmentation Distribution</Card.Title>
           <div
             className="text-center"
             style={{
@@ -316,6 +318,9 @@ function SegmentationDistributionChart({ startDate, endDate }) {
   if (error) {
     return (
       <Card className="chart-card">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Segmentation Distribution</span>
+        </Card.Header>
         <Card.Body>
           <div className="text-center text-danger">{error}</div>
         </Card.Body>
@@ -326,8 +331,10 @@ function SegmentationDistributionChart({ startDate, endDate }) {
   if (!data || data.length === 0) {
     return (
       <Card className="chart-card">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Segmentation Distribution</span>
+        </Card.Header>
         <Card.Body>
-          <Card.Title>Segmentation Distribution</Card.Title>
           <div
             className="text-center text-muted"
             style={{
@@ -346,10 +353,10 @@ function SegmentationDistributionChart({ startDate, endDate }) {
 
   return (
     <Card className="chart-card box-background">
-      <Card.Body>
-        <Card.Title>
+      <Card.Header className="chart-card-header">
           <span className="chart-headers">Segmentation Distribution</span>
-        </Card.Title>
+        </Card.Header>
+      <Card.Body>
         <div style={{ width: '100%', height: 380 }}>
           <ReactApexChart
             options={options}

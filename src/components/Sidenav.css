@@ -1,6 +1,6 @@
 .sidenav {
   width: 20.357rem;
-  padding: 24px 24px 24px 60px;
+  padding: 16px 24px 24px 60px;
   border-right: 1px solid #dfe8ff;
   z-index: 10000;
   transition: width 0.3s ease;
@@ -10,7 +10,7 @@
 .sidenav.collapsed {
   width: 60px;
   overflow: hidden;
-  padding: 24px 18px 0px 0px;
+  padding: 12px 18px 0px 0px;
   transition: width 0.3s ease;
 }
 
@@ -20,21 +20,23 @@
   transition: width 0.3s ease;
 }
 
-.sidenav.collapsed .logo-container>a {
-  display: none;
-  transition: width 0.3s ease;
+.sidenav.collapsed .sidenav-toggle-btn {
+  position: absolute;
+  left: 32px;
+  padding-top: 12px;
+  z-index: 100001;
 }
 
-.sidenav.open .logo-container>a {
-  display: block;
-  transition: width 0.3s ease;
-}
-
-.logo-container {
+.sidenav-toggle-btn {
   text-align: center;
   display: flex;
   justify-content: end;
   margin-bottom: 1rem;
+  position: absolute;
+  left: 298px;
+  padding-top: 12px;
+  z-index: 100001;
+
 }
 
 .logo {
@@ -94,6 +96,12 @@
   margin-bottom: 0.5rem;
 }
 
+.sidenav-toggle-icon {
+  background: #f9f9f9;
+  color: #7C8DB5;
+  border-radius: 50%;
+}
+
 .sidenav-toggle-icon:hover {
   color: #347AE2 !important;
 }
@@ -142,7 +150,6 @@
   font-size: 16px;
   line-height: 150%;
   letter-spacing: 0%;
-  
 }
 
 @keyframes slideDown {

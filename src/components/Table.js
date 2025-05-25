@@ -205,7 +205,7 @@ function Table({
       onScroll={(e) => fetchMoreOnBottomReached(e.target)}
     >
       <table
-        className="table table-bordered table-hover table-striped"
+        className="table"
         style={{
           width: "100%",
           tableLayout: "fixed",
@@ -216,7 +216,7 @@ function Table({
           style={{
             position: "sticky",
             top: 0,
-            backgroundColor: "white",
+            backgroundColor: "#e6edff",
             zIndex: 1,
           }}
         >
@@ -227,10 +227,10 @@ function Table({
                   key={header.id}
                   style={{
                     padding: "12px 20px",
-                    textAlign: "center",
+                    textAlign: "left",
                     verticalAlign: "middle",
-                    backgroundColor: "white",
-                    border: "1px solid #dee2e6",
+                    backgroundColor: "#e6edff",
+                    border: "1px solid #e6edff",
                   }}
                 >
                   {flexRender(
@@ -261,9 +261,9 @@ function Table({
                     title={cell.getValue()}
                     style={{
                       padding: "12px 20px",
-                      textAlign: "center",
+                      textAlign: "left",
                       verticalAlign: "middle",
-                      border: "1px solid #dee2e6",
+                      border: "1px solid #e6edff",
                     }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

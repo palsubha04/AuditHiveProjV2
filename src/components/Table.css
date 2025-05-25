@@ -3,7 +3,6 @@
   overflow: auto;
   position: relative;
   border-radius: 8px;
-  background: white;
   width: 100%;
 }
 
@@ -23,7 +22,7 @@ table {
 th {
   font-weight: 600;
   text-align: left;
-  background-color: #fafafa;
+  background-color: #e6edff;
   color: #333;
   padding: 12px;
   border-bottom: 2px solid #e6edff;
@@ -54,14 +53,6 @@ tr:hover td {
   background-color: #f5f5f5;
 }
 
-/* Fraud Filter Styles */
-/* .fraud-filter-header {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-} */
-
 .fraud-filter-header {
   display: flex;
   align-items: center;
@@ -69,7 +60,6 @@ tr:hover td {
   gap: 8px;
   width: 100%;
 }
-
 
 .header-title {
   font-weight: 600;
