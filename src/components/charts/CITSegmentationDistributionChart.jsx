@@ -78,7 +78,7 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
         setLoading(true);
         setError(null);
         const response = await citService.getSegmentationDistribution(startDate, endDate);
-        
+
         // Process the response data
         const series = [
           response.micro || 0,
@@ -116,6 +116,9 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
   if (loading) {
     return (
       <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <span className="chart-headers">Segmentation Distribution</span>
+        </Card.Header>
         <Card.Body className="d-flex align-items-center justify-content-center" style={{ height: '400px' }}>
           <Spinner animation="border" role="status" variant="primary">
             <span className="visually-hidden">Loading...</span>
@@ -128,6 +131,9 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
   if (error) {
     return (
       <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <span className="chart-headers">Segmentation Distribution</span>
+        </Card.Header>
         <Card.Body className="text-center text-danger" style={{ height: '400px' }}>
           {error}
         </Card.Body>
@@ -137,12 +143,10 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
+      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+        <span className="chart-headers">Segmentation Distribution</span>
+      </Card.Header>
       <Card.Body>
-        <Row className="mb-4">
-          <Col>
-            <span className='chart-headers'>Segmentation Distribution</span>
-          </Col>
-        </Row>
         <ReactApexChart
           options={chartData.options}
           series={chartData.series}

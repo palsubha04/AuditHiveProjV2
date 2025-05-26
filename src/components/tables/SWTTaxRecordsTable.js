@@ -4,6 +4,7 @@ import Table from '../Table';
 import swtService from '../../services/swt.service';
 import debounce from 'lodash/debounce';
 import '../../pages/Dashboard.css';
+import { Search } from 'lucide-react';
 
 const SWTTaxRecordsTable = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
@@ -156,66 +157,125 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
         </Badge>
       ),
     },
-    {
-      accessorKey: 'fraud_reason',
-      header: 'Fraud Reason',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    },
+    // {
+    //   accessorKey: 'fraud_reason',
+    //   header: 'Fraud Reason',
+    //   cell: ({ getValue }) => getValue() || 'N/A',
+    // },
   ];
 
   return (
     <Card className="mb-4 box-background">
-      <Card.Body>
-        {loading ? (
-          <div
-            className="text-center"
-            style={{
-              height: '350px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Spinner animation="border" role="status" variant="primary">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
-        ) : error ? (
-          <div className="text-center text-danger">{error}</div>
-        ) : records.length === 0 ? (
-          <>
-            <Card.Title>Tax Records</Card.Title>
-            <div className="text-center text-muted" style={{ padding: '2rem' }}>
-              No Data Found
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <Card.Title>Tax Records</Card.Title>
-              <Form.Group className="mb-0" style={{ width: '300px' }}>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by TIN"
-                  value={searchTin}
-                  onChange={handleSearchChange}
-                />
-              </Form.Group>
-            </div>
-            <Table
-              columns={columns}
-              data={records}
-              loading={loading}
-              error={error}
-              hasMore={records.length < totalRecords}
-              onLoadMore={handleLoadMore}
-              loadingMore={isLoadingMore}
-              jobId={'test'}
+    <Card.Header className="chart-card-header">
+      <div className="d-flex align-items-center justify-content-between">
+        <span className="chart-headers">Tax Records</span>
+        <Form.Group className="mb-0" style={{ width: '300px' }}>
+          <div style={{ position: 'relative', width: '300px' }}>
+            <Search
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '10px',
+                transform: 'translateY(-50%)',
+                color: '#aaa',
+                pointerEvents: 'none',
+              }}
             />
-          </>
-        )}
-      </Card.Body>
-    </Card>
+
+            <Form.Control
+              type="text"
+              placeholder=" Search by TIN"
+              value={searchTin}
+              onChange={handleSearchChange}
+              style={{
+                paddingLeft: '35px', // Make room for the icon
+                border: '1px solid #fff',
+                borderRadius: '10px',
+              }}
+            />
+          </div>
+        </Form.Group>
+      </div>
+    </Card.Header>
+    <Card.Body>
+      {loading ? (
+        <div className="text-center">Loading...</div>
+      ) : error ? (
+        <div className="text-center text-danger">{error}</div>
+      ) : records.length === 0 ? (
+        <>
+          <div className="text-center text-muted" style={{ padding: '2rem' }}>
+            No Data Found
+          </div>
+        </>
+      ) : (
+        <>
+          <Table
+            columns={columns}
+            data={records}
+            loading={loading}
+            error={error}
+            hasMore={records.length < totalRecords}
+            onLoadMore={handleLoadMore}
+            loadingMore={isLoadingMore}
+            jobId={'test'}
+          />
+        </>
+      )}
+    </Card.Body>
+  </Card>
+    // <Card className="mb-4 box-background">
+    //   <Card.Body>
+    //     {loading ? (
+    //       <div
+    //         className="text-center"
+    //         style={{
+    //           height: '350px',
+    //           display: 'flex',
+    //           alignItems: 'center',
+    //           justifyContent: 'center',
+    //         }}
+    //       >
+    //         <Spinner animation="border" role="status" variant="primary">
+    //           <span className="visually-hidden">Loading...</span>
+    //         </Spinner>
+    //       </div>
+    //     ) : error ? (
+    //       <div className="text-center text-danger">{error}</div>
+    //     ) : records.length === 0 ? (
+    //       <>
+    //         <Card.Title>Tax Records</Card.Title>
+    //         <div className="text-center text-muted" style={{ padding: '2rem' }}>
+    //           No Data Found
+    //         </div>
+    //       </>
+    //     ) : (
+    //       <>
+    //         <div className="d-flex justify-content-between align-items-center mb-3">
+    //           <Card.Title>Tax Records</Card.Title>
+    //           <Form.Group className="mb-0" style={{ width: '300px' }}>
+    //             <Form.Control
+    //               type="text"
+    //               placeholder="Search by TIN"
+    //               value={searchTin}
+    //               onChange={handleSearchChange}
+    //             />
+    //           </Form.Group>
+    //         </div>
+    //         <Table
+    //           columns={columns}
+    //           data={records}
+    //           loading={loading}
+    //           error={error}
+    //           hasMore={records.length < totalRecords}
+    //           onLoadMore={handleLoadMore}
+    //           loadingMore={isLoadingMore}
+    //           jobId={'test'}
+    //         />
+    //       </>
+    //     )}
+    //   </Card.Body>
+    // </Card>
   );
 };
 

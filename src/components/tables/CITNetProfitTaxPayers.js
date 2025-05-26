@@ -133,6 +133,14 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
+      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+        <span className="chart-headers">Top 50 Net Profit Tax Payers</span>
+        <CSVExportButton
+          records={records}
+          filename="SalesVsCost.csv"
+          buttonLabel="Download Sales vs Cost List"
+        />
+      </Card.Header>
       <Card.Body>
         {loading ? (
           <div
@@ -151,44 +159,33 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
         ) : error ? (
           <div className="text-center text-danger">{error}</div>
         ) : records.length === 0 ? (
-          <>
-            <span className="chart-headers">Top 50 Net profit TaxPayers</span>
-            <div
-              className="text-center text-muted"
-              style={{
-                height: '400px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              No Data Found
-            </div>
-          </>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '400px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
         ) : (
-          <>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <span className="chart-headers">
-                  Top 50 Net Profit TaxPayers
-                </span>
-                <CSVExportButton
-                  records={records}
-                  filename="SalesVsCost.csv"
-                  buttonLabel="Download Sales vs Cost List"
-                />
-              </div>
-            </div>
+          <div
+            style={{
+              height: '400px',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
             <Table
-              columns={columns}
-              data={records}
-              loading={loading}
-              error={error}
-              //   hasMore={records.length < totalRecords}
-              //   onLoadMore={handleLoadMore}
-              //   loadingMore={isLoadingMore}
-            />
-          </>
+            columns={columns}
+            data={records}
+            loading={loading}
+            error={error}
+          />
+          </div>
+          
         )}
       </Card.Body>
     </Card>

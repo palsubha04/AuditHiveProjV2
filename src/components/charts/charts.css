@@ -14,24 +14,31 @@
     font-weight: 600;
     padding-right: 10px;
     letter-spacing: 0px;
-    line-height: 32px
-;}
+    line-height: 32px;
+}
 
 .chart-filter{
     border: solid 0.6px #e6edff;
     border-radius: 10px;
     padding: 3px;
 }
-/* .apex-tooltip {
-    padding: 6px 12px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-  }
-   */
 
-.chart-menu-item:hover {
-  background-color: #f0f0f0;
+.download-dropdown-btn {
+    background: #fff;
+    border-radius: 10px;
+    color: #05004E;
+    padding: 2px 7px;
+    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.download-dropdown-btn:hover {
+    background: #fff;
+    border: solid 1px #fff;
+}
+
+.download-dropdown-btn::after {
+    display: inline-block;
 }

@@ -21,7 +21,7 @@ const TopFraudRulesProfiling = ({
   );
 
   const taxTypes = ['gst', 'swt', 'cit'];
-  const segmentations = ['large', 'medium', 'low', 'micro'];
+  const segmentations = ['large', 'medium', 'small', 'micro'];
 
   // useEffect(() => {
   //   if (selectedTaxType && selectedSegmentation) {
@@ -43,15 +43,15 @@ const TopFraudRulesProfiling = ({
       accessorKey: 'segmentation',
       header: 'Segmentation',
     },
-    {
-      accessorKey: 'is_fraud',
-      header: 'Is Fraud',
-      cell: ({ getValue }) => (
-        <Badge bg={getValue() ? 'danger' : 'success'}>
-          {getValue() ? 'Fraud' : 'Valid'}
-        </Badge>
-      ),
-    },
+    // {
+    //   accessorKey: 'is_fraud',
+    //   header: 'Is Fraud',
+    //   cell: ({ getValue }) => (
+    //     <Badge bg={getValue() ? 'danger' : 'success'}>
+    //       {getValue() ? 'Fraud' : 'Valid'}
+    //     </Badge>
+    //   ),
+    // },
     {
       accessorKey: 'fraud_reason',
       header: 'Fraud Reason',
@@ -130,16 +130,22 @@ const TopFraudRulesProfiling = ({
         />
       </CardHeader>
       <CardBody>
-        <Table
-          columns={columns}
-          data={filteredData}
-          // jobId={"test"}
-          // loading={loading}
-          // error={error}
-          // hasMore={records.length < totalRecords}
-          // onLoadMore={handleLoadMore}
-          // loadingMore={isLoadingMore}
-        />
+        {filteredData && filteredData.length > 0 ? (
+          <Table
+            columns={columns}
+            data={filteredData}
+            //jobId={"test"}
+            // loading={loading}
+            // error={error}
+            // hasMore={records.length < totalRecords}
+            // onLoadMore={handleLoadMore}
+            // loadingMore={isLoadingMore}
+          />
+        ) : (
+          <div className="text-center text-muted" style={{ padding: '2rem' }}>
+            No Data Found
+          </div>
+        )}
       </CardBody>
     </div>
   );

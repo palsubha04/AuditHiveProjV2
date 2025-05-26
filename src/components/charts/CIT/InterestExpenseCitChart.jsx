@@ -100,6 +100,9 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
   if (loading) {
     return (
       <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <span className="chart-headers">Interest PNG vs Foreign</span>
+        </Card.Header>
         <Card.Body
           className="d-flex align-items-center justify-content-center"
           style={{ height: '400px' }}
@@ -115,6 +118,9 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
   if (error) {
     return (
       <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <span className="chart-headers">Interest PNG vs Foreign</span>
+        </Card.Header>
         <Card.Body
           className="text-center text-danger"
           style={{ height: '400px' }}
@@ -127,21 +133,15 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
+      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+        <span className="chart-headers">Interest PNG vs Foreign</span>
+        <CSVExportButton
+          records={records}
+          filename="risk_taxpayers.csv"
+          buttonLabel="Download Risk Taxpayer List"
+        />
+      </Card.Header>
       <Card.Body>
-        <Row className="mb-4">
-          <Col>
-            <span className="chart-headers">
-              Interest Expense PNG vs Foreign
-            </span>
-          </Col>
-          <Col>
-            <CSVExportButton
-              records={records}
-              filename="risk_taxpayers.csv"
-              buttonLabel="Download Risk Taxpayer List"
-            />
-          </Col>
-        </Row>
         <Chart
           options={chartData.options}
           series={chartData.series}
