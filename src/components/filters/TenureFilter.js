@@ -178,8 +178,8 @@ function TenureFilter({ onFilterChange, tenureOptions }) {
             startDate={startDate}
             endDate={endDate}
             className="form-control"
-            dateFormat="dd-MM-yyyy"
-            placeholderText="Start Date"
+            dateFormat="dd/MM/yyyy"
+            placeholderText="dd/MM/yyyy"
             style={{ width: 110 }}
           />
           <span style={{ margin: '0 4px' }}>to</span>
@@ -191,8 +191,8 @@ function TenureFilter({ onFilterChange, tenureOptions }) {
             endDate={endDate}
             minDate={startDate}
             className="form-control"
-            dateFormat="dd-MM-yyyy"
-            placeholderText="End Date"
+            dateFormat="dd/MM/yyyy"
+            placeholderText="dd/MM/yyyy"
             style={{ width: 110 }}
           />
         </div>
