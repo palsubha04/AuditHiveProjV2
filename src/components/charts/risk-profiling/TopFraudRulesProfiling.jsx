@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Table from '../../Table';
 import { Badge } from 'react-bootstrap';
 import CSVExportButton from '../../CSVExportButton';
+import { CardBody, CardHeader } from 'react-bootstrap';
+import './TopFruadRulesProfiling.css';
 
 const TopFraudRulesProfiling = ({
   topFraudRulesProfilingData,
@@ -66,71 +68,85 @@ const TopFraudRulesProfiling = ({
 
   return (
     <div className="d-flex h-100 flex-column">
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16, justifyContent: "space-between" }}>
-        <div className='d-flex'>
-        <span className='chart-headers'>Top 10 fraud companies (Tax and Segment wise)</span>
-        
-        <div>
-          <select
-            className='chart-filter'
-            value={selectedTaxType}
-            onChange={(e) => {
-              const newCategory = e.target.value;
-              //setSelectedTaxType(newCategory);
-              handleTopFraudFilterChange(e.target.value, selectedSegmentation);
-            }}
-          >
-            {taxTypes &&
-              taxTypes.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat.toUpperCase()}
+      <CardHeader className="table-card-header">
+        <div className="d-flex">
+          <span className="chart-headers">
+            Top 10 fraud companies (Tax and Segment wise)
+          </span>
+
+          <div>
+            <select
+              className="chart-filter"
+              value={selectedTaxType}
+              onChange={(e) => {
+                const newCategory = e.target.value;
+                //setSelectedTaxType(newCategory);
+                handleTopFraudFilterChange(
+                  e.target.value,
+                  selectedSegmentation
+                );
+              }}
+            >
+              {taxTypes &&
+                taxTypes.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat.toUpperCase()}
+                  </option>
+                ))}
+            </select>
+            <span
+              className="mx-2"
+              style={{ color: '#7c879d', fontSize: '16px' }}
+            >
+              and
+            </span>
+            <select
+              className="chart-filter"
+              value={selectedSegmentation}
+              onChange={(e) => {
+                //setSelectedSegmentation(e.target.value);
+                handleTopFraudFilterChange(selectedTaxType, e.target.value);
+              }}
+            >
+              {segmentations.map((ind) => (
+                <option key={ind} value={ind}>
+                  {ind.charAt(0).toUpperCase() +
+                    ind.slice(1).replaceAll('_', ' ')}
                 </option>
               ))}
-          </select>
-          <span className='mx-2' style={{ color: '#7c879d', fontSize: '16px'}}>and</span>
-          <select
-            className='chart-filter'
-            value={selectedSegmentation}
-            onChange={(e) => {
-              //setSelectedSegmentation(e.target.value);
-              handleTopFraudFilterChange(selectedTaxType, e.target.value);
-            }}
-          >
-            {segmentations.map((ind) => (
-              <option key={ind} value={ind}>
-                {ind.charAt(0).toUpperCase() +
-                  ind.slice(1).replaceAll('_', ' ')}
-              </option>
-            ))}
-          </select>
-          <span
-            style={{ color: '#7c879d', fontSize: '16px', marginLeft: '5px' }}
-          >
-            {' '}
-            (Segmentation){' '}
-          </span>
-        </div>
+            </select>
+            <span
+              style={{ color: '#7c879d', fontSize: '16px', marginLeft: '5px' }}
+            >
+              {' '}
+              (Segmentation){' '}
+            </span>
+          </div>
         </div>
         <CSVExportButton
           records={filteredData}
           filename="top_10_fraud.csv"
           buttonLabel="Download Top 10 Fraud List"
         />
-      </div>
-    {filteredData && filteredData.length > 0 ? <Table
-        columns={columns}
-        data={filteredData}
-        //jobId={"test"}
-        // loading={loading}
-        // error={error}
-        // hasMore={records.length < totalRecords}
-        // onLoadMore={handleLoadMore}
-        // loadingMore={isLoadingMore}
-      /> :
-      <div className="text-center text-muted" style={{ padding: '2rem' }}>
-              No Data Found
-            </div>}  
-      
+      </CardHeader>
+      <CardBody>
+        {filteredData && filteredData.length > 0 ? (
+          <Table
+            columns={columns}
+            data={filteredData}
+            //jobId={"test"}
+            // loading={loading}
+            // error={error}
+            // hasMore={records.length < totalRecords}
+            // onLoadMore={handleLoadMore}
+            // loadingMore={isLoadingMore}
+          />
+        ) : (
+          <div className="text-center text-muted" style={{ padding: '2rem' }}>
+            No Data Found
+          </div>
+        )}
+      </CardBody>
     </div>
   );
 };

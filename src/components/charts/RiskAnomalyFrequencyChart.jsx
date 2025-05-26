@@ -1,17 +1,18 @@
-import { Tally1 } from "lucide-react";
-import React, { useEffect, useState, useMemo } from "react";
-import ReactApexChart from "react-apexcharts";
-import "./charts.css";
-import CSVExportButton from "../CSVExportButton";
+import { Tally1 } from 'lucide-react';
+import React, { useEffect, useState, useMemo } from 'react';
+import ReactApexChart from 'react-apexcharts';
+import './charts.css';
+import CSVExportButton from '../CSVExportButton';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
-  const [selectedCategory, setSelectedCategory] = useState("gst");
+  const [selectedCategory, setSelectedCategory] = useState('gst');
   const [filteredData, setFilteredData] = useState([]);
-  const categories = ["gst", "swt", "cit"];
+  const categories = ['gst', 'swt', 'cit'];
   const [records, setRecords] = useState([]);
 
   console.log(
-    "data received in RiskAnomalyFrequencyChart",
+    'data received in RiskAnomalyFrequencyChart',
     riskAnomalyFrequencyData
   );
   useEffect(() => {
@@ -19,18 +20,17 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
       const rules =
         riskAnomalyFrequencyData[selectedCategory]?.fraud_rules || [];
       setFilteredData(rules);
-      if (source === "Risk Assessment") {
+      if (source === 'Risk Assessment') {
         const result = rules.flatMap(({ rule, records }) =>
           records.map(({ tin, taxpayer_name }) => ({
             Tin: tin,
-            "Taxpayer Name" : taxpayer_name,
-            Rule : rule,
+            'Taxpayer Name': taxpayer_name,
+            Rule: rule,
           }))
         );
-      
+
         setRecords(result);
       }
-      
     }
   }, [riskAnomalyFrequencyData, selectedCategory]);
 
@@ -44,7 +44,7 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
 
   const options = {
     chart: {
-      type: "pie",
+      type: 'pie',
       height: 350,
       toolbar: { show: true },
     },
@@ -67,19 +67,19 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
 
     labels: labels,
     noData: {
-      text: "No Data Found",
-      align: "center",
-      verticalAlign: "middle",
+      text: 'No Data Found',
+      align: 'center',
+      verticalAlign: 'middle',
       offsetX: 0,
       offsetY: 0,
       style: {
-        color: "#6c757d",
-        fontSize: "16px",
-        fontFamily: "inherit",
+        color: '#6c757d',
+        fontSize: '16px',
+        fontFamily: 'inherit',
       },
     },
     legend: {
-      position: "bottom",
+      position: 'bottom',
       onItemClick: {
         toggleDataSeries: true, // explicitly allow toggling
       },
@@ -87,45 +87,36 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
   };
 
   return (
-    <div>
+    <>
       {/* Heading and dropdown */}
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 16,  justifyContent: 'space-between', }}>
-      <div className='d-flex'>
-        <span className="chart-headers">Frequency Of Risk Anomalies</span>
-        <div>
-          <select
-            className="chart-filter"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat.toUpperCase()}
-              </option>
-            ))}
-          </select>
+      <CardHeader className="chart-card-header">
+        <div className="d-flex">
+          <span className="chart-headers">Frequency Of Risk Anomalies</span>
+          <div>
+            <select
+              className="chart-filter"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat.toUpperCase()}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        </div>
-        {source === "Risk Assessment" && (
-        <CSVExportButton
-          records={records}
-          filename="risk_taxpayers.csv"
-          buttonLabel="Download Risk Breakdown By Category Taxpayer List"
-        />
-      )}
-      </div>
-    
+        {source === 'Risk Assessment' && (
+          <CSVExportButton
+            records={records}
+            filename="risk_taxpayers.csv"
+            buttonLabel="Download Risk Breakdown By Category Taxpayer List"
+          />
+        )}
+      </CardHeader>
 
       {/* Chart */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-        }}
-      >
+      <CardBody>
         <ReactApexChart
           key={`${selectedCategory}-${series.length}`} // important for rerendering
           options={options}
@@ -133,8 +124,8 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
           type="pie"
           width={500}
         />
-      </div>
-    </div>
+      </CardBody>
+    </>
   );
 };
 
