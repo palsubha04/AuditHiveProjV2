@@ -146,15 +146,15 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
           series: allZero
             ? []
             : [
-                {
-                  name: 'GST Payable',
-                  data: payableData,
-                },
-                {
-                  name: 'GST Refundable',
-                  data: refundableData,
-                },
-              ],
+              {
+                name: 'GST Payable',
+                data: payableData,
+              },
+              {
+                name: 'GST Refundable',
+                data: refundableData,
+              },
+            ],
           options: {
             ...prevData.options,
             xaxis: {
@@ -197,12 +197,16 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
                     borderRadius: '50%',
                   }}
                 ></div>
-                <span>
-                  Sum of GST Payable: PGK
-                  {totals.payable.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+                <span className='d-flex align-items-center gap-1' >
+                  <span>
+                    Sum of GST Payable: PGK
+                  </span>
+                  <span>
+                    {totals.payable.toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
                 </span>
               </div>
             </div>
@@ -217,12 +221,13 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
                     borderRadius: '50%',
                   }}
                 ></div>
-                <span>
-                  Sum of GST Refundable: PGK
-                  {totals.refundable.toLocaleString('en-US', {
+                <span className='d-flex align-items-center gap-1' >
+                  <span>Sum of GST Refundable: PGK</span>
+                  <span>{totals.refundable.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
-                  })}
+                  })}</span>
+
                 </span>
               </div>
             </div>
