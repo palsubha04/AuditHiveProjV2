@@ -97,7 +97,8 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'PGK',
+      currencyDisplay: 'symbol',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
@@ -181,18 +182,20 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
   return (
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header">
-        <div className='d-flex align-items-center justify-content-between'>
+        <div className="d-flex align-items-center justify-content-between">
           <span className="chart-headers">Tax Records</span>
           <Form.Group className="mb-0" style={{ width: '300px' }}>
             <div style={{ position: 'relative', width: '300px' }}>
-              <Search style={{
-                position: 'absolute',
-                top: '50%',
-                left: '10px',
-                transform: 'translateY(-50%)',
-                color: '#aaa',
-                pointerEvents: 'none'
-              }} />
+              <Search
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '10px',
+                  transform: 'translateY(-50%)',
+                  color: '#aaa',
+                  pointerEvents: 'none',
+                }}
+              />
 
               <Form.Control
                 type="text"
@@ -202,11 +205,10 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
                 style={{
                   paddingLeft: '35px', // Make room for the icon
                   border: '1px solid #fff',
-                  borderRadius: '10px'
+                  borderRadius: '10px',
                 }}
               />
             </div>
-
           </Form.Group>
         </div>
       </Card.Header>

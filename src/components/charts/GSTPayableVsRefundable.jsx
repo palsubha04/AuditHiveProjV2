@@ -54,12 +54,12 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
       },
       yaxis: {
         title: {
-          text: 'Amount ($)',
+          text: 'Amount (PGK)',
         },
         labels: {
           formatter: function (value) {
             return (
-              '$' +
+              'PGK ' +
               value.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -76,7 +76,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
         y: {
           formatter: function (value) {
             return (
-              '$' +
+              'PGK ' +
               value.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -146,15 +146,15 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
           series: allZero
             ? []
             : [
-              {
-                name: 'GST Payable',
-                data: payableData,
-              },
-              {
-                name: 'GST Refundable',
-                data: refundableData,
-              },
-            ],
+                {
+                  name: 'GST Payable',
+                  data: payableData,
+                },
+                {
+                  name: 'GST Refundable',
+                  data: refundableData,
+                },
+              ],
           options: {
             ...prevData.options,
             xaxis: {
@@ -182,11 +182,11 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header">
         <div className="align-items-center d-flex justify-content-between">
-          <div className='col-auto'>
+          <div className="col-auto">
             <span className="chart-headers">GST Payable vs Refundable</span>
           </div>
           <div className="d-flex align-items-center justify-content-end gap-3">
-            <div className='col-auto'>
+            <div className="col-auto">
               <div className="d-flex align-items-center">
                 <div
                   className="me-2"
@@ -206,7 +206,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
                 </span>
               </div>
             </div>
-            <div className='col-auto'>
+            <div className="col-auto">
               <div className="d-flex align-items-center">
                 <div
                   className="me-2"
