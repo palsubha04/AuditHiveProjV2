@@ -30,7 +30,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
     try {
       let response;
       if (tin) {
-        response = await gstService.getTaxRecordsByTIN(tin);
+        response = await gstService.getTaxRecordsByTIN(tin,startDate,endDate);
         console.log('received data', response);
         setRecords(response.records);
       } else {
@@ -43,6 +43,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
         }
       }
       setTotalRecords(response.total_data_count);
+      setLoading(false);
     } catch (err) {
       setError('Failed to fetch tax records');
       console.error('Error fetching tax records:', err);
