@@ -3,7 +3,7 @@ import { Card, Row, Col, Form, Badge, Spinner } from 'react-bootstrap';
 import Table from '../Table';
 import swtService from '../../services/swt.service';
 import debounce from 'lodash/debounce';
-import "../../pages/Dashboard.css";
+import '../../pages/Dashboard.css';
 
 const SWTTaxRecordsTable = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
@@ -16,18 +16,23 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
 
   const fetchRecords = async (tin = '', page = 1, append = false) => {
     if (append && (loading || isLoadingMore)) return;
-    
+
     if (page === 1) {
       setLoading(true);
     } else {
       setIsLoadingMore(true);
     }
-    
+
     setError(null);
     try {
       let response;
       if (tin) {
-        response = await swtService.getTaxRecordsByTIN(tin, startDate, endDate, page);
+        response = await swtService.getTaxRecordsByTIN(
+          tin,
+          startDate,
+          endDate,
+          page
+        );
         if (response.error) {
           setError(response.error);
           setRecords([]);
@@ -38,7 +43,7 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
       } else {
         response = await swtService.getTaxRecords(startDate, endDate, page);
         if (append) {
-          setRecords(prev => [...prev, ...response.records]);
+          setRecords((prev) => [...prev, ...response.records]);
         } else {
           setRecords(response.records);
         }
@@ -86,54 +91,61 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
       setCurrentPage(nextPage);
       fetchRecords(searchTin, nextPage, true);
     }
-  }, [records.length, totalRecords, loading, isLoadingMore, currentPage, searchTin]);
+  }, [
+    records.length,
+    totalRecords,
+    loading,
+    isLoadingMore,
+    currentPage,
+    searchTin,
+  ]);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-PG', {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'PGK',
       currencyDisplay: 'symbol',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
   const columns = [
     {
       accessorKey: 'tin',
-      header: 'TIN'
+      header: 'TIN',
     },
     {
       accessorKey: 'taxpayer_name',
       header: 'Taxpayer Name',
-      cell: ({ getValue }) => getValue() || 'N/A'
+      cell: ({ getValue }) => getValue() || 'N/A',
     },
     {
       accessorKey: 'segmentation',
-      header: 'Segmentation'
+      header: 'Segmentation',
     },
     {
       accessorKey: 'employees_on_payroll',
-      header: 'Employees on Payroll'
+      header: 'Employees on Payroll',
     },
     {
       accessorKey: 'employees_paid_swt',
-      header: 'Employees Paid SWT'
+      header: 'Employees Paid SWT',
     },
     {
       accessorKey: 'total_salary_wages_paid',
       header: 'Total Salary Wages Paid',
-      cell: ({ getValue }) => formatCurrency(getValue())
+      cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
       accessorKey: 'sw_paid_for_swt_deduction',
       header: 'Salary Wages Paid for SWT Deduction',
-      cell: ({ getValue }) => formatCurrency(getValue())
+      cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
       accessorKey: 'total_swt_tax_deducted',
       header: 'Total SWT Tax Deducted',
-      cell: ({ getValue }) => formatCurrency(getValue())
+      cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
       accessorKey: 'is_fraud',
@@ -142,20 +154,28 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
         <Badge bg={getValue() ? 'danger' : 'success'}>
           {getValue() ? 'Fraud' : 'Valid'}
         </Badge>
-      )
+      ),
     },
     {
       accessorKey: 'fraud_reason',
       header: 'Fraud Reason',
-      cell: ({ getValue }) => getValue() || 'N/A'
-    }
+      cell: ({ getValue }) => getValue() || 'N/A',
+    },
   ];
 
   return (
     <Card className="mb-4 box-background">
       <Card.Body>
         {loading ? (
-          <div className="text-center" style={{ height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div
+            className="text-center"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Spinner animation="border" role="status" variant="primary">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
@@ -190,7 +210,7 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
               hasMore={records.length < totalRecords}
               onLoadMore={handleLoadMore}
               loadingMore={isLoadingMore}
-              jobId={"test"}
+              jobId={'test'}
             />
           </>
         )}
@@ -199,4 +219,4 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
   );
 };
 
-export default SWTTaxRecordsTable; 
+export default SWTTaxRecordsTable;

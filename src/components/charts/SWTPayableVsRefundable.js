@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { Card, Row, Col, Spinner } from 'react-bootstrap';
 import swtService from '../../services/swt.service';
-import "../../pages/Dashboard.css";
-import './charts.css'
+import '../../pages/Dashboard.css';
+import './charts.css';
 
 const SWTPayableVsRefundable = ({ startDate, endDate }) => {
   const [chartData, setChartData] = useState({
@@ -11,17 +11,17 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
     series: [
       {
         name: 'Total Salary Wages Paid',
-        data: []
+        data: [],
       },
       {
         name: 'Salary Wages Paid for SWT Deduction',
-        data: []
+        data: [],
       },
       {
         name: 'Total SWT Tax Deducted',
-        data: []
-      }
-    ]
+        data: [],
+      },
+    ],
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,18 +31,26 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
       try {
         setLoading(true);
         setError(null);
-        const response = await swtService.getSalariesComparison(startDate, endDate);
-        
+        const response = await swtService.getSalariesComparison(
+          startDate,
+          endDate
+        );
+
         // Process the response data
         const categories = [];
         const totalSalaryData = [];
         const swtDeductionData = [];
         const taxDeductedData = [];
 
-        response.records.forEach(record => {
-          record.monthly_summary.forEach(summary => {
+        response.records.forEach((record) => {
+          record.monthly_summary.forEach((summary) => {
             const date = new Date(record.year, summary.month - 1);
-            categories.push(date.toLocaleString('default', { month: 'short', year: 'numeric' }));
+            categories.push(
+              date.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+              })
+            );
             totalSalaryData.push(summary.total_salary_wages_paid);
             swtDeductionData.push(summary.sw_paid_for_swt_deduction);
             taxDeductedData.push(summary.total_swt_tax_deducted);
@@ -54,17 +62,17 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
           series: [
             {
               name: 'Total Salary Wages Paid',
-              data: totalSalaryData
+              data: totalSalaryData,
             },
             {
               name: 'Salary Wages Paid for SWT Deduction',
-              data: swtDeductionData
+              data: swtDeductionData,
             },
             {
               name: 'Total SWT Tax Deducted',
-              data: taxDeductedData
-            }
-          ]
+              data: taxDeductedData,
+            },
+          ],
         });
         console.log('try');
       } catch (err) {
@@ -85,17 +93,17 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
         series: [
           {
             name: 'Total Salary Wages Paid',
-            data: []
+            data: [],
           },
           {
             name: 'Salary Wages Paid for SWT Deduction',
-            data: []
+            data: [],
           },
           {
             name: 'Total SWT Tax Deducted',
-            data: []
-          }
-        ]
+            data: [],
+          },
+        ],
       });
     }
   }, [startDate, endDate]);
@@ -105,38 +113,46 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
       type: 'line',
       height: 350,
       toolbar: {
-        show: true
+        show: true,
       },
       zoom: {
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     stroke: {
       curve: 'smooth',
-      width: 2
+      width: 2,
     },
     xaxis: {
       categories: chartData.xAxis,
       labels: {
-        rotate: -45
-      }
+        rotate: -45,
+      },
     },
     yaxis: {
       title: {
-        text: 'Amount (K)'
+        text: 'Amount (PGK)',
       },
       labels: {
-        formatter: (value) => `K${(value / 1000).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-      }
+        formatter: (value) =>
+          `PGK ${(value / 1000).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`,
+      },
     },
     tooltip: {
       y: {
-        formatter: (value) => `K${(value / 1000).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-      }
+        formatter: (value) =>
+          `PGK ${(value / 1000).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`,
+      },
     },
     colors: ['#2E86C1', '#27AE60', '#E74C3C'],
     legend: {
-      position: 'top'
+      position: 'top',
     },
     noData: {
       text: 'No Data Found',
@@ -147,15 +163,18 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
       style: {
         color: '#6c757d',
         fontSize: '16px',
-        fontFamily: 'inherit'
-      }
-    }
+        fontFamily: 'inherit',
+      },
+    },
   };
 
   if (loading) {
     return (
       <Card className="mb-4 box-background">
-        <Card.Body className="d-flex align-items-center justify-content-center" style={{ height: '350px' }}>
+        <Card.Body
+          className="d-flex align-items-center justify-content-center"
+          style={{ height: '350px' }}
+        >
           <Spinner animation="border" role="status" variant="primary">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
@@ -167,7 +186,10 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
   if (error) {
     return (
       <Card className="mb-4 box-background">
-        <Card.Body className="text-center text-danger" style={{ height: '350px' }}>
+        <Card.Body
+          className="text-center text-danger"
+          style={{ height: '350px' }}
+        >
           {error}
         </Card.Body>
       </Card>
@@ -193,4 +215,4 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
   );
 };
 
-export default SWTPayableVsRefundable; 
+export default SWTPayableVsRefundable;

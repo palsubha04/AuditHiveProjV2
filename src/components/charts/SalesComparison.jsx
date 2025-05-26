@@ -121,11 +121,11 @@ const SalesComparison = ({ startDate, endDate }) => {
     },
     yaxis: {
       title: {
-        text: 'Amount ($)',
+        text: 'Amount (PGK)',
       },
       labels: {
         formatter: (value) =>
-          `$${value.toLocaleString('en-US', {
+          `PGK ${value.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`,
@@ -134,7 +134,7 @@ const SalesComparison = ({ startDate, endDate }) => {
     tooltip: {
       y: {
         formatter: (value) =>
-          `$${value.toLocaleString('en-US', {
+          `PGK ${value.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`,
