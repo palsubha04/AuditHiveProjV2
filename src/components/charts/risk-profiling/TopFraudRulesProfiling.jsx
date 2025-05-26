@@ -19,7 +19,7 @@ const TopFraudRulesProfiling = ({
   );
 
   const taxTypes = ['gst', 'swt', 'cit'];
-  const segmentations = ['large', 'medium', 'low', 'micro'];
+  const segmentations = ['large', 'medium', 'small', 'micro'];
 
   // useEffect(() => {
   //   if (selectedTaxType && selectedSegmentation) {
