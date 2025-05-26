@@ -132,6 +132,14 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
+      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+        <span className="chart-headers">Top 50 Net Loss Tax Payers</span>
+        <CSVExportButton
+          records={records}
+          filename="SalesVsCost.csv"
+          buttonLabel="Download Sales vs Cost List"
+        />
+      </Card.Header>
       <Card.Body>
         {loading ? (
           <div
@@ -159,7 +167,6 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
               justifyContent: 'center',
             }}
           >
-            <span className="chart-headers">Top 50 Net Loss TaxPayers</span>
             <div className="text-center text-muted" style={{ padding: '2rem' }}>
               No Data Found
             </div>
@@ -173,16 +180,6 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
               justifyContent: 'center',
             }}
           >
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <span className="chart-headers">Top 50 Net Loss TaxPayers</span>
-                <CSVExportButton
-                  records={records}
-                  filename="SalesVsCost.csv"
-                  buttonLabel="Download Sales vs Cost List"
-                />
-              </div>
-            </div>
             <Table
               columns={columns}
               data={records}
