@@ -81,7 +81,7 @@ const GSTBenchmarkCreditsProfilingChart = ({
 
         return `
           <div style="padding: 8px; font-size: 14px;">
-            <div><strong>${barLabel}: $ ${value.toLocaleString()}</strong></div>
+            <div><strong>${barLabel}: PGK ${value.toLocaleString()}</strong></div>
             <div style="color: #6c757d; margin-top: 4px;">${ratioLabel}: ${ratio}</div>
           </div>
         `;

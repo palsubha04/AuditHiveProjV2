@@ -91,7 +91,7 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
   //   }, [records.length, totalRecords, loading, isLoadingMore, currentPage, searchTin]);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-PG', {
+    return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'PGK',
       currencyDisplay: 'symbol',
