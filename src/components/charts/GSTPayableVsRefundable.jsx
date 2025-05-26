@@ -198,7 +198,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
                   }}
                 ></div>
                 <span>
-                  Sum of GST Payable: $
+                  Sum of GST Payable: PGK
                   {totals.payable.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
@@ -218,7 +218,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
                   }}
                 ></div>
                 <span>
-                  Sum of GST Refundable: $
+                  Sum of GST Refundable: PGK
                   {totals.refundable.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
