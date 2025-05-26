@@ -117,7 +117,7 @@ const TopFraudRulesProfiling = ({
           buttonLabel="Download Top 10 Fraud List"
         />
       </div>
-      <Table
+    {filteredData && filteredData.length > 0 ? <Table
         columns={columns}
         data={filteredData}
         //jobId={"test"}
@@ -126,7 +126,11 @@ const TopFraudRulesProfiling = ({
         // hasMore={records.length < totalRecords}
         // onLoadMore={handleLoadMore}
         // loadingMore={isLoadingMore}
-      />
+      /> :
+      <div className="text-center text-muted" style={{ padding: '2rem' }}>
+              No Data Found
+            </div>}  
+      
     </div>
   );
 };
