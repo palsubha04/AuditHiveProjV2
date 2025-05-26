@@ -157,11 +157,11 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
         </Badge>
       ),
     },
-    {
-      accessorKey: 'fraud_reason',
-      header: 'Fraud Reason',
-      cell: ({ getValue }) => getValue() || 'N/A',
-    },
+    // {
+    //   accessorKey: 'fraud_reason',
+    //   header: 'Fraud Reason',
+    //   cell: ({ getValue }) => getValue() || 'N/A',
+    // },
   ];
 
   return (
