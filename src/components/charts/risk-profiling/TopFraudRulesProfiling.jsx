@@ -19,7 +19,7 @@ const TopFraudRulesProfiling = ({
   );
 
   const taxTypes = ['gst', 'swt', 'cit'];
-  const segmentations = ['large', 'medium', 'low', 'micro'];
+  const segmentations = ['large', 'medium', 'small', 'micro'];
 
   // useEffect(() => {
   //   if (selectedTaxType && selectedSegmentation) {
@@ -41,15 +41,15 @@ const TopFraudRulesProfiling = ({
       accessorKey: 'segmentation',
       header: 'Segmentation',
     },
-    {
-      accessorKey: 'is_fraud',
-      header: 'Is Fraud',
-      cell: ({ getValue }) => (
-        <Badge bg={getValue() ? 'danger' : 'success'}>
-          {getValue() ? 'Fraud' : 'Valid'}
-        </Badge>
-      ),
-    },
+    // {
+    //   accessorKey: 'is_fraud',
+    //   header: 'Is Fraud',
+    //   cell: ({ getValue }) => (
+    //     <Badge bg={getValue() ? 'danger' : 'success'}>
+    //       {getValue() ? 'Fraud' : 'Valid'}
+    //     </Badge>
+    //   ),
+    // },
     {
       accessorKey: 'fraud_reason',
       header: 'Fraud Reason',
