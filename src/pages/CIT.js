@@ -47,7 +47,7 @@ function CIT() {
             endDate={dateRange.end_date}
           />
         </div>
-        <div className="col-md-6 pe-0">
+        <div className="col-md-6 ">
           <RiskCategoriesChart
             startDate={dateRange.start_date}
             endDate={dateRange.end_date}
