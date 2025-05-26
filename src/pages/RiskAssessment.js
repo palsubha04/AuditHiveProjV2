@@ -18,7 +18,7 @@ import RiskAnomalyFrequencyChart from '../components/charts/RiskAnomalyFrequency
 import { fetchRiskAnomaly } from '../slice/riskAnomalyFrequencySlice';
 import { Card, CardBody, CardHeader, Spinner } from 'react-bootstrap';
 import TopFraudRulesProfiling from '../components/charts/risk-profiling/TopFraudRulesProfiling';
-import './RiskAssessment.css'
+import './RiskAssessment.css';
 import RiskChartPage from '../components/charts/TestChart';
 //import { set } from "react-datepicker/dist/date_utils";
 
@@ -84,16 +84,16 @@ function RiskAssessment() {
       return;
     }
 
-   // if (!topFraudRulesProfilingData) {
-      dispatch(
-        fetchTopFraudRulesProfiling({
-          start_date: dateRange.start_date,
-          end_date: dateRange.end_date,
-          taxType: 'gst',
-          segmentation: 'large',
-        })
-      );
-   // }
+    // if (!topFraudRulesProfilingData) {
+    dispatch(
+      fetchTopFraudRulesProfiling({
+        start_date: dateRange.start_date,
+        end_date: dateRange.end_date,
+        taxType: 'gst',
+        segmentation: 'large',
+      })
+    );
+    // }
 
     console.log('Dispatching for new range:', currentKey);
     fetchedRangeRef.current = currentKey;
@@ -151,125 +151,90 @@ function RiskAssessment() {
         </div>
 
         <div className="content">
-          <div className="d-flex flex-column" style={{ gap: "32px" }}>
-            <div className="d-flex" style={{ gap: "32px" }}>
+          <div className="d-flex flex-column" style={{ gap: '32px' }}>
+            <div className="d-flex" style={{ gap: '32px' }}>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {totalVsFlaggedTaxpayersLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <TotalVsFlaggedLineChart
-                        totalTaxPayerVsRiskFlagged={totalVsFlaggedTaxpayersData}
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {totalVsFlaggedTaxpayersLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <TotalVsFlaggedLineChart
+                      totalTaxPayerVsRiskFlagged={totalVsFlaggedTaxpayersData}
+                    />
+                  </div>
+                )}
               </Card>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {riskAnomalyFrequencyLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <RiskAnomalyFrequencyChart
-                        riskAnomalyFrequencyData={riskAnomalyFrequencyData}
-                        source="Risk Assessment"
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {riskAnomalyFrequencyLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <RiskAnomalyFrequencyChart
+                      riskAnomalyFrequencyData={riskAnomalyFrequencyData}
+                      source="Risk Assessment"
+                    />
+                  </div>
+                )}
               </Card>
             </div>
             <div className="d-flex">
               <Card className="chart-cards-full">
-                <CardBody>
-                  {riskBreakdownByCategoryLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <RiskBreakdownByCategoryChart
-                        riskBreakdownByCategoryData={
-                          riskBreakdownByCategoryData
-                        }
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {riskBreakdownByCategoryLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <RiskBreakdownByCategoryChart
+                      riskBreakdownByCategoryData={riskBreakdownByCategoryData}
+                    />
+                  </div>
+                )}
               </Card>
             </div>
             <div className="d-flex">
               <Card className="chart-cards-full">
-                <CardBody>
-                  {riskAnalysisLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <RiskAnalysisByIndustryChart
-                        riskData={riskAnalysisData}
-                      />
-                    </div>
-                  )}
-                  {/* <RiskChartPage/> */}
-                </CardBody>
+                {riskAnalysisLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <RiskAnalysisByIndustryChart riskData={riskAnalysisData} />
+                  </div>
+                )}
               </Card>
             </div>
             <div className="d-flex">
               <Card className="chart-cards-table">
-                <CardBody>
-                  {topFraudRulesProfilingLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100 h-100">
-                      <TopFraudRulesProfiling
-                        topFraudRulesProfilingData={topFraudRulesProfilingData}
-                        handleTopFraudFilterChange={handleTopFraudFilterChange}
-                        selectedTaxType={selectedTaxType}
-                        selectedSegmentation={selectedSegmentation}
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {topFraudRulesProfilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100 h-100">
+                    <TopFraudRulesProfiling
+                      topFraudRulesProfilingData={topFraudRulesProfilingData}
+                      handleTopFraudFilterChange={handleTopFraudFilterChange}
+                      selectedTaxType={selectedTaxType}
+                      selectedSegmentation={selectedSegmentation}
+                    />
+                  </div>
+                )}
               </Card>
             </div>
           </div>

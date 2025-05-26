@@ -1,32 +1,36 @@
-import { Tally1 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
-import './charts.css'
+import './charts.css';
 import CSVExportButton from '../CSVExportButton';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
   //console.log("data received in RiskBreakdownByCategoryChart", riskBreakdownByCategoryData);
-  const [filterData, setFilterData] = useState(riskBreakdownByCategoryData ? riskBreakdownByCategoryData["gst"] ?? {} : {});
+  const [filterData, setFilterData] = useState(
+    riskBreakdownByCategoryData ? riskBreakdownByCategoryData['gst'] ?? {} : {}
+  );
   const [records, setRecords] = useState([]);
 
-  const defaultCategory = "gst";
+  const defaultCategory = 'gst';
   useEffect(() => {
     if (riskBreakdownByCategoryData?.[defaultCategory]) {
       setFilterData(riskBreakdownByCategoryData[defaultCategory]);
-      const result = Object.entries(riskBreakdownByCategoryData[defaultCategory]).flatMap(([category, { records }]) =>
-      records.map(({ tin, taxpayer_name }) => ({
-        Tin: tin,
-        "Taxpayer Name": taxpayer_name,
-        Segmentation : category,
-      }))
-    );
-   
-    setRecords(result);
+      const result = Object.entries(
+        riskBreakdownByCategoryData[defaultCategory]
+      ).flatMap(([category, { records }]) =>
+        records.map(({ tin, taxpayer_name }) => ({
+          Tin: tin,
+          'Taxpayer Name': taxpayer_name,
+          Segmentation: category,
+        }))
+      );
+
+      setRecords(result);
     }
   }, [riskBreakdownByCategoryData]);
 
   // Define categories for x-axis
-  const categories = ["large", "medium", "small", "micro"];
+  const categories = ['large', 'medium', 'small', 'micro'];
 
   // Risk levels to be used for each series
   const riskLevels = [
@@ -38,9 +42,11 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
     { key: 'Very Low', color: '#1abc9c' },
   ];
 
-  const series = riskLevels.map(level => ({
+  const series = riskLevels.map((level) => ({
     name: level.key,
-    data: categories.map(cat => filterData?.[cat]?.[level.key+' Risk'] ?? 0),
+    data: categories.map(
+      (cat) => filterData?.[cat]?.[level.key + ' Risk'] ?? 0
+    ),
   }));
 
   const options = {
@@ -57,7 +63,7 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
       },
     },
     xaxis: {
-      categories: categories.map(c => c.charAt(0).toUpperCase() + c.slice(1)), // Capitalize
+      categories: categories.map((c) => c.charAt(0).toUpperCase() + c.slice(1)), // Capitalize
     },
     yaxis: {
       title: {
@@ -70,7 +76,7 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
     fill: {
       opacity: 1,
     },
-    colors: riskLevels.map(level => level.color),
+    colors: riskLevels.map((level) => level.color),
     noData: {
       text: 'No Data Found',
       align: 'center',
@@ -88,54 +94,49 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
   const changeCategoryData = (category) => {
     const selectedData = riskBreakdownByCategoryData?.[category] ?? {};
     setFilterData(selectedData);
-    
-    
-    const result = Object.entries(selectedData).flatMap(([category, { records }]) =>
-      records.map(({ tin, taxpayer_name }) => ({
-        tin,
-        taxpayer_name,
-        Segmentation: category,
-      }))
+
+    const result = Object.entries(selectedData).flatMap(
+      ([category, { records }]) =>
+        records.map(({ tin, taxpayer_name }) => ({
+          tin,
+          taxpayer_name,
+          Segmentation: category,
+        }))
     );
-   
+
     setRecords(result);
   };
 
-
   return (
-    <div>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        marginBottom: 16,
-        justifyContent: 'space-between',
-      }}>
-        <div className='d-flex'>
-        <span className='chart-headers'>Risk Breakdown By Category</span>
-        <div className=''>
-          <select 
-            className='chart-filter'
-            onChange={(e) => changeCategoryData(e.target.value)}>
-            <option value="gst">GST</option>
-            <option value="swt">SWT</option>
-            <option value="cit">CIT</option>
-          </select>
-         
-         
-        </div>
+    <>
+      <CardHeader className="chart-card-header">
+        <div className="d-flex">
+          <span className="chart-headers">Risk Breakdown By Category</span>
+          <div className="">
+            <select
+              className="chart-filter"
+              onChange={(e) => changeCategoryData(e.target.value)}
+            >
+              <option value="gst">GST</option>
+              <option value="swt">SWT</option>
+              <option value="cit">CIT</option>
+            </select>
+          </div>
         </div>
         <CSVExportButton
           records={records}
           filename="risk_breakdown_category.csv"
           buttonLabel="Download Risk Breakdown By Category Taxpayer List"
         />
-      </div>
-      <Chart options={options} series={series} type="bar" height={350} />
+      </CardHeader>
+      <CardBody>
+        <Chart options={options} series={series} type="bar" height={350} />
+      </CardBody>
       {/* Only render chart if series data exists */}
       {/* {riskBreakdownByCategoryData ? (series.length > 0 && (
         <Chart options={options} series={series} type="bar" height={350} />
       )) : <div>No data available</div>} */}
-    </div>
+    </>
   );
 };
 

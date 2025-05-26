@@ -1,3 +1,13 @@
+.chart-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    justify-content: space-between;
+    background: #d5e6ff;
+    border-bottom: none;
+    border-radius: 10px 10px 0px 0px !important;
+}
+
 .chart-headers{
     font-size: 18px;
     color: #05004E;
@@ -21,3 +31,7 @@
     color: #333;
   }
    */
+
+.chart-menu-item:hover {
+  background-color: #f0f0f0;
+}
