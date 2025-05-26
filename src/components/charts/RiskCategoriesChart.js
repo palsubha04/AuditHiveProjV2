@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { Card, Row, Col, Spinner } from 'react-bootstrap';
+import { Card, Row, Col, Spinner, Dropdown } from 'react-bootstrap';
 import analyticsService from '../../services/analytics.service';
 import '../../pages/Dashboard.css';
 import './charts.css'
@@ -16,6 +17,7 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
     series: [],
     options: {
       chart: {
+        id: 'risk-categories-chart',
         type: 'bar',
         height: 350,
         stacked: true,
@@ -255,15 +257,31 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
     }
   }, [startDate, endDate, taxType]);
 
-  // Add a useEffect to monitor rawData changes
-  // useEffect(() => {
-  //   console.log('rawData changed:', rawData);
-  // }, [rawData]);
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('risk-categories-chart');
+    if (!chart) return;
 
-  // // Add a useEffect to monitor chartData changes
-  // useEffect(() => {
-  //   console.log('chartData changed:', chartData);
-  // }, [chartData]);
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'sales_comparison_chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'sales_comparison_chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'sales_comparison_data',
+      });
+    }
+  };
 
   if (loading) {
     return (
@@ -304,11 +322,24 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
       <Card.Header className="chart-card-header">
         <div className='d-flex align-items-center justify-content-between'>
           <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
-          <CSVExportButton
-            records={records}
-            filename="risk_taxpayers.csv"
-            buttonLabel="Download Risk Taxpayers List"
-          />
+          <div className="d-flex align-items-center gap-2">
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+                {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+                Export
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <CSVExportButton
+              records={records}
+              filename="risk_taxpayers.csv"
+              buttonLabel="Download Risk Taxpayers List"
+            />
+          </div>
+
         </div>
       </Card.Header>
       <Card.Body>
