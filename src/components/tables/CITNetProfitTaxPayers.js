@@ -171,12 +171,21 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
             No Data Found
           </div>
         ) : (
-          <Table
+          <div
+            style={{
+              height: '400px',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Table
             columns={columns}
             data={records}
             loading={loading}
             error={error}
           />
+          </div>
+          
         )}
       </Card.Body>
     </Card>

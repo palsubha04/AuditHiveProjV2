@@ -138,6 +138,14 @@ const CITCostSalesComparison = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
+      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+        <span className="chart-headers">Gross Sales vs Cost of Goods Sold</span>
+        <CSVExportButton
+          records={records}
+          filename="SalesVsCost.csv"
+          buttonLabel="Download Sales vs Cost List"
+        />
+      </Card.Header>
       <Card.Body>
         {loading ? (
           <div
@@ -157,9 +165,6 @@ const CITCostSalesComparison = ({ startDate, endDate }) => {
           <div className="text-center text-danger">{error}</div>
         ) : records.length === 0 ? (
           <>
-            <span className="chart-headers">
-              Gross Sales Vs Cost of Goods Sold
-            </span>
             <div className="text-center text-muted" style={{ padding: '2rem' }}>
               No Data Found
             </div>
@@ -172,35 +177,11 @@ const CITCostSalesComparison = ({ startDate, endDate }) => {
               flexDirection: 'column',
             }}
           >
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <span className="chart-headers">
-                  Gross Sales Vs Cost of Goods Sold
-                </span>
-                <CSVExportButton
-                  records={records}
-                  filename="SalesVsCost.csv"
-                  buttonLabel="Download Sales vs Cost List"
-                />
-              </div>
-
-              {/* <Form.Group className="mb-0" style={{ width: '300px' }}>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by TIN"
-                  value={searchTin}
-                  onChange={handleSearchChange}
-                />
-              </Form.Group> */}
-            </div>
             <Table
               columns={columns}
               data={records}
               loading={loading}
               error={error}
-              //   hasMore={records.length < totalRecords}
-              //   onLoadMore={handleLoadMore}
-              //   loadingMore={isLoadingMore}
             />
           </div>
         )}
