@@ -1,11 +1,12 @@
-import { Tally1 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
-import { Card, Col, Row } from "react-bootstrap";
+import { Tally1 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import Chart from 'react-apexcharts';
+import { CardBody, CardHeader } from 'react-bootstrap';
+import '../charts.css';
 
 const sampleData = {
-  start_date: "01-01-2020",
-  end_date: "01-01-2022",
+  start_date: '01-01-2020',
+  end_date: '01-01-2022',
   gst: {
     large: {
       profit_making_taxpayers: 450,
@@ -74,11 +75,11 @@ const sampleData = {
   },
 };
 
-const entityTypes = ["large", "medium", "small", "micro"];
+const entityTypes = ['large', 'medium', 'small', 'micro'];
 
 const ProfitLossComplianceChart = ({ x }) => {
-  console.log("TotalVsFlaggedLineChart from chart", sampleData);
-  const [selectedCategory, setSelectedCategory] = useState("gst");
+  console.log('TotalVsFlaggedLineChart from chart', sampleData);
+  const [selectedCategory, setSelectedCategory] = useState('gst');
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});
 
@@ -99,33 +100,33 @@ const ProfitLossComplianceChart = ({ x }) => {
     );
 
     setChartSeries([
-      { name: "Profit", data: totalSeries },
-      { name: "Loss", data: flaggedSeries },
+      { name: 'Profit', data: totalSeries },
+      { name: 'Loss', data: flaggedSeries },
     ]);
 
     setChartOptions({
       chart: {
-        type: "line",
+        type: 'line',
         height: 350,
         toolbar: { show: true },
       },
       stroke: {
         width: 3,
-        curve: "smooth",
+        curve: 'smooth',
       },
       xaxis: {
-        categories: ["Large", "Medium", "Small", "Micro"],
-        title: { text: "Segmentation" },
+        categories: ['Large', 'Medium', 'Small', 'Micro'],
+        title: { text: 'Segmentation' },
         labels: {
-          style: { fontWeight: 500, color: "#334155", fontSize: "14px" },
+          style: { fontWeight: 500, color: '#334155', fontSize: '14px' },
         },
       },
       yaxis: {
-        title: { text: "Number of Taxpayers" },
-        labels: { style: { fontWeight: 500, color: "#334155" } },
+        title: { text: 'Number of Taxpayers' },
+        labels: { style: { fontWeight: 500, color: '#334155' } },
       },
-      legend: { position: "top", fontWeight: 600 },
-      colors: ["#2563eb", "#f97316"],
+      legend: { position: 'top', fontWeight: 600 },
+      colors: ['#2563eb', '#f97316'],
       markers: { size: 5 },
       tooltip: {
         shared: true,
@@ -143,19 +144,19 @@ const ProfitLossComplianceChart = ({ x }) => {
             </div>
           `;
         },
-        style: { fontSize: "15px" },
+        style: { fontSize: '15px' },
       },
-      grid: { borderColor: "#e0e7ef", strokeDashArray: 4 },
+      grid: { borderColor: '#e0e7ef', strokeDashArray: 4 },
       noData: {
-        text: "No Data Found",
-        align: "center",
-        verticalAlign: "middle",
+        text: 'No Data Found',
+        align: 'center',
+        verticalAlign: 'middle',
         offsetX: 0,
         offsetY: 0,
         style: {
-          color: "#6c757d",
-          fontSize: "16px",
-          fontFamily: "inherit",
+          color: '#6c757d',
+          fontSize: '16px',
+          fontFamily: 'inherit',
         },
       },
     });
@@ -165,91 +166,39 @@ const ProfitLossComplianceChart = ({ x }) => {
 
   return (
     <>
-    <div style={{ display: "flex", alignItems: "center", marginBottom: 16 }}>
-    <span className='chart-headers'> Profit vs Loss</span>
-    <Tally1 style={{ color: "#7c879d" }} />
-               <span
-                style={{
-                  color: "#7c879d",
-                  fontSize: "16px",
-                  marginRight: "10px",
-                }}
-              >
-                Filter By :{" "}
-              </span>
-    <select
-      value={selectedCategory}
-      onChange={(e) => setSelectedCategory(e.target.value)}
-      className='chart-filter'
-    >
-      <option value="gst">GST</option>
-      <option value="swt">SWT</option>
-      <option value="cit">CIT</option>
-    </select>
-  </div>
-  <Chart
+      <CardHeader className="chart-card-header">
+        <span className="chart-headers"> Profit vs Loss</span>
+        {/* <Tally1 style={{ color: '#7c879d' }} /> */}
+        <div>
+          <span
+            style={{
+              color: '#7c879d',
+              fontSize: '16px',
+              marginRight: '10px',
+            }}
+          >
+            Filter By :{' '}
+          </span>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="chart-filter"
+          >
+            <option value="gst">GST</option>
+            <option value="swt">SWT</option>
+            <option value="cit">CIT</option>
+          </select>
+        </div>
+      </CardHeader>
+      <CardBody>
+        <Chart
           options={chartOptions}
           series={chartSeries}
           type="line"
           height={350}
         />
-  </>
-    // <Card className="mb-4 box-background">
-    //   <Card.Body>
-    //     <Row className="mb-4">
-    //       <Col>
-    //         <div
-    //           style={{
-    //             display: "flex",
-    //             alignItems: "center",
-    //             marginBottom: 16,
-    //           }}
-    //         >
-    //           <h4
-    //             className="mb-0 me-3 fw-bold"
-    //             style={{ color: "#6366F1", fontSize: "22px" }}
-    //           >
-    //             Profit vs Loss
-    //           </h4>
-    //           <Tally1 style={{ color: "#7c879d" }} />
-    //           <span
-    //             style={{
-    //               color: "#7c879d",
-    //               fontSize: "16px",
-    //               marginRight: "10px",
-    //             }}
-    //           >
-    //             Filter By :{" "}
-    //           </span>
-
-    //           <select
-    //             value={selectedCategory}
-    //             onChange={(e) => {
-    //               const newCategory = e.target.value;
-    //               setSelectedCategory(newCategory);
-    //             }}
-    //             style={{
-    //               padding: "4px 8px",
-    //               borderRadius: 4,
-    //               border: "1px solid #ccc",
-    //               marginRight: "5px",
-    //             }}
-    //           >
-    //             <option value="gst">GST</option>
-    //             <option value="swt">SWT</option>
-    //             <option value="cit">CIT</option>
-    //           </select>
-    //         </div>
-    //       </Col>
-    //     </Row>
-    //     <Chart
-    //       options={chartOptions}
-    //       series={chartSeries}
-    //       type="line"
-    //       height={350}
-    //     />
-    //   </Card.Body>
-    // </Card>
+      </CardBody>
+    </>
   );
 };
 
