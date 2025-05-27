@@ -49,6 +49,18 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
         },
       },
     ],
+    noData: {
+      text: "No Data Found",
+      align: "center",
+      verticalAlign: "middle",
+      offsetX: 0,
+      offsetY: 0,
+      style: {
+        color: "#6c757d",
+        fontSize: "16px",
+        fontFamily: "inherit",
+      },
+    },
   };
   const [chartData, setChartData] = useState({
     series: [sample.png, sample.foreign],
@@ -64,17 +76,27 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
           startDate,
           endDate
         );
-        setRecords(response?.records || []);
+        const filteredData = response.map(({ interest_expense_png, interest_expense_foreign, ...rest }) => rest);
+
+        setRecords(filteredData);
         //var chart_Data = response;
+        var superannuation_png = 0;
+        var superannuation_foreign = 0;
+        for(var i = 0; i < response.length; i++) {
+          superannuation_png += response[i].superannuation_png || 0;
+          superannuation_foreign += response[i].superannuation_foreign || 0;
+        }
+
         var chartSeries = [
-          response.superannuation_png,
-          response.superannuation_foreign,
+          superannuation_png,
+          superannuation_foreign,
         ];
+        
 
         setChartData((prevData) => ({
           ...prevData,
           series: chartSeries,
-        }));
+        }));        
       } catch (err) {
         console.error('Error fetching Total Amount By Expense Type:', err);
         setError('Failed to load Total Amount By Expense Type data');
@@ -134,8 +156,8 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
         <span className="chart-headers">Superannuation PNG vs Foreign</span>
         <CSVExportButton
           records={records}
-          filename="risk_taxpayers.csv"
-          buttonLabel="Download Risk Taxpayer List"
+          filename="superannuation_png_vs_foreign_taxpayers.csv"
+          buttonLabel="Download Superannuation PNG vs Foreign Taxpayer List"
         />
       </Card.Header>
       <Card.Body>
