@@ -4,18 +4,11 @@ import swtService from '../../services/swt.service';
 import "../../pages/Dashboard.css";
 
 
-const SummaryCard = ({ title, value, icon }) => (
-  <Card className="h-100 box-background">
-    <Card.Body>
-      <div className="d-flex justify-content-between align-items-center">
-        <div className="flex-grow-1">
-          <h6 className="text-muted mb-2">{title}</h6>
-          <h4 className="mb-0 text-truncate" style={{ fontSize: 'clamp(0.875rem, 2vw, 1.25rem)' }}>{value}</h4>
-        </div>
-        {icon && <div className="text-primary fs-3 ms-2">{icon}</div>}
-      </div>
-    </Card.Body>
-  </Card>
+const MetricCard = ({ value, label, color }) => (
+  <div style={{ textAlign: 'start', minWidth: 150, paddingLeft: '0.5rem' }}>
+    <div style={{ fontWeight: 700, fontSize: 24, color }}>{value}</div>
+    <div style={{ fontSize: 15, color: '#fff', marginBottom: 4 }}>{label}</div>
+  </div>
 );
 
 const SWTSummaryCards = ({ startDate, endDate }) => {
@@ -103,43 +96,38 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
   if (!summary) return null;
 
   return (
-    <Row style={{marginBottom: '32px',}}>
-      <Col>
-        <SummaryCard
-          title="Employees on Payroll"
+    <div className='widget-main-div'>
+      <Card className='widget-card' style={{ background: '#5096ff' }}>
+        <MetricCard
           value={formatNumber(summary.employees_on_payroll)}
-          icon="👥"
+          label="Employees on Payroll"
         />
-      </Col>
-      <Col>
-        <SummaryCard
-          title="Employees Paid SWT"
+      </Card>
+      <Card className='widget-card' style={{ background: '#47C99E' }}>
+        <MetricCard
+          label="Employees Paid SWT"
           value={formatNumber(summary.employees_paid_swt)}
-          icon="💰"
         />
-      </Col>
-      <Col>
-        <SummaryCard
-          title="Total Salary Wages Paid"
+      </Card>
+      <Card className='widget-card' style={{ background: '#F96992' }}>
+        <MetricCard
+          label="Total Salary Wages Paid"
           value={formatCurrency(summary.total_salary_wages_paid)}
-          icon="📊"
         />
-      </Col>
-      <Col>
-        <SummaryCard
-          title="Salary Wages Paid for SWT Deduction"
+      </Card>
+      <Card className='widget-card' style={{ background: '#FFA56D' }}>
+        <MetricCard
+          label="Salary Wages Paid for SWT Deduction"
           value={formatCurrency(summary.sw_paid_for_swt_deduction)}
-          icon="📈"
         />
-      </Col>
-      <Col>
-        <SummaryCard
-          title="Total SWT Tax Deducted"
+      </Card>
+      <Card className='widget-card' style={{ background: '#26DCE9' }}>
+        <MetricCard
+          label="Total SWT Tax Deducted"
           value={formatCurrency(summary.total_swt_tax_deducted)}
-          icon="📉"
         />
-      </Col>
-    </Row>
+      </Card>
+    </div>
   );
 };
 

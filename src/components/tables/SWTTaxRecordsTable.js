@@ -166,64 +166,64 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
-    <Card.Header className="chart-card-header">
-      <div className="d-flex align-items-center justify-content-between">
-        <span className="chart-headers">Tax Records</span>
-        <Form.Group className="mb-0" style={{ width: '300px' }}>
-          <div style={{ position: 'relative', width: '300px' }}>
-            <Search
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '10px',
-                transform: 'translateY(-50%)',
-                color: '#aaa',
-                pointerEvents: 'none',
-              }}
-            />
+      <Card.Header className="chart-card-header">
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <span className="chart-headers">Tax Records</span>
+          <Form.Group className="mb-0" style={{ width: '300px' }}>
+            <div style={{ position: 'relative', width: '300px' }}>
+              <Search
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '10px',
+                  transform: 'translateY(-50%)',
+                  color: '#aaa',
+                  pointerEvents: 'none',
+                }}
+              />
 
-            <Form.Control
-              type="text"
-              placeholder=" Search by TIN"
-              value={searchTin}
-              onChange={handleSearchChange}
-              style={{
-                paddingLeft: '35px', // Make room for the icon
-                border: '1px solid #fff',
-                borderRadius: '10px',
-              }}
+              <Form.Control
+                type="text"
+                placeholder=" Search by TIN"
+                value={searchTin}
+                onChange={handleSearchChange}
+                style={{
+                  paddingLeft: '35px', // Make room for the icon
+                  border: '1px solid #fff',
+                  borderRadius: '10px',
+                }}
+              />
+            </div>
+          </Form.Group>
+        </div>
+      </Card.Header>
+      <Card.Body className='pt-0'>
+        {loading ? (
+          <div className="text-center">Loading...</div>
+        ) : error ? (
+          <div className="text-center text-danger">{error}</div>
+        ) : records.length === 0 ? (
+          <>
+            <div className="text-center text-muted" style={{ padding: '2rem' }}>
+              No Data Found
+            </div>
+          </>
+        ) : (
+          <>
+            <Table
+              columns={columns}
+              data={records}
+              loading={loading}
+              error={error}
+              hasMore={records.length < totalRecords}
+              onLoadMore={handleLoadMore}
+              loadingMore={isLoadingMore}
+              jobId={'test'}
             />
-          </div>
-        </Form.Group>
-      </div>
-    </Card.Header>
-    <Card.Body>
-      {loading ? (
-        <div className="text-center">Loading...</div>
-      ) : error ? (
-        <div className="text-center text-danger">{error}</div>
-      ) : records.length === 0 ? (
-        <>
-          <div className="text-center text-muted" style={{ padding: '2rem' }}>
-            No Data Found
-          </div>
-        </>
-      ) : (
-        <>
-          <Table
-            columns={columns}
-            data={records}
-            loading={loading}
-            error={error}
-            hasMore={records.length < totalRecords}
-            onLoadMore={handleLoadMore}
-            loadingMore={isLoadingMore}
-            jobId={'test'}
-          />
-        </>
-      )}
-    </Card.Body>
-  </Card>
+          </>
+        )}
+      </Card.Body>
+    </Card>
     // <Card className="mb-4 box-background">
     //   <Card.Body>
     //     {loading ? (

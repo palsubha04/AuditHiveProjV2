@@ -141,7 +141,7 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
           buttonLabel="Download Sales vs Cost List"
         />
       </Card.Header>
-      <Card.Body>
+      <Card.Body className='pt-0'>
         {loading ? (
           <div
             className="text-center"
@@ -179,13 +179,13 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
             }}
           >
             <Table
-            columns={columns}
-            data={records}
-            loading={loading}
-            error={error}
-          />
+              columns={columns}
+              data={records}
+              loading={loading}
+              error={error}
+            />
           </div>
-          
+
         )}
       </Card.Body>
     </Card>

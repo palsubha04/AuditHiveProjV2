@@ -11,6 +11,21 @@ import CSVExportButton from '../CSVExportButton';
 
 const entityTypes = ['large', 'medium', 'small', 'micro'];
 
+const monthMap = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
+
 const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
   console.log('TotalVsFlaggedLineChart from chart', totalTaxPayerVsRiskFlagged);
   const [selectedCategory, setSelectedCategory] = useState('gst');
@@ -34,11 +49,13 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
 
     const result = Object.entries(currentData).flatMap(
       ([category, { records }]) =>
-        records.map(({ tin, taxpayer_name }) => ({
-          tin,
-          taxpayer_name,
-          segmentation: category,
-        }))
+      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+        Tin: tin,
+        'Taxpayer Name': taxpayer_name,
+        'Tax Period Year': tax_period_year,
+        'Tax Period Month': monthMap[tax_period_month],
+        Segmentation: category,
+      }))
     );
     setRecords(result);
 

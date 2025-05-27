@@ -6,12 +6,29 @@ import analyticsService from '../../services/analytics.service';
 import '../../pages/Dashboard.css';
 import './charts.css'
 import CSVExportButton from '../CSVExportButton';
+const monthMap = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
+
 
 const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [rawData, setRawData] = useState(null);
   const [records, setRecords] = useState([]);
+
+  const filename = `${taxType}_risk_taxpayers.csv`;
 
   const [chartData, setChartData] = useState({
     series: [],
@@ -23,7 +40,7 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
         stacked: true,
         stackType: '100%',
         toolbar: {
-          show: true,
+          show: false,
         },
       },
       plotOptions: {
@@ -177,9 +194,11 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
         const currentData = response[taxType];
         let temp = [];
         const result = Object.entries(currentData).flatMap(([category, { records }]) =>
-          records.map(({ tin, taxpayer_name }) => ({
+          records.map(({ tin, taxpayer_name,tax_period_year, tax_period_month }) => ({
             Tin: tin,
             "Taxpayer Name": taxpayer_name,
+            "Tax Period Year": tax_period_year,
+            "Tax Period Month": monthMap[tax_period_month],
             Segmentation: category,
           }))
         );
@@ -266,14 +285,14 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
       chart.dataURI().then(({ imgURI }) => {
         const link = document.createElement('a');
         link.href = imgURI;
-        link.download = 'sales_comparison_chart.png';
+        link.download = 'risk-categories-chart.png';
         link.click();
       });
     } else if (format === 'svg') {
       chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
         const link = document.createElement('a');
         link.href = svgURI;
-        link.download = 'sales_comparison_chart.svg';
+        link.download = 'risk-categories-chart.svg';
         link.click();
       });
     } else if (format === 'csv') {
@@ -320,7 +339,7 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
   return (
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header">
-        <div className='d-flex align-items-center justify-content-between'>
+        <div className='d-flex align-items-center justify-content-between w-100'>
           <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
           <div className="d-flex align-items-center gap-2">
             <Dropdown>

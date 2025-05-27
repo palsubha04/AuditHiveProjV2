@@ -50,6 +50,18 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
         },
       },
     ],
+    noData: {
+      text: "No Data Found",
+      align: "center",
+      verticalAlign: "middle",
+      offsetX: 0,
+      offsetY: 0,
+      style: {
+        color: "#6c757d",
+        fontSize: "16px",
+        fontFamily: "inherit",
+      },
+    },
   };
   const [chartData, setChartData] = useState({
     series: [sample.png, sample.foreign],
@@ -66,18 +78,30 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
           endDate
         );
 
-        setRecords(response?.records || []);
+        const filteredData = response.map(({ superannuation_png, superannuation_foreign, ...rest }) => rest);
+
+        setRecords(filteredData);
+
+        var interest_expense_png = 0;
+        var interest_expense_foreign = 0;
+
+        for(var i = 0; i < response.length; i++) {
+          interest_expense_png += response[i].interest_expense_png || 0;
+          interest_expense_foreign += response[i].interest_expense_foreign || 0;
+        }
 
         //var chart_Data = response;
         var chartSeries = [
-          response.interest_expense_png,
-          response.interest_expense_foreign,
+          interest_expense_png,
+          interest_expense_foreign,
         ];
+        
 
         setChartData((prevData) => ({
           ...prevData,
           series: chartSeries,
-        }));
+        }));        
+        
       } catch (err) {
         console.error('Error fetching Total Amount By Expense Type:', err);
         setError('Failed to load Total Amount By Expense Type data');
@@ -133,21 +157,23 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
-      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+      <Card.Header className="w-100 chart-card-header d-flex justify-content-between align-items-center">
         <span className="chart-headers">Interest PNG vs Foreign</span>
         <CSVExportButton
           records={records}
-          filename="risk_taxpayers.csv"
-          buttonLabel="Download Risk Taxpayer List"
+          filename="interst_png_vs_foreign_cit_taxpayers.csv"
+          buttonLabel="Download Interest PNG vs Foreign Taxpayer List"
         />
       </Card.Header>
       <Card.Body>
-        <Chart
-          options={chartData.options}
-          series={chartData.series}
-          type="pie"
-          height={350}
-        />
+   
+  <Chart
+    options={chartData.options}
+    series={chartData.series}
+    type="pie"
+    height={350}
+  />
+
       </Card.Body>
     </Card>
   );
