@@ -157,7 +157,7 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
-      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+      <Card.Header className="w-100 chart-card-header d-flex justify-content-between align-items-center">
         <span className="chart-headers">Interest PNG vs Foreign</span>
         <CSVExportButton
           records={records}

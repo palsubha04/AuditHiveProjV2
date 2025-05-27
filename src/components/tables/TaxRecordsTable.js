@@ -183,7 +183,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
   return (
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header">
-        <div className="d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between w-100">
           <span className="chart-headers">Tax Records</span>
           <Form.Group className="mb-0" style={{ width: '300px' }}>
             <div style={{ position: 'relative', width: '300px' }}>
@@ -213,7 +213,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
           </Form.Group>
         </div>
       </Card.Header>
-      <Card.Body>
+      <Card.Body className='pt-0'>
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : error ? (
