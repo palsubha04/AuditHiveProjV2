@@ -169,13 +169,20 @@ const RiskBreakdownCategoryProfilingChart = ({
           width: '100%',
         }}
       >
-        <ReactApexChart
-          key={JSON.stringify(series)} // forces remount when data changes
-          options={options}
-          series={series}
-          type="pie"
-          width={500} // Adjust the width as needed
-        />
+      {
+        labels.length===1 && labels[0]==='No Risk' ? (
+          <span>No Risk</span>
+        ) : (
+          <ReactApexChart
+            key={JSON.stringify(series)} // forces remount when data changes
+            options={options}
+            series={series}
+            type="pie"
+            width={500} // Adjust the width as needed
+          />
+
+        )
+      }
       </div>
     </div>
   );
