@@ -53,7 +53,7 @@ function Layout({ children }) {
       <div className='header-main'>
         <Header />
       </div>
-      <div className='flex-1 d-flex flex-row overflow-hidden'>
+      <div className='flex-fill d-flex flex-row overflow-hidden'>
         <div className='h-100'>
           <Sidenav isOpen={isSidenavOpen} toggleSidenav={toggleSidenav} />
         </div>
