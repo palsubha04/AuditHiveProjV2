@@ -1,6 +1,7 @@
-import { Tally1 } from 'lucide-react';
 import React from 'react';
 import Chart from 'react-apexcharts';
+import '../charts.css';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 const GSTBenchmarkCreditsProfilingChart = ({
   gstBenchmarkCreditsProfilingData,
@@ -102,35 +103,16 @@ const GSTBenchmarkCreditsProfilingChart = ({
   };
 
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          // justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 16,
-        }}
-      >
-        <h4
-          className="mb-0 me-3 fw-bold"
-          style={{
-            color: '#05004E',
-            fontSize: '20px',
-            fontWeight: 600,
-            letterSpacing: '0px',
-            lineHeight: '32px',
-          }}
-        >
+    <>
+      <CardHeader className="chart-card-header">
+        <div className="chart-headers">
           GST Comparison - Input Credits vs Output Debits
-        </h4>
-        {/* <Tally1 style={{ color: "#7c879d" }} /> */}
-      </div>
-      <Chart options={options} series={series} type="bar" height={430} />
-      {/* Only render chart if series data exists */}
-      {/* {riskBreakdownByCategoryData ? (series.length > 0 && (
-            <Chart options={options} series={series} type="bar" height={350} />
-          )) : <div>No data available</div>} */}
-    </div>
+        </div>
+      </CardHeader>
+      <CardBody>
+        <Chart options={options} series={series} type="bar" height={430} />
+      </CardBody>
+    </>
   );
 };
 

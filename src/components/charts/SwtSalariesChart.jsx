@@ -1,6 +1,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
-import './charts.css'
+import './charts.css';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 const SwtSalariesChart = ({ data }) => {
   // SWT Salaries Comparison Data
@@ -110,12 +111,19 @@ const SwtSalariesChart = ({ data }) => {
   ];
 
   return (
-    <Chart
-      options={swtSalariesChartOptions}
-      series={swtSalariesChartSeries}
-      type="area"
-      height={430}
-    />
+    <>
+      <CardHeader className="chart-card-header">
+        <div className="chart-headers">SWT Salaries Comparison</div>
+      </CardHeader>
+      <CardBody>
+        <Chart
+          options={swtSalariesChartOptions}
+          series={swtSalariesChartSeries}
+          type="area"
+          height={430}
+        />
+      </CardBody>
+    </>
   );
 };
 
