@@ -134,8 +134,8 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
         <span className="chart-headers">Superannuation PNG vs Foreign</span>
         <CSVExportButton
           records={records}
-          filename="risk_taxpayers.csv"
-          buttonLabel="Download Risk Taxpayer List"
+          filename="superannuation_png_vs_foreign_taxpayers.csv"
+          buttonLabel="Download Superannuation PNG vs Foreign Taxpayer List"
         />
       </Card.Header>
       <Card.Body>

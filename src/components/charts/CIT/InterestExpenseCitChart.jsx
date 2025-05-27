@@ -137,8 +137,8 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
         <span className="chart-headers">Interest PNG vs Foreign</span>
         <CSVExportButton
           records={records}
-          filename="risk_taxpayers.csv"
-          buttonLabel="Download Risk Taxpayer List"
+          filename="interst_png_vs_foreign_cit_taxpayers.csv"
+          buttonLabel="Download Interest PNG vs Foreign Taxpayer List"
         />
       </Card.Header>
       <Card.Body>

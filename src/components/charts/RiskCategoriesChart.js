@@ -5,12 +5,29 @@ import analyticsService from '../../services/analytics.service';
 import '../../pages/Dashboard.css';
 import './charts.css'
 import CSVExportButton from '../CSVExportButton';
+const monthMap = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
+
 
 const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [rawData, setRawData] = useState(null);
   const [records, setRecords] = useState([]);
+
+  const filename = `${taxType}_risk_taxpayers.csv`;
 
   const [chartData, setChartData] = useState({
     series: [],
@@ -175,9 +192,11 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
         const currentData = response[taxType];
         let temp = [];
         const result = Object.entries(currentData).flatMap(([category, { records }]) =>
-          records.map(({ tin, taxpayer_name }) => ({
+          records.map(({ tin, taxpayer_name,tax_period_year, tax_period_month }) => ({
             Tin: tin,
             "Taxpayer Name": taxpayer_name,
+            "Tax Period Year": tax_period_year,
+            "Tax Period Month": monthMap[tax_period_month],
             Segmentation: category,
           }))
         );
@@ -306,7 +325,7 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
           <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
           <CSVExportButton
             records={records}
-            filename="risk_taxpayers.csv"
+            filename={filename}
             buttonLabel="Download Risk Taxpayers List"
           />
         </div>
