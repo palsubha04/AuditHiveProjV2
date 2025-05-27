@@ -25,7 +25,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
         height: 350,
         stacked: true,
         toolbar: {
-          show: true,
+          show: false,
         },
         zoom: {
           enabled: true,
@@ -209,7 +209,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
   return (
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header">
-        <div className="align-items-center d-flex justify-content-between">
+        <div className="align-items-center d-flex justify-content-between w-100">
           <div className="col-auto">
             <span className="chart-headers">GST Payable vs Refundable</span>
           </div>

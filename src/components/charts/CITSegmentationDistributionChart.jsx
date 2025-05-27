@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { Card, Row, Col, Spinner } from 'react-bootstrap';
+import ApexCharts from 'apexcharts';
+import { Card, Row, Col, Spinner, Dropdown } from 'react-bootstrap';
 import citService from '../../services/cit.service';
 import "../../pages/Dashboard.css";
 import './charts.css';
@@ -10,10 +11,11 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
     series: [],
     options: {
       chart: {
+        id: "cit-segmentation-distribution-chart",
         type: "pie",
         height: 350,
         toolbar: {
-          show: true,
+          show: false,
         },
         stroke: {
           show: true,
@@ -113,6 +115,32 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
     }
   }, [startDate, endDate]);
 
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('cit-segmentation-distribution-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'cit-segmentation-distribution-chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'cit-segmentation-distribution-chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'cit-segmentation-distribution-chart',
+      });
+    }
+  };
+
   if (loading) {
     return (
       <Card className="mb-4 box-background">
@@ -143,8 +171,20 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
 
   return (
     <Card className="mb-4 box-background">
-      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+      <Card.Header className="w-100 chart-card-header d-flex justify-content-between align-items-center">
         <span className="chart-headers">Segmentation Distribution</span>
+        <div className="d-flex align-items-center gap-2">
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+              {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </Card.Header>
       <Card.Body>
         <ReactApexChart

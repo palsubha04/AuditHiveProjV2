@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Container, Table, Button } from 'react-bootstrap';
+import { Container, Button, Card } from 'react-bootstrap';
 import { Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import Layout from '../components/Layout';
+import Table from '../components/Table';
 
 const data = [
   {
@@ -12,7 +13,49 @@ const data = [
     taxParameter: 'GST',
     date: '31/03/2024',
     time: '12:30',
-  },
+  },{
+    id: 2,
+    fileName: '#12595',
+    uploadedBy: 'Jane Smith',
+    taxParameter: 'Income Tax',
+    date: '30/03/2024',
+    time: '14:15',
+  },{
+    id: 3,
+    fileName: '#12596',
+    uploadedBy: 'Alice Johnson',
+    taxParameter: 'Corporate Tax',
+    date: '29/03/2024',
+    time: '10:00',
+  },{
+    id: 4,
+    fileName: '#12597',
+    uploadedBy: 'Bob Brown',
+    taxParameter: 'Sales Tax',
+    date: '28/03/2024',
+    time: '16:45',
+  },{
+    id: 5,
+    fileName: '#12598',
+    uploadedBy: 'Charlie White',
+    taxParameter: 'Property Tax',
+    date: '27/03/2024',
+    time: '09:30',
+  },{
+    id: 6,
+    fileName: '#12599',
+    uploadedBy: 'Diana Green',
+    taxParameter: 'Excise Duty',
+    date: '26/03/2024',
+    time: '11:20',
+  },{
+    id: 7,
+    fileName: '#12600',
+    uploadedBy: 'Ethan Blue',
+    taxParameter: 'Value Added Tax',
+    date: '25/03/2024',
+    time: '13:05',
+  }
 ];
 
 const UploadHistory = () => {
@@ -96,68 +139,40 @@ const UploadHistory = () => {
     }
   }, [sortedRows.length]);
 
+  const columns = [
+    {
+      accessorKey: 'id',
+      header: 'No',
+    },
+    {
+      accessorKey: 'fileName',
+      header: 'File Name',
+    },
+    {
+      accessorKey: 'uploadedBy',
+      header: 'Uploaded By',
+    },
+    {
+      accessorKey: 'taxParameter',
+      header: 'Tax Parameter',
+    },
+    {
+      accessorKey: 'date',
+      header: 'Date',
+    },
+    {
+      accessorKey: 'time',
+      header: 'Time',
+    }
+  ];
+
   return (
     <Layout>
-      <div className='h-100'>
-        {/* <h4 className="mb-4" style={{ color: '#1a237e', fontWeight: 700 }}>
-          Upload Validation
-        </h4> */}
-        <div
-          ref={scrollRef}
-          style={{
-            height: '100%',
-            overflowY: 'auto',
-            borderRadius: 8,
-          }}
-        >
-          <Table hover responsive>
-            <thead style={{ position: 'sticky', top: 0, backgroundColor: '#fafafa' }}>
-              <tr>
-                <th>No</th>
-                <th
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => handleSort('fileName')}
-                >
-                  {getSortIndicator('fileName')} File Name
-                </th>
-                <th>Uploaded By</th>
-                <th
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => handleSort('taxParameter')}
-                >
-                  Tax Parameter {getSortIndicator('taxParameter')}
-                </th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedRows.slice(0, visibleCount).map((row) => (
-                <tr key={row.id}>
-                  <td>{row.id}</td>
-                  <td>{row.fileName}</td>
-                  <td>{row.uploadedBy}</td>
-                  <td>{row.taxParameter}</td>
-                  <td>{row.date}</td>
-                  <td>{row.time}</td>
-                  <td>
-                    <Button
-                      variant="link"
-                      size="sm"
-                      className="p-0 me-2"
-                      title="Download"
-                      onClick={handleDownload}
-                    >
-                      <Download size={18} color="#90a4ae" />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-      </div>
+      <Table
+        columns={columns}
+        data={data}
+        jobId={'test'}
+      />
     </Layout>
   );
 };

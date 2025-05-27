@@ -23,7 +23,7 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
         stacked: true,
         stackType: '100%',
         toolbar: {
-          show: true,
+          show: false,
         },
       },
       plotOptions: {
@@ -266,14 +266,14 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
       chart.dataURI().then(({ imgURI }) => {
         const link = document.createElement('a');
         link.href = imgURI;
-        link.download = 'sales_comparison_chart.png';
+        link.download = 'risk-categories-chart.png';
         link.click();
       });
     } else if (format === 'svg') {
       chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
         const link = document.createElement('a');
         link.href = svgURI;
-        link.download = 'sales_comparison_chart.svg';
+        link.download = 'risk-categories-chart.svg';
         link.click();
       });
     } else if (format === 'csv') {
@@ -320,7 +320,7 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
   return (
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header">
-        <div className='d-flex align-items-center justify-content-between'>
+        <div className='d-flex align-items-center justify-content-between w-100'>
           <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
           <div className="d-flex align-items-center gap-2">
             <Dropdown>
