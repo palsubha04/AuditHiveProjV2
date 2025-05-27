@@ -1,31 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Dropdown } from 'react-bootstrap';
 import gstService from '../../services/gst.service';
 import '../../pages/Dashboard.css';
 import './charts.css';
+import { Download } from 'lucide-react';
 
 const SalesComparison = ({ startDate, endDate }) => {
   const [chartData, setChartData] = useState({
     xAxis: [],
-    series: [
-      {
-        name: 'Total Sales Income',
-        data: [],
-      },
-      {
-        name: 'Exempt Sales',
-        data: [],
-      },
-      {
-        name: 'Zero Rated Sales',
-        data: [],
-      },
-      {
-        name: 'GST Taxable Sales',
-        data: [],
-      },
-    ],
+    series: [],
   });
 
   const colors = ['#347AE2', '#FF779D', '#FFD12C', '#20E5F3'];
@@ -33,12 +18,8 @@ const SalesComparison = ({ startDate, endDate }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await gstService.getSalesComparison(
-          startDate,
-          endDate
-        );
+        const response = await gstService.getSalesComparison(startDate, endDate);
 
-        // Process the response data
         const categories = [];
         const totalSalesData = [];
         const exemptSalesData = [];
@@ -61,7 +42,6 @@ const SalesComparison = ({ startDate, endDate }) => {
           });
         });
 
-        // Check if all values are zero
         const allZero =
           totalSalesData.every((val) => val === 0) &&
           exemptSalesData.every((val) => val === 0) &&
@@ -73,22 +53,10 @@ const SalesComparison = ({ startDate, endDate }) => {
           series: allZero
             ? []
             : [
-                {
-                  name: 'Total Sales Income',
-                  data: totalSalesData,
-                },
-                {
-                  name: 'Exempt Sales',
-                  data: exemptSalesData,
-                },
-                {
-                  name: 'Zero Rated Sales',
-                  data: zeroRatedSalesData,
-                },
-                {
-                  name: 'GST Taxable Sales',
-                  data: gstTaxableSalesData,
-                },
+                { name: 'Total Sales Income', data: totalSalesData },
+                { name: 'Exempt Sales', data: exemptSalesData },
+                { name: 'Zero Rated Sales', data: zeroRatedSalesData },
+                { name: 'GST Taxable Sales', data: gstTaxableSalesData },
               ],
         });
       } catch (error) {
@@ -103,14 +71,11 @@ const SalesComparison = ({ startDate, endDate }) => {
 
   const chartOptions = {
     chart: {
+      id: 'sales-comparison-chart',
       type: 'line',
       height: 350,
-      toolbar: {
-        show: true,
-      },
-      zoom: {
-        enabled: true,
-      },
+      toolbar: { show: false },
+      zoom: { enabled: true },
     },
     stroke: {
       curve: 'smooth',
@@ -120,9 +85,7 @@ const SalesComparison = ({ startDate, endDate }) => {
       categories: chartData.xAxis,
     },
     yaxis: {
-      title: {
-        text: 'Amount (PGK)',
-      },
+      title: { text: 'Amount (PGK)' },
       labels: {
         formatter: (value) =>
           `PGK ${value.toLocaleString('en-US', {
@@ -140,16 +103,12 @@ const SalesComparison = ({ startDate, endDate }) => {
           })}`,
       },
     },
-    colors: colors,
-    legend: {
-      position: 'bottom',
-    },
+    colors,
+    legend: { position: 'bottom' },
     noData: {
       text: 'No Data Found',
       align: 'center',
       verticalAlign: 'middle',
-      offsetX: 0,
-      offsetY: 0,
       style: {
         color: '#6c757d',
         fontSize: '16px',
@@ -158,10 +117,48 @@ const SalesComparison = ({ startDate, endDate }) => {
     },
   };
 
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('sales-comparison-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'sales_comparison_chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'sales_comparison_chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'sales_comparison_data',
+      });
+    }
+  };
+
   return (
     <Card className="mb-4 box-background">
-      <Card.Header className="chart-card-header">
+      <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
         <span className="chart-headers">Sales Comparison</span>
+        <div className="d-flex align-items-center gap-2">
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+              {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </Card.Header>
       <Card.Body>
         <ReactApexChart

@@ -1,65 +1,24 @@
-import { useState, useEffect } from "react";
-import { Tally1 } from "lucide-react";
-import ReactApexChart from "react-apexcharts";
-import "./charts.css";
-import CSVExportButton from "../CSVExportButton";
+import { useState, useEffect, useRef } from 'react';
+import ApexCharts from 'apexcharts'; // Added useRef
+import ReactApexChart from 'react-apexcharts';
+import './charts.css';
+// CSVExportButton will be used inside the menu, so we might not need it directly here unless it's a separate button too.
+// For now, let's assume we'll trigger CSV download from the menu item.
+// import CSVExportButton from '../CSVExportButton';
+import { CardBody, CardHeader } from 'react-bootstrap';
+import { Menu } from 'lucide-react';
+import CSVExportButton from '../CSVExportButton';
 
-const entityTypes = ["large", "medium", "small", "micro"];
-
-const sampleData = {
-  total_taxpayers: 67706,
-  risk_flagged_taxpayers: 3025,
-  risk_flagged_percentage: 4.47,
-  records: [
-    {
-      tin: 500000232,
-      taxpayer_name: "KENTZ MEPC (MALAYSIA) SDN. BHD.",
-    },
-    {
-      tin: 500000232,
-      taxpayer_name: "KENTZ MEPC (MALAYSIA) SDN. BHD.",
-    },
-    {
-      tin: 500000232,
-      taxpayer_name: "KENTZ MEPC (MALAYSIA) SDN. BHD.",
-    },
-    {
-      tin: 500000250,
-      taxpayer_name: "POSCO INTERNATIONAL POWER (PNGPOM) LIMITED",
-    },
-    {
-      tin: 500000483,
-      taxpayer_name: "MOKI NO 10 LIMITED",
-    },
-    {
-      tin: 500000571,
-      taxpayer_name: "CONSOLIDATED CONTRACTORS (PNG) COMPANY LIMITED",
-    },
-    {
-      tin: 500000571,
-      taxpayer_name: "CONSOLIDATED CONTRACTORS (PNG) COMPANY LIMITED",
-    },
-    {
-      tin: 500000571,
-      taxpayer_name: "CONSOLIDATED CONTRACTORS (PNG) COMPANY LIMITED",
-    },
-    {
-      tin: 500000571,
-      taxpayer_name: "CONSOLIDATED CONTRACTORS (PNG) COMPANY LIMITED",
-    },
-    {
-      tin: 500000571,
-      taxpayer_name: "CONSOLIDATED CONTRACTORS (PNG) COMPANY LIMITED",
-    },
-  ],
-};
+const entityTypes = ['large', 'medium', 'small', 'micro'];
 
 const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
-  console.log("TotalVsFlaggedLineChart from chart", totalTaxPayerVsRiskFlagged);
-  const [selectedCategory, setSelectedCategory] = useState("gst");
+  console.log('TotalVsFlaggedLineChart from chart', totalTaxPayerVsRiskFlagged);
+  const [selectedCategory, setSelectedCategory] = useState('gst');
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});
   const [records, setRecords] = useState([]);
+  const [showMenu, setShowMenu] = useState(false); // State for menu visibility
+  const chartRef = useRef(null); // Ref for ApexChart
 
   useEffect(() => {
     if (
@@ -72,18 +31,15 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
     }
 
     const currentData = totalTaxPayerVsRiskFlagged[selectedCategory];
-    let temp = [];
-    const result = Object.entries(currentData).flatMap(([category, { records }]) =>
-      records.map(({ tin, taxpayer_name }) => ({
-        tin,
-        taxpayer_name,
-        segmentation : category,
-      }))
+
+    const result = Object.entries(currentData).flatMap(
+      ([category, { records }]) =>
+        records.map(({ tin, taxpayer_name }) => ({
+          tin,
+          taxpayer_name,
+          segmentation: category,
+        }))
     );
-    // for (let i in currentData) {
-    //   temp.push(...currentData[i].records);
-    //   temp = temp.map(item => {return {...item, category : i}})
-    // }
     setRecords(result);
 
     const totalSeries = entityTypes.map(
@@ -97,33 +53,44 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
     );
 
     setChartSeries([
-      { name: "Total Taxpayers", data: totalSeries },
-      { name: "Risk-Flagged Taxpayers", data: flaggedSeries },
+      { name: 'Total Taxpayers', data: totalSeries },
+      { name: 'Risk-Flagged Taxpayers', data: flaggedSeries },
     ]);
 
     setChartOptions({
       chart: {
-        type: "line",
+        id: 'total-vs-flagged-chart',
+        type: 'line',
         height: 350,
-        toolbar: { show: true },
+        toolbar: {
+          show: false, // Keep this true if you want default toolbar, or manage custom exports
+          tools: {
+            download: false, // Disable default download if using custom menu
+            zoomin: false,
+            zoomout: false,
+            zoom: false,
+            pan: false,
+            reset: false,
+          },
+        },
       },
       stroke: {
         width: 3,
-        curve: "smooth",
+        curve: 'smooth',
       },
       xaxis: {
-        categories: ["Large", "Medium", "Small", "Micro"],
-        title: { text: "Segmentation" },
+        categories: ['Large', 'Medium', 'Small', 'Micro'],
+        title: { text: 'Segmentation' },
         labels: {
-          style: { fontWeight: 500, color: "#334155", fontSize: "14px" },
+          style: { fontWeight: 500, color: '#334155', fontSize: '14px' },
         },
       },
       yaxis: {
-        title: { text: "Number of Taxpayers" },
-        labels: { style: { fontWeight: 500, color: "#334155" } },
+        title: { text: 'Number of Taxpayers' },
+        labels: { style: { fontWeight: 500, color: '#334155' } },
       },
-      legend: { position: "top", fontWeight: 600 },
-      colors: ["#2563eb", "#f97316"],
+      legend: { position: 'top', fontWeight: 600 },
+      colors: ['#2563eb', '#f97316'],
       markers: { size: 5 },
       tooltip: {
         shared: true,
@@ -143,31 +110,83 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
             </div>
           `;
         },
-        style: { fontSize: "15px" },
+        style: { fontSize: '15px' },
       },
-      grid: { borderColor: "#e0e7ef", strokeDashArray: 4 },
+      grid: { borderColor: '#e0e7ef', strokeDashArray: 4 },
       noData: {
-        text: "No Data Found",
-        align: "center",
-        verticalAlign: "middle",
+        text: 'No Data Found',
+        align: 'center',
+        verticalAlign: 'middle',
         offsetX: 0,
         offsetY: 0,
         style: {
-          color: "#6c757d",
-          fontSize: "16px",
-          fontFamily: "inherit",
+          color: '#6c757d',
+          fontSize: '16px',
+          fontFamily: 'inherit',
         },
       },
     });
   }, [selectedCategory, totalTaxPayerVsRiskFlagged]);
+
+  const toggleMenu = () => setShowMenu(!showMenu);
+
+  const handleExport = async (format) => {
+    const chart = await ApexCharts.getChartByID('total-vs-flagged-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'total-vs-flagged-chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'total-vs-flagged-chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'total-vs-flagged-data',
+      });
+    }
+  };
+
+  // Logic for CSVExportButton if you want to use the `records` data
+  const handleRecordsCSVExport = () => {
+    // This is a placeholder for how you might trigger the CSV export for `records`
+    // You would typically use a library like 'papaparse' or a custom function
+    // to convert `records` (JSON) to CSV and trigger a download.
+    // For now, let's simulate the CSVExportButton's functionality if it were a direct function call.
+    if (records.length > 0) {
+      const header = Object.keys(records[0]).join(',');
+      const csv = records.map((row) => Object.values(row).join(',')).join('\n');
+      const csvData = `\uFEFF${header}\n${csv}`;
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'total_vs_flagged_data.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+    setShowMenu(false);
+  };
 
   const isDataAvailable =
     totalTaxPayerVsRiskFlagged && totalTaxPayerVsRiskFlagged[selectedCategory];
 
   return (
     <>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 16, justifyContent : "space-between" }}>
-        <div>
+      <CardHeader className="chart-card-header">
+        <div className="d-flex">
           <span className="chart-headers">Total Taxpayers vs Risk-Flagged</span>
           <select
             value={selectedCategory}
@@ -184,8 +203,60 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
           filename="risk_taxpayers.csv"
           buttonLabel="Download Risk Taxpayer List"
         />
-      </div>
-      <ReactApexChart options={chartOptions} series={chartSeries} type="line" />
+        <div style={{ position: 'relative' }}>
+          {' '}
+          {/* Container for menu positioning */}
+          <Menu onClick={toggleMenu} style={{ cursor: 'pointer' }} />
+          {showMenu && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '100%', // Position below the icon
+                right: 0,
+                backgroundColor: 'white',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                zIndex: 1000, // Ensure it's above other elements
+                minWidth: '150px',
+              }}
+            >
+              <ul style={{ listStyle: 'none', margin: 0, padding: '5px 0' }}>
+                <li
+                  onClick={() => handleExport('svg')}
+                  style={{ padding: '8px 15px', cursor: 'pointer' }}
+                  className="chart-menu-item"
+                >
+                  Download SVG
+                </li>
+                <li
+                  onClick={() => handleExport('png')}
+                  style={{ padding: '8px 15px', cursor: 'pointer' }}
+                  className="chart-menu-item"
+                >
+                  Download PNG
+                </li>
+                <li
+                  onClick={handleRecordsCSVExport} // Use this for your 'records' data
+                  // onClick={() => handleExport('csv')} // Use this for ApexCharts internal CSV export
+                  style={{ padding: '8px 15px', cursor: 'pointer' }}
+                  className="chart-menu-item"
+                >
+                  Download CSV
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      <CardBody>
+        <ReactApexChart
+          ref={chartRef} // Assign ref here
+          options={chartOptions}
+          series={chartSeries}
+          type="line"
+        />
+      </CardBody>
       {/* <EmployeeLineChart options={chartOptions} series={chartSeries} /> */}
       {/* {isDataAvailable ? (
         <EmployeeLineChart options={chartOptions} series={chartSeries} />
