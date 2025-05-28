@@ -1,6 +1,4 @@
-import React from 'react';
-import ReactApexChart from 'react-apexcharts';
-import './charts.css';
+
 import { CardBody, CardHeader } from 'react-bootstrap';
 
 // const TaxpayersRiskChart = ({ data, start_date, end_date }) => {

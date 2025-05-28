@@ -1,6 +1,4 @@
-import React from 'react';
-import Chart from 'react-apexcharts';
-import './charts.css';
+
 import { CardBody, CardHeader } from 'react-bootstrap';
 
 // const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {

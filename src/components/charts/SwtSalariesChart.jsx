@@ -1,6 +1,4 @@
-import React from 'react';
-import Chart from 'react-apexcharts';
-import './charts.css';
+
 import { CardBody, CardHeader } from 'react-bootstrap';
 
 // const SwtSalariesChart = ({ data }) => {
@@ -272,24 +270,24 @@ const SwtSalariesChart = ({ data, start_date, end_date }) => {
   };
 
   // return <Chart options={options} series={series} type="area" height={430} />;
-  const swtSalariesChartSeries = [
-    {
-      name: 'Total Salary Wages Paid',
-      data:
-        monthlySummary && monthlySummary.map((m) => m.total_salary_wages_paid),
-    },
-    {
-      name: 'SW Paid for SWT Deduction',
-      data:
-        monthlySummary &&
-        monthlySummary.map((m) => m.sw_paid_for_swt_deduction),
-    },
-    {
-      name: 'Total SWT Tax Deducted',
-      data:
-        monthlySummary && monthlySummary.map((m) => m.total_swt_tax_deducted),
-    },
-  ];
+  // const swtSalariesChartSeries = [
+  //   {
+  //     name: 'Total Salary Wages Paid',
+  //     data:
+  //       monthlySummary && monthlySummary.map((m) => m.total_salary_wages_paid),
+  //   },
+  //   {
+  //     name: 'SW Paid for SWT Deduction',
+  //     data:
+  //       monthlySummary &&
+  //       monthlySummary.map((m) => m.sw_paid_for_swt_deduction),
+  //   },
+  //   {
+  //     name: 'Total SWT Tax Deducted',
+  //     data:
+  //       monthlySummary && monthlySummary.map((m) => m.total_swt_tax_deducted),
+  //   },
+  // ];
 
   return (
     <>
@@ -297,12 +295,7 @@ const SwtSalariesChart = ({ data, start_date, end_date }) => {
         <div className="chart-headers">SWT Salaries Comparison</div>
       </CardHeader>
       <CardBody>
-        <Chart
-          options={swtSalariesChartOptions}
-          series={swtSalariesChartSeries}
-          type="area"
-          height={430}
-        />
+        <Chart options={options} series={series} type="area" height={430} />
       </CardBody>
     </>
   );
