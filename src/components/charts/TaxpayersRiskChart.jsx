@@ -1,6 +1,7 @@
-// import React from 'react';
-// import ReactApexChart from 'react-apexcharts';
-// import './charts.css'
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
+import './charts.css';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 // const TaxpayersRiskChart = ({ data, start_date, end_date }) => {
 //   // Prepare data for the chart from the new data structure
@@ -321,7 +322,19 @@ const TaxpayersRiskChart = ({ data, start_date, end_date }) => {
   };
 
   return (
-    <ReactApexChart options={options} series={series} type="bar" height={430} />
+    <>
+      <CardHeader className="chart-card-header">
+        <div className="chart-headers">Taxpayers Risk</div>
+      </CardHeader>
+      <CardBody>
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="bar"
+          height={430}
+        />
+      </CardBody>
+    </>
   );
 };
 

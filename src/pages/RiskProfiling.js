@@ -1,35 +1,35 @@
-import React, { useEffect, useRef, useState } from "react";
-import Layout from "../components/Layout";
-import TenureFilter from "../components/filters/TenureFilter";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDatasets } from "../slice/datasetsSlice";
-import { ChevronDown } from "lucide-react";
-import { FixedSizeList as List } from "react-window";
-import { fetchRiskBreakdownByCategoryProfiling } from "../slice/risk-profiling/riskBreakdownCategoryProfilingSlice";
-import { Card, CardBody, Spinner } from "react-bootstrap";
-import { fetchFrequencyOfAnomalyProfiling } from "../slice/risk-profiling/frequencyOfAnomalyProfilingSlice";
-import RiskAnomalyFrequencyChart from "../components/charts/RiskAnomalyFrequencyChart";
-import RiskBreakdownCategoryProfilingChart from "../components/charts/risk-profiling/RiskBreakdownCategoryProfilingChart";
-import GSTBenchmarkProfilingChart from "../components/charts/risk-profiling/GSTBenchmarkProfilingChart";
-import SWTBenchmarkProfilingChart from "../components/charts/risk-profiling/SWTBenchmarkProfilingChart";
-import { fetchGstBenchmarkProfiling } from "../slice/risk-profiling/gstBenchmarkProfilingSlice";
-import { fetchSwtBenchmarkProfiling } from "../slice/risk-profiling/swtBenchmarkProfilingSlice";
-import { fetchCitBenchmarkProfiling } from "../slice/risk-profiling/citBenchmarkProfilingSlice";
-import { fetchGstBenchmarkCreditsProfiling } from "../slice/risk-profiling/gstBenchmarkCreditsProfilingSlice";
-import { fetchSwtBenchmarkEmployeesProfiling } from "../slice/risk-profiling/swtBenchmarkEmployeesProfilingSlice";
-import SWTBenchmarkEmployeesProfilingChart from "../components/charts/risk-profiling/SWTBenchmarkEmployeesProfilingChart";
-import GSTBenchmarkCreditsProfilingChart from "../components/charts/risk-profiling/GSTBenchmarkCreditsProfilingChart";
-import EmployeeLineChart from "../components/charts/EmployeeLineChart";
-import MonthlySalesTaxSummaryChart from "../components/charts/MonthlySalesTaxSummaryChart";
-import SwtSalariesChart from "../components/charts/SwtSalariesChart";
-import TaxpayersRiskChart from "../components/charts/TaxpayersRiskChart";
-import { fetchSalesComparison } from "../slice/salesComparisonSlice";
-import { fetchEmployeeOnPayroll } from "../slice/employeeOnPayrollSlice";
-import { fetchGstPayableVsRefundable } from "../slice/gstPayableVsRefundableSlice";
-import { fetchswtSalariesComparison } from "../slice/swtSalariesComparisonSlice";
-import "./RiskProfilling.css";
-import DelayedReturnFilingTable from "../components/charts/risk-profiling/DelayedReturnFilingTable";
-import { fetchDelayedFiling } from "../slice/risk-profiling/delayedFilingsSlice";
+import React, { useEffect, useRef, useState } from 'react';
+import Layout from '../components/Layout';
+import TenureFilter from '../components/filters/TenureFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDatasets } from '../slice/datasetsSlice';
+import { ChevronDown } from 'lucide-react';
+import { FixedSizeList as List } from 'react-window';
+import { fetchRiskBreakdownByCategoryProfiling } from '../slice/risk-profiling/riskBreakdownCategoryProfilingSlice';
+import { Card, CardBody, Spinner } from 'react-bootstrap';
+import { fetchFrequencyOfAnomalyProfiling } from '../slice/risk-profiling/frequencyOfAnomalyProfilingSlice';
+import RiskAnomalyFrequencyChart from '../components/charts/RiskAnomalyFrequencyChart';
+import RiskBreakdownCategoryProfilingChart from '../components/charts/risk-profiling/RiskBreakdownCategoryProfilingChart';
+import GSTBenchmarkProfilingChart from '../components/charts/risk-profiling/GSTBenchmarkProfilingChart';
+import SWTBenchmarkProfilingChart from '../components/charts/risk-profiling/SWTBenchmarkProfilingChart';
+import { fetchGstBenchmarkProfiling } from '../slice/risk-profiling/gstBenchmarkProfilingSlice';
+import { fetchSwtBenchmarkProfiling } from '../slice/risk-profiling/swtBenchmarkProfilingSlice';
+import { fetchCitBenchmarkProfiling } from '../slice/risk-profiling/citBenchmarkProfilingSlice';
+import { fetchGstBenchmarkCreditsProfiling } from '../slice/risk-profiling/gstBenchmarkCreditsProfilingSlice';
+import { fetchSwtBenchmarkEmployeesProfiling } from '../slice/risk-profiling/swtBenchmarkEmployeesProfilingSlice';
+import SWTBenchmarkEmployeesProfilingChart from '../components/charts/risk-profiling/SWTBenchmarkEmployeesProfilingChart';
+import GSTBenchmarkCreditsProfilingChart from '../components/charts/risk-profiling/GSTBenchmarkCreditsProfilingChart';
+import EmployeeLineChart from '../components/charts/EmployeeLineChart';
+import MonthlySalesTaxSummaryChart from '../components/charts/MonthlySalesTaxSummaryChart';
+import SwtSalariesChart from '../components/charts/SwtSalariesChart';
+import TaxpayersRiskChart from '../components/charts/TaxpayersRiskChart';
+import { fetchSalesComparison } from '../slice/salesComparisonSlice';
+import { fetchEmployeeOnPayroll } from '../slice/employeeOnPayrollSlice';
+import { fetchGstPayableVsRefundable } from '../slice/gstPayableVsRefundableSlice';
+import { fetchswtSalariesComparison } from '../slice/swtSalariesComparisonSlice';
+import './RiskProfilling.css';
+import DelayedReturnFilingTable from '../components/charts/risk-profiling/DelayedReturnFilingTable';
+import { fetchDelayedFiling } from '../slice/risk-profiling/delayedFilingsSlice';
 
 function RiskProfiling() {
   const [dateRange, setDateRange] = useState({
@@ -134,7 +134,7 @@ function RiskProfiling() {
           value: data.records[i].tin,
         });
         tinWithTaxpayerName.push(
-          data.records[i].tin + " - " + data.records[i].taxpayer_name
+          data.records[i].tin + ' - ' + data.records[i].taxpayer_name
         );
       }
       setTinLabels(tinWithTaxpayerName);
@@ -459,263 +459,180 @@ function RiskProfiling() {
           <div className="d-flex flex-column" style={{ gap: "32px" }}>
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {frequencyOfAnomalyProfilingLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <RiskAnomalyFrequencyChart
-                        riskAnomalyFrequencyData={
-                          frequencyOfAnomalyProfilingData
-                        }
-                        source="Risk Profiling"
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {frequencyOfAnomalyProfilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <RiskAnomalyFrequencyChart
+                      riskAnomalyFrequencyData={frequencyOfAnomalyProfilingData}
+                      source="Risk Profiling"
+                    />
+                  </div>
+                )}
               </Card>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {riskBreakdownByCategoryProfilingLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <RiskBreakdownCategoryProfilingChart
-                        riskBreakdownByCategoryDataProfiling={
-                          riskBreakdownByCategoryProfilingData
-                        }
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {riskBreakdownByCategoryProfilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <RiskBreakdownCategoryProfilingChart
+                      riskBreakdownByCategoryDataProfiling={
+                        riskBreakdownByCategoryProfilingData
+                      }
+                    />
+                  </div>
+                )}
               </Card>
             </div>
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {gstBenchmarkProfilingLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <GSTBenchmarkProfilingChart
-                        gstBenchmarkProfilingData={gstBenchmarkProfilingData}
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {gstBenchmarkProfilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <GSTBenchmarkProfilingChart
+                      gstBenchmarkProfilingData={gstBenchmarkProfilingData}
+                    />
+                  </div>
+                )}
               </Card>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {gstBenchmarkCreditsProfilingLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <GSTBenchmarkCreditsProfilingChart
-                        gstBenchmarkCreditsProfilingData={
-                          gstBenchmarkCreditsProfilingData
-                        }
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {gstBenchmarkCreditsProfilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <GSTBenchmarkCreditsProfilingChart
+                      gstBenchmarkCreditsProfilingData={
+                        gstBenchmarkCreditsProfilingData
+                      }
+                    />
+                  </div>
+                )}
               </Card>
             </div>
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {swtBenchmarkProfilingLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <SWTBenchmarkProfilingChart
-                        swtBenchmarkProfilingData={swtBenchmarkProfilingData}
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {swtBenchmarkProfilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <SWTBenchmarkProfilingChart
+                      swtBenchmarkProfilingData={swtBenchmarkProfilingData}
+                    />
+                  </div>
+                )}
               </Card>
               <Card className="chart-cards-half">
-                <CardBody>
-                  {swtBenchmarkProfilingLoading ? (
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <SWTBenchmarkEmployeesProfilingChart
-                        swtBenchmarkEmployeesProfilingData={
-                          swtBenchmarkEmployeesProfilingData
-                        }
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                {swtBenchmarkProfilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <SWTBenchmarkEmployeesProfilingChart
+                      swtBenchmarkEmployeesProfilingData={
+                        swtBenchmarkEmployeesProfilingData
+                      }
+                    />
+                  </div>
+                )}
               </Card>
             </div>
             <div className="d-flex flex-column" style={{ gap: "32px" }}>
               <Card className="chart-cards-full">
-                <CardBody>
-                  <div className="chart-big-heading">GST Sales Comparison</div>
-                  {monthlySalesLoading ? (
-                    <div className="chart-big">
-                      <div className="spinner-div">
-                        <Spinner
-                          animation="border"
-                          role="status"
-                          variant="primary"
-                        >
-                          <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                      </div>
+                {monthlySalesLoading ? (
+                  <div className="chart-big">
+                    <div className="spinner-div">
+                      <Spinner
+                        animation="border"
+                        role="status"
+                        variant="primary"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
                     </div>
-                  ) : (
-                    <MonthlySalesTaxSummaryChart
-                      salesData={monthlySalesData}
-                      start_date={dateRange.start_date}
-                      end_date={dateRange.end_date}
-                    />
-                  )}
-                </CardBody>
+                  </div>
+                ) : (
+                  <MonthlySalesTaxSummaryChart
+                    salesData={monthlySalesData}
+                    start_date={dateRange.start_date}
+                    end_date={dateRange.end_date}
+                  />
+                )}
               </Card>
               <Card className="chart-cards-full">
-                <CardBody>
-                  <div className="chart-big-heading">
-                    GST Payable vs GST refundable
-                  </div>{" "}
-                  {gstLoading ? (
-                    <div className="chart-big">
+                {gstLoading ? (
+                  <div className="chart-big">
+                    {" "}
+                    <div className="spinner-div">
                       {" "}
-                      <div className="spinner-div">
+                      <Spinner
+                        animation="border"
+                        role="status"
+                        variant="primary"
+                      >
                         {" "}
-                        <Spinner
-                          animation="border"
-                          role="status"
-                          variant="primary"
-                        >
-                          {" "}
-                          <span className="visually-hidden">
-                            Loading...
-                          </span>{" "}
-                        </Spinner>{" "}
-                      </div>
+                        <span className="visually-hidden">Loading...</span>{" "}
+                      </Spinner>{" "}
                     </div>
-                  ) : (
-                    <TaxpayersRiskChart
-                      data={gstData}
-                      start_date={dateRange.start_date}
-                      end_date={dateRange.end_date}
-                    />
-                  )}
-                </CardBody>
+                  </div>
+                ) : (
+                  <TaxpayersRiskChart
+                    data={gstData}
+                    start_date={dateRange.start_date}
+                    end_date={dateRange.end_date}
+                  />
+                )}
               </Card>
             </div>
             <div className="d-flex flex-column" style={{ gap: "32px" }}>
               <Card className="chart-cards-full">
-                <CardBody>
-                  <div className="chart-big-heading">
-                    Employees on Payroll vs Paid SWT
+                {payrollLoading ? (
+                  <div className="chart-big">
+                    <div className="spinner-div">
+                      <Spinner
+                        animation="border"
+                        role="status"
+                        variant="primary"
+                      >
+                        {" "}
+                        <span className="visually-hidden">Loading...</span>{" "}
+                      </Spinner>{" "}
+                    </div>{" "}
                   </div>
-                  {payrollLoading ? (
-                    <div className="chart-big">
-                      <div className="spinner-div">
-                        <Spinner
-                          animation="border"
-                          role="status"
-                          variant="primary"
-                        >
-                          {" "}
-                          <span className="visually-hidden">
-                            Loading...
-                          </span>{" "}
-                        </Spinner>{" "}
-                      </div>{" "}
-                    </div>
-                  ) : (
-                    <EmployeeLineChart
-                      data={payrollData}
-                      start_date={dateRange.start_date}
-                      end_date={dateRange.end_date}
-                    />
-                  )}
-                </CardBody>
+                ) : (
+                  <EmployeeLineChart
+                    data={payrollData}
+                    start_date={dateRange.start_date}
+                    end_date={dateRange.end_date}
+                  />
+                )}
               </Card>
               <Card className="chart-cards-full">
-                <CardBody>
-                  <div className="chart-big-heading">
-                    SWT Salaries Comparison
-                  </div>
-                  {swtSalariesComparisonLoading ? (
-                    <div className="chart-big">
-                      <div className="spinner-div">
-                        <Spinner
-                          animation="border"
-                          role="status"
-                          variant="primary"
-                        >
-                          <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                      </div>
-                    </div>
-                  ) : (
-                    <SwtSalariesChart
-                      data={swtSalariesComparisonData}
-                      start_date={dateRange.start_date}
-                      end_date={dateRange.end_date}
-                    />
-                  )}
-                </CardBody>
-              </Card>
-            </div>
-            <div className="d-flex" style={{ gap: "32px" }}>
-              <Card className="chart-cards-full">
-                <CardBody>
-                  {delayedFilingLoading ? (
+                {swtSalariesComparisonLoading ? (
+                  <div className="chart-big">
                     <div className="spinner-div">
                       <Spinner
                         animation="border"
@@ -725,14 +642,31 @@ function RiskProfiling() {
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <DelayedReturnFilingTable
-                        delayedFilingData={delayedFilingData}
-                      />
-                    </div>
-                  )}
-                </CardBody>
+                  </div>
+                ) : (
+                  <SwtSalariesChart
+                    data={swtSalariesComparisonData}
+                    start_date={dateRange.start_date}
+                    end_date={dateRange.end_date}
+                  />
+                )}
+              </Card>
+            </div>
+            <div className="d-flex" style={{ gap: "32px" }}>
+              <Card className="chart-cards-full">
+                {delayedFilingLoading ? (
+                  <div className="spinner-div">
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <div className="p-0 w-100">
+                    <DelayedReturnFilingTable
+                      delayedFilingData={delayedFilingData}
+                    />
+                  </div>
+                )}
               </Card>
             </div>
           </div>

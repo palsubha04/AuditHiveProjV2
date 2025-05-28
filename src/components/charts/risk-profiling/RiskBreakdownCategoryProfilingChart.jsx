@@ -2,6 +2,8 @@ import { Tally1 } from 'lucide-react';
 import React, { use, useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import Chart from 'react-apexcharts';
+import '../charts.css';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 var riskData = {
   gst: {
@@ -124,66 +126,42 @@ const RiskBreakdownCategoryProfilingChart = ({
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
-        <h4
-          className="mb-0 me-3 fw-bold"
-          style={{
-            color: '#05004E',
-            fontSize: '20px',
-            fontWeight: 600,
-            letterSpacing: '0px',
-            lineHeight: '32px',
-          }}
-        >
-          Risk Breakdown Category
-        </h4>
-        <Tally1 style={{ color: '#7c879d' }} />
-        <span
-          style={{ color: '#7c879d', fontSize: '16px', marginRight: '10px' }}
-        >
-          Filter By :{' '}
-        </span>
-        <div>
-          <select
-            style={{
-              marginRight: 8,
-              padding: '4px 8px',
-              borderRadius: 4,
-              border: '1px solid #ccc',
-            }}
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+      <CardHeader className="chart-card-header">
+        <div className="chart-headers">Risk Breakdown Category</div>
+        {/* <Tally1 style={{ color: '#7c879d' }} /> */}
+        <div style={{ display: 'flex' }}>
+          <span
+            style={{ color: '#7c879d', fontSize: '16px', marginRight: '10px' }}
           >
-            <option value="gst">GST</option>
-            <option value="swt">SWT</option>
-            <option value="cit">CIT</option>
-          </select>
+            Filter By :{' '}
+          </span>
+          <div>
+            <select
+              style={{
+                marginRight: 8,
+                padding: '4px 8px',
+                borderRadius: 4,
+                border: '1px solid #ccc',
+              }}
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="gst">GST</option>
+              <option value="swt">SWT</option>
+              <option value="cit">CIT</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-          width: '100%',
-        }}
-      >
-      {
-        labels.length===1 && labels[0]==='No Risk' ? (
-          <span>No Risk</span>
-        ) : (
-          <ReactApexChart
-            key={JSON.stringify(series)} // forces remount when data changes
-            options={options}
-            series={series}
-            type="pie"
-            width={500} // Adjust the width as needed
-          />
-
-        )
-      }
-      </div>
+      </CardHeader>
+      <CardBody>
+        <ReactApexChart
+          key={JSON.stringify(series)} // forces remount when data changes
+          options={options}
+          series={series}
+          type="pie"
+          width={500} // Adjust the width as needed
+        />
+      </CardBody>
     </div>
   );
 };
