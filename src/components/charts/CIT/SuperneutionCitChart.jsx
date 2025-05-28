@@ -19,7 +19,10 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
       id: 'superneution-cit-chart',
       width: 380,
       type: 'pie',
-      toolbar: { show: true },
+      toolbar: { show: false },
+    },
+    legend: {
+      position: "bottom",
     },
     labels: ['PNG', 'Foreign'],
     tooltip: {
@@ -182,7 +185,7 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
     <Card className="mb-4 box-background">
       <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
         <span className="chart-headers">Superannuation PNG vs Foreign</span>
-        <div className="d-flex gap-2"> 
+        <div className="d-flex gap-2">
           <Dropdown>
             <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
               {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}

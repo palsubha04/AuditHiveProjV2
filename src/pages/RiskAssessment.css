@@ -14,13 +14,18 @@
     border-color: #DFE4F0 !important;
     width: 50%;
     height: 520px;
-    margin-bottom: 12px;
 }
 
 .chart-cards-full{
     border-radius: 14px;
     border-color: #DFE4F0 !important;
     width: 100%;
+    height: 520px;
+}
+
+.chart-cards{
+    border-radius: 14px;
+    border-color: #DFE4F0 !important;
     height: 520px;
 }
 

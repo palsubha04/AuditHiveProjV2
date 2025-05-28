@@ -1,9 +1,10 @@
 import { Tally1 } from 'lucide-react';
 import React, { useEffect, useState, useMemo } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import ApexCharts from 'apexcharts';
 import './charts.css';
 import CSVExportButton from '../CSVExportButton';
-import { CardBody, CardHeader } from 'react-bootstrap';
+import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 
 const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
   const [selectedCategory, setSelectedCategory] = useState('gst');
@@ -44,9 +45,11 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
 
   const options = {
     chart: {
+      id: 'risk-anomaly-frequency',
       type: 'pie',
       height: 350,
-      toolbar: { show: true },
+      toolbar: { show: false },
+      
     },
     tooltip: {
       custom: function ({ series, seriesIndex, w }) {
@@ -86,6 +89,32 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
     },
   };
 
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('risk-anomaly-frequency');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'risk-anomaly-frequency.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'risk-anomaly-frequency.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'risk-anomaly-frequency',
+      });
+    }
+  };
+
   return (
     <>
       {/* Heading and dropdown */}
@@ -106,13 +135,25 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
             </select>
           </div>
         </div>
-        {source === 'Risk Assessment' && (
-          <CSVExportButton
-            records={records}
-            filename="risk_taxpayers.csv"
-            buttonLabel="Download Risk Breakdown By Category Taxpayer List"
-          />
-        )}
+        <div className='d-flex flex-row gap-2 align-items-center'>
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+              {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          {source === 'Risk Assessment' && (
+            <CSVExportButton
+              records={records}
+              filename="risk_taxpayers.csv"
+              buttonLabel="Download Risk Breakdown By Category Taxpayer List"
+            />
+          )}
+        </div>
       </CardHeader>
 
       {/* Chart */}
