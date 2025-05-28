@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
+import ApexCharts from 'apexcharts';
 import './charts.css';
 import CSVExportButton from '../CSVExportButton';
-import { CardBody, CardHeader } from 'react-bootstrap';
+import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 
 const monthMap = {
   1: "January",
@@ -68,9 +69,10 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
 
   const options = {
     chart: {
+      id: 'risk-breakdown-chart',
       type: 'bar',
       stacked: true,
-      toolbar: { show: true },
+      toolbar: { show: false },
       height: 350,
     },
     plotOptions: {
@@ -88,7 +90,7 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
       },
     },
     legend: {
-      position: 'top',
+      position: 'bottom',
     },
     fill: {
       opacity: 1,
@@ -114,16 +116,41 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
 
     const result = Object.entries(selectedData).flatMap(
       ([category, { records }]) =>
-      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
-        Tin: tin,
-        'Taxpayer Name': taxpayer_name,
-        'Tax Period Year': tax_period_year,
-        'Tax Period Month': monthMap[tax_period_month],
-        Segmentation: category,
-      }))
+        records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+          Tin: tin,
+          'Taxpayer Name': taxpayer_name,
+          'Tax Period Year': tax_period_year,
+          'Tax Period Month': monthMap[tax_period_month],
+          Segmentation: category,
+        }))
     );
 
     setRecords(result);
+  };
+
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('risk-breakdown-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'risk-breakdown-chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'risk-breakdown-chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'risk-breakdown-chart',
+      });
+    }
   };
 
   return (
@@ -142,11 +169,23 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
             </select>
           </div>
         </div>
-        <CSVExportButton
-          records={records}
-          filename="risk_breakdown_category.csv"
-          buttonLabel="Download Risk Breakdown By Category Taxpayer List"
-        />
+        <div className='d-flex flex-row gap-2 align-items-center'>
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+              {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <CSVExportButton
+            records={records}
+            filename="risk_breakdown_category.csv"
+            buttonLabel="Download Risk Breakdown By Category Taxpayer List"
+          />
+        </div>
       </CardHeader>
       <CardBody>
         <Chart options={options} series={series} type="bar" height={350} />

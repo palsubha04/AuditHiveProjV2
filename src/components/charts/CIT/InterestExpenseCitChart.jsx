@@ -20,9 +20,12 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
       id: 'interest-png-foreign-chart',
       width: 380,
       type: 'pie',
-      toolbar: { show: true },
+      toolbar: { show: false },
     },
     labels: ['PNG', 'Foreign'],
+    legend: {
+      position: "bottom",
+    },
     tooltip: {
       custom: function ({ series, seriesIndex, w }) {
         const value = series[seriesIndex];
