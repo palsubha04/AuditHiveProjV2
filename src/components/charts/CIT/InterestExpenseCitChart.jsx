@@ -80,9 +80,23 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
           endDate
         );
 
-        const filteredData = response.map(({ superannuation_png, superannuation_foreign, ...rest }) => rest);
+        const result = [];
 
-        setRecords(filteredData);
+       response.forEach(entry => {
+         const { interest_expense_png, interest_expense_foreign, tax_period_year, records } = entry;
+       
+         records.forEach(record => {
+           result.push({
+             tin: record.tin,
+             taxpayer_name: record.taxpayer_name,
+             tax_period_year,
+             interest_expense_png,
+             interest_expense_foreign,
+             
+           });
+         });
+       });
+        setRecords(result);
 
         var interest_expense_png = 0;
         var interest_expense_foreign = 0;

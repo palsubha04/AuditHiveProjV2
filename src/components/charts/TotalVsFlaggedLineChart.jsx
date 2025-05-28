@@ -47,15 +47,13 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
 
     const result = Object.entries(currentData).flatMap(
       ([category, { records }]) =>
-        records.map(
-          ({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
-            Tin: tin,
-            'Taxpayer Name': taxpayer_name,
-            'Tax Period Year': tax_period_year,
-            'Tax Period Month': monthMap[tax_period_month],
-            Segmentation: category,
-          })
-        )
+      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+        Tin: tin,
+        'Taxpayer Name': taxpayer_name,
+        'Tax Period Year': tax_period_year,
+        'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
+        Segmentation: category,
+      }))
     );
     setRecords(result);
 

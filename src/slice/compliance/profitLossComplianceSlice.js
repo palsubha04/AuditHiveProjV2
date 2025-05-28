@@ -9,7 +9,7 @@ export const fetchProfitLossCompliance = createAsyncThunk(
     console.log("end_date", end_date);
 
     const response = await api.get(
-      `/analytics/compliance/benchmark/cit_payable_vs_cit_refundable/?start_date=${start_date}&end_date=${end_date}`
+      `/analytics/compliance/benchmark/profit_vs_loss_cit?start_date=${start_date}&end_date=${end_date}`
     );
     console.log("response", response);
     return response.data;
