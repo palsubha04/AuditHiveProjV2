@@ -37,7 +37,7 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
           Tin: tin,
           'Taxpayer Name': taxpayer_name,
           'Tax Period Year': tax_period_year,
-          'Tax Period Month': monthMap[tax_period_month],
+          'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
           Segmentation: category,
         }))
       );

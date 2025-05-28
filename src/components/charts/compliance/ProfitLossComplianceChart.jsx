@@ -2,94 +2,110 @@ import { Tally1 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { Card, Col, Row } from "react-bootstrap";
+import CSVExportButton from "../../CSVExportButton";
 
-const sampleData = {
-  start_date: "01-01-2020",
-  end_date: "01-01-2022",
-  gst: {
-    large: {
-      profit_making_taxpayers: 450,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    medium: {
-      profit_making_taxpayers: 400,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    small: {
-      profit_making_taxpayers: 350,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    micro: {
-      profit_making_taxpayers: 150,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-  },
-  swt: {
-    large: {
-      profit_making_taxpayers: 350,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    medium: {
-      profit_making_taxpayers: 440,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    small: {
-      profit_making_taxpayers: 320,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    micro: {
-      profit_making_taxpayers: 150,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-  },
-  cit: {
-    large: {
-      profit_making_taxpayers: 450,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    medium: {
-      profit_making_taxpayers: 400,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    small: {
-      profit_making_taxpayers: 350,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-    micro: {
-      profit_making_taxpayers: 150,
-      loss_making_taxpayers: 50,
-      total: 500,
-    },
-  },
-};
+// const sampleData = {
+//   start_date: "01-01-2020",
+//   end_date: "01-01-2022",
+//   gst: {
+//     large: {
+//       profit_making_taxpayers: 450,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     medium: {
+//       profit_making_taxpayers: 400,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     small: {
+//       profit_making_taxpayers: 350,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     micro: {
+//       profit_making_taxpayers: 150,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//   },
+//   swt: {
+//     large: {
+//       profit_making_taxpayers: 350,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     medium: {
+//       profit_making_taxpayers: 440,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     small: {
+//       profit_making_taxpayers: 320,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     micro: {
+//       profit_making_taxpayers: 150,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//   },
+//   cit: {
+//     large: {
+//       profit_making_taxpayers: 450,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     medium: {
+//       profit_making_taxpayers: 400,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     small: {
+//       profit_making_taxpayers: 350,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//     micro: {
+//       profit_making_taxpayers: 150,
+//       loss_making_taxpayers: 50,
+//       total: 500,
+//     },
+//   },
+// };
 
 const entityTypes = ["large", "medium", "small", "micro"];
 
-const ProfitLossComplianceChart = ({ x }) => {
-  console.log("TotalVsFlaggedLineChart from chart", sampleData);
-  const [selectedCategory, setSelectedCategory] = useState("gst");
+
+
+const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
+  console.log("profitLossComplianceData from chart", profitLossComplianceData);
+  const [selectedCategory, setSelectedCategory] = useState("cit");
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});
+  const [records, setRecords] = useState([]);
 
   useEffect(() => {
-    if (!sampleData || !sampleData[selectedCategory]) {
+    if (!profitLossComplianceData || !profitLossComplianceData[selectedCategory]) {
       setChartSeries([]);
       setChartOptions({});
       return;
     }
 
-    const currentData = sampleData[selectedCategory];
+    const currentData = profitLossComplianceData[selectedCategory];
+    const result = Object.entries(
+      profitLossComplianceData[selectedCategory]
+    ).flatMap(([category, { records }]) =>
+      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+        Tin: tin,
+        'Taxpayer Name': taxpayer_name,
+        'Tax Period Year': tax_period_year,
+        Segmentation: category,
+      }))
+    );
+
+    setRecords(result);
 
     const totalSeries = entityTypes.map(
       (type) => currentData[type]?.profit_making_taxpayers ?? 0
@@ -159,9 +175,9 @@ const ProfitLossComplianceChart = ({ x }) => {
         },
       },
     });
-  }, [selectedCategory, sampleData]);
+  }, [selectedCategory, profitLossComplianceData]);
 
-  const isDataAvailable = sampleData && sampleData[selectedCategory];
+  const isDataAvailable = profitLossComplianceData && profitLossComplianceData[selectedCategory];
 
   return (
     <>
@@ -186,6 +202,11 @@ const ProfitLossComplianceChart = ({ x }) => {
       <option value="swt">SWT</option>
       <option value="cit">CIT</option>
     </select>
+    <CSVExportButton
+          records={records}
+          filename="profit_loss_taxpayers.csv"
+          buttonLabel="Download Profit vs Loss Taxpayer List"
+        />
   </div>
   <Chart
           options={chartOptions}

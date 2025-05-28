@@ -71,14 +71,14 @@ const Compliance = () => {
           );
       //  }
 
-        if (!profitLossComplianceData) {
+      //  if (!profitLossComplianceData) {
           dispatch(
             fetchProfitLossCompliance({
               start_date: dateRange.start_date,
               end_date: dateRange.end_date,
             })
           );
-        }
+      //  }
     
         console.log('Dispatching for new range:', currentKey);
         fetchedRangeRef.current = currentKey;
@@ -141,7 +141,7 @@ const Compliance = () => {
                     </div>
                   ) : (
                     <div className="p-0 w-100">
-                      <ProfitLossComplianceChart sampleData={profitLossComplianceData}/>
+                      <ProfitLossComplianceChart profitLossComplianceData={profitLossComplianceData}/>
                     </div>
                   )}
                 </CardBody>

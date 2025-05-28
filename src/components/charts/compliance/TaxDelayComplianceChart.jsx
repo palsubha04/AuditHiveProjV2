@@ -2,6 +2,7 @@ import { Tally1 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { Card, Col, Row } from "react-bootstrap";
+import CSVExportButton from "../../CSVExportButton";
 
 // const sampleData = {
 //   start_date: "01-01-2020",
@@ -64,21 +65,46 @@ import { Card, Col, Row } from "react-bootstrap";
 //     },
 //   },
 // };
+const monthMap = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
 
 const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
   const [selectedCategory, setSelectedCategory] = useState("gst");
   const [selectedSegment, setSelectedSegment] = useState("large");
   const [filterData, setFilterData] = useState({});
+  const [records, setRecords] = useState([]);
   console.log("taxDelayComplianceData inside", taxDelayComplianceData);
 
   useEffect(() => {
+    let updatedData = [];
+  
     if (taxDelayComplianceData && selectedCategory && selectedSegment) {
       const data = taxDelayComplianceData[selectedCategory]?.[selectedSegment];
       setFilterData(data || {});
+      
+      updatedData = data?.records?.map(item => ({
+        ...item,
+        tax_period_month: monthMap[item.tax_period_month] || item.tax_period_month
+      })) || [];
     } else {
       setFilterData({});
     }
+  
+    setRecords(updatedData);
   }, [taxDelayComplianceData, selectedCategory, selectedSegment]);
+  
 
   const series = [filterData?.delayed || 0, filterData?.non_delayed || 0];
   const options = {
@@ -237,6 +263,11 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
         <option value="small">Small</option>
         <option value="micro">Micro</option>
     </select>
+    <CSVExportButton
+          records={records}
+          filename="delayes_vs_ontime_taxpayer.csv"
+          buttonLabel="Download Delayed vs On-Time Returns Taxpayer List"
+        />
   </div>
   <Chart options={options} series={series} type="pie" height={350} />
   </>

@@ -76,9 +76,23 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
           startDate,
           endDate
         );
-        const filteredData = response.map(({ interest_expense_png, interest_expense_foreign, ...rest }) => rest);
+       // const filteredData = response.map(({ interest_expense_png, interest_expense_foreign, ...rest }) => rest);
+       const result = [];
 
-        setRecords(filteredData);
+       response.forEach(entry => {
+         const { superannuation_png, superannuation_foreign, tax_period_year, records } = entry;
+       
+         records.forEach(record => {
+           result.push({
+             tin: record.tin,
+             taxpayer_name: record.taxpayer_name,
+             tax_period_year,
+             superannuation_png,
+             superannuation_foreign
+           });
+         });
+       });
+        setRecords(result);
         //var chart_Data = response;
         var superannuation_png = 0;
         var superannuation_foreign = 0;

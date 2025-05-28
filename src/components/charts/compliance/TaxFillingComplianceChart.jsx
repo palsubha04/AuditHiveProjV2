@@ -2,6 +2,7 @@ import { Download, Tally1 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { Button, Card, Col, Row } from "react-bootstrap";
+import CSVExportButton from "../../CSVExportButton";
 
 const sampleData = {
   start_date: "01-01-2020",
@@ -73,23 +74,66 @@ const sampleData = {
     },
   },
 };
+const monthMap = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
+
 
 const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
   console.log("taxFilingComplianceData", taxFilingComplianceData);
   const [filterData, setFilterData] = useState(
-    taxFilingComplianceData ? sampleData["gst"] ?? {} : {}
+    taxFilingComplianceData ? taxFilingComplianceData["gst"] ?? {} : {}
   );
+  const [records, setRecords] = useState([]);
 
   const defaultCategory = "gst";
   useEffect(() => {
     if (taxFilingComplianceData?.[defaultCategory]) {
       setFilterData(taxFilingComplianceData[defaultCategory]);
+      const result = Object.entries(
+        taxFilingComplianceData[defaultCategory]
+      ).flatMap(([category, { records }]) =>
+        records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+          Tin: tin,
+          'Taxpayer Name': taxpayer_name,
+          'Tax Period Year': tax_period_year,
+          'Tax Period Month': monthMap[tax_period_month],
+          Segmentation: category,
+        }))
+      );
+
+      setRecords(result);
+     
     }
   }, [taxFilingComplianceData]);
 
   const changeCategoryData = (category) => {
     const selectedData = taxFilingComplianceData?.[category] ?? {};
     setFilterData(selectedData);
+    const result = Object.entries(
+      selectedData
+    ).flatMap(([category, { records }]) =>
+      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+        Tin: tin,
+        'Taxpayer Name': taxpayer_name,
+        'Tax Period Year': tax_period_year,
+        'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
+        Segmentation: category,
+      }))
+    );
+
+    setRecords(result);
   };
 
   // Define categories for x-axis
@@ -163,28 +207,28 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
     },
   };
 
-  const handleDownload = () => {
-    const rows = [["Category", "Taxpayer ID"]];
+  // const handleDownload = () => {
+  //   const rows = [["Category", "Taxpayer ID"]];
 
-    Object.entries(filterData).forEach(([category, info]) => {
-      if (info.taxpayers && Array.isArray(info.taxpayers)) {
-        info.taxpayers.forEach((taxpayerId) => {
-          rows.push([category, taxpayerId]);
-        });
-      }
-    });
+  //   Object.entries(filterData).forEach(([category, info]) => {
+  //     if (info.taxpayers && Array.isArray(info.taxpayers)) {
+  //       info.taxpayers.forEach((taxpayerId) => {
+  //         rows.push([category, taxpayerId]);
+  //       });
+  //     }
+  //   });
 
-    const csvContent = rows.map((row) => row.join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
+  //   const csvContent = rows.map((row) => row.join(",")).join("\n");
+  //   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  //   const url = URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "non_filing_taxpayers.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  //   const link = document.createElement("a");
+  //   link.href = url;
+  //   link.setAttribute("download", "non_filing_taxpayers.csv");
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
 
   return (
     <>
@@ -202,14 +246,22 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
               </span>
     <select
       
-      onChange={(e) => changeCategoryData(e.target.value)}
+      onChange={(e) => {
+        changeCategoryData(e.target.value)
+    }
+    }
       className='chart-filter'
     >
       <option value="gst">GST</option>
       <option value="swt">SWT</option>
       <option value="cit">CIT</option>
     </select>
-    <Button
+    <CSVExportButton
+          records={records}
+          filename="filing_vs_nonfiling.csv"
+          buttonLabel="Download Tax Filing vs Non Filing Taxpayer List"
+        />
+    {/* <Button
                 onClick={handleDownload}
                 className="mx-2"
                 tooltip="Download Non-Filing CSV"
@@ -218,7 +270,7 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
                 title="Download Non-Filing CSV"
               >
                 <Download />
-              </Button>
+              </Button> */}
   </div>
   <Chart options={options} series={series} type="bar" height={350} />
   </>
