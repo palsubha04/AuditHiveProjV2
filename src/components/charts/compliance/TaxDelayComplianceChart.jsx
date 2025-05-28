@@ -81,8 +81,8 @@ const monthMap = {
 };
 
 const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
-  const [selectedCategory, setSelectedCategory] = useState("gst");
-  const [selectedSegment, setSelectedSegment] = useState("large");
+  const [selectedCategory, setSelectedCategory] = useState('gst');
+  const [selectedSegment, setSelectedSegment] = useState('large');
   const [filterData, setFilterData] = useState({});
   const [records, setRecords] = useState([]);
   console.log("taxDelayComplianceData inside", taxDelayComplianceData);
@@ -110,7 +110,7 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
   const options = {
     chart: {
       width: 380,
-      type: "pie",
+      type: 'pie',
       toolbar: { show: true },
     },
     // tooltip: {
@@ -129,7 +129,7 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
     //     `;
     //   },
     // },
-    labels: ["Delayed", "Non Delayed"],
+    labels: ['Delayed', 'Non Delayed'],
     responsive: [
       {
         breakpoint: 480,
@@ -138,7 +138,7 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
             width: 200,
           },
           legend: {
-            position: "bottom",
+            position: 'bottom',
           },
         },
       },
@@ -158,78 +158,6 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
   };
 
   return (
-    // <Card className="mb-4 box-background">
-    //   <Card.Body>
-    //     <Row className="mb-4">
-    //       <Col>
-    //         <div
-    //           style={{
-    //             display: "flex",
-    //             alignItems: "center",
-    //             marginBottom: 16,
-    //           }}
-    //         >
-    //           <h4
-    //             className="mb-0 me-3 fw-bold"
-    //             style={{ color: "#6366F1", fontSize: "22px" }}
-    //           >
-    //             Delayed vs On-Time Returns
-    //           </h4>
-    //           <Tally1 style={{ color: "#7c879d" }} />
-    //           <span
-    //             style={{
-    //               color: "#7c879d",
-    //               fontSize: "16px",
-    //               marginRight: "10px",
-    //             }}
-    //           >
-    //             Filter By :{" "}
-    //           </span>
-
-    //           <select
-    //             value={selectedCategory}
-    //             onChange={(e) => {
-    //               const newCategory = e.target.value;
-    //               const industryList = Object.keys(
-    //                 taxDelayComplianceData?.[newCategory] || {}
-    //               );
-    //               const firstIndustry = industryList[0] || "";
-    //               setSelectedCategory(newCategory);
-    //               setSelectedSegment("large");
-    //             }}
-    //             style={{
-    //               padding: "4px 8px",
-    //               borderRadius: 4,
-    //               border: "1px solid #ccc",
-    //               marginRight: "5px",
-    //             }}
-    //           >
-    //             <option value="gst">GST</option>
-    //             <option value="swt">SWT</option>
-    //             <option value="cit">CIT</option>
-    //           </select>
-
-    //           <select
-    //             style={{
-    //               padding: "4px 8px",
-    //               borderRadius: 4,
-    //               border: "1px solid #ccc",
-    //               width: "10rem",
-    //             }}
-    //             value={selectedSegment}
-    //             onChange={(e) => setSelectedSegment(e.target.value)}
-    //           >
-    //             <option value="large">Large</option>
-    //             <option value="medium">Medium</option>
-    //             <option value="small">Small</option>
-    //             <option value="micro">Micro</option>
-    //           </select>
-    //         </div>
-    //       </Col>
-    //     </Row>
-    //     <Chart options={options} series={series} type="pie" height={350} />
-    //   </Card.Body>
-    // </Card>
     <>
     <div style={{ display: "flex", alignItems: "center", marginBottom: 16 }}>
     <span className='chart-headers'>Delayed vs On-Time Returns</span>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
-import './charts.css'
+import './charts.css';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 const MonthlySalesTaxSummaryChart = ({ salesData }) => {
   let chartData = {};
@@ -79,14 +80,19 @@ const MonthlySalesTaxSummaryChart = ({ salesData }) => {
     },
   };
   return (
-    <div>
-      <Chart
-        options={chartOptions}
-        series={chartSeries}
-        type="line"
-        height={430}
-      />
-    </div>
+    <>
+      <CardHeader className="chart-card-header">
+        <div className="chart-headers">GST Sales Comparison</div>
+      </CardHeader>
+      <CardBody>
+        <Chart
+          options={chartOptions}
+          series={chartSeries}
+          type="line"
+          height={430}
+        />
+      </CardBody>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
-import './charts.css'
+import './charts.css';
+import { CardBody, CardHeader } from 'react-bootstrap';
 
 const EmployeeLineChart = ({ data }) => {
   // let employeeData = {};
@@ -87,12 +88,19 @@ const EmployeeLineChart = ({ data }) => {
     },
   };
   return (
-    <Chart
-      options={employeeLineOptions}
-      series={employeeLineSeries}
-      type="line"
-      height={430}
-    />
+    <>
+      <CardHeader className="chart-card-header">
+        <div className="chart-headers">Employees on Payroll vs Paid SWT</div>
+      </CardHeader>
+      <CardBody>
+        <Chart
+          options={employeeLineOptions}
+          series={employeeLineSeries}
+          type="line"
+          height={430}
+        />
+      </CardBody>
+    </>
   );
 };
 
