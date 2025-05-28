@@ -209,38 +209,12 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
         />
   </div>
   <Chart
-      <CardHeader className="chart-card-header">
-        <span className="chart-headers"> Profit vs Loss</span>
-        {/* <Tally1 style={{ color: '#7c879d' }} /> */}
-        <div>
-          <span
-            style={{
-              color: '#7c879d',
-              fontSize: '16px',
-              marginRight: '10px',
-            }}
-          >
-            Filter By :{' '}
-          </span>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="chart-filter"
-          >
-            <option value="gst">GST</option>
-            <option value="swt">SWT</option>
-            <option value="cit">CIT</option>
-          </select>
-        </div>
-      </CardHeader>
-      <CardBody>
-        <Chart
           options={chartOptions}
           series={chartSeries}
           type="line"
           height={350}
         />
-      </CardBody>
+     
     </>
   );
 };
