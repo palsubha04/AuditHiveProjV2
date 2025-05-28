@@ -4,7 +4,21 @@ import ReactApexChart from 'react-apexcharts';
 import ApexCharts from 'apexcharts';
 import './charts.css';
 import CSVExportButton from '../CSVExportButton';
-import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
+import { CardBody, CardHeader } from 'react-bootstrap';
+const monthMap = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
 
 const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
   const [selectedCategory, setSelectedCategory] = useState('gst');
@@ -23,9 +37,11 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
       setFilteredData(rules);
       if (source === 'Risk Assessment') {
         const result = rules.flatMap(({ rule, records }) =>
-          records.map(({ tin, taxpayer_name }) => ({
+          records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month  }) => ({
             Tin: tin,
             'Taxpayer Name': taxpayer_name,
+            'Tax Period Year': tax_period_year,
+          'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
             Rule: rule,
           }))
         );
@@ -154,6 +170,13 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
             />
           )}
         </div>
+        {source === 'Risk Assessment' && (
+          <CSVExportButton
+            records={records}
+            filename="frequency_by_risk_anomalies_taxpayers.csv"
+            buttonLabel="Download Frequency Of Risk Anomalies Taxpayer List"
+          />
+        )}
       </CardHeader>
 
       {/* Chart */}
