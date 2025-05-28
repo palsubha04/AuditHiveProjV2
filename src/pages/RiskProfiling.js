@@ -598,8 +598,8 @@ function RiskProfiling() {
                 </CardBody>
               </Card>
             </div>
-            <div className="d-flex" style={{ gap: "32px" }}>
-              <Card className="chart-cards-half">
+            <div className="d-flex flex-column" style={{ gap: "32px" }}>
+              <Card className="chart-cards-full">
                 <CardBody>
                   <div className="chart-big-heading">GST Sales Comparison</div>
                   {monthlySalesLoading ? (
@@ -623,7 +623,7 @@ function RiskProfiling() {
                   )}
                 </CardBody>
               </Card>
-              <Card className="chart-cards-half">
+              <Card className="chart-cards-full">
                 <CardBody>
                   <div className="chart-big-heading">
                     GST Payable vs GST refundable
@@ -655,8 +655,8 @@ function RiskProfiling() {
                 </CardBody>
               </Card>
             </div>
-            <div className="d-flex" style={{ gap: "32px" }}>
-              <Card className="chart-cards-half">
+            <div className="d-flex flex-column" style={{ gap: "32px" }}>
+              <Card className="chart-cards-full">
                 <CardBody>
                   <div className="chart-big-heading">
                     Employees on Payroll vs Paid SWT
@@ -685,7 +685,7 @@ function RiskProfiling() {
                   )}
                 </CardBody>
               </Card>
-              <Card className="chart-cards-half">
+              <Card className="chart-cards-full">
                 <CardBody>
                   <div className="chart-big-heading">
                     SWT Salaries Comparison
@@ -703,7 +703,11 @@ function RiskProfiling() {
                       </div>
                     </div>
                   ) : (
-                    <SwtSalariesChart data={swtSalariesComparisonData} />
+                    <SwtSalariesChart
+                      data={swtSalariesComparisonData}
+                      start_date={dateRange.start_date}
+                      end_date={dateRange.end_date}
+                    />
                   )}
                 </CardBody>
               </Card>
