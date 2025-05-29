@@ -1,7 +1,8 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
+import ApexCharts from 'apexcharts';
 import '../charts.css';
-import { CardBody, CardHeader } from 'react-bootstrap';
+import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 
 const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
   const series = [
@@ -23,7 +24,9 @@ const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
 
   const options = {
     chart: {
+      id: 'gst-benchmark-profiling',
       type: 'bar',
+      toolbar: { show: false },
     },
     plotOptions: {
       bar: {
@@ -100,11 +103,53 @@ const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
     },
   };
 
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('gst-benchmark-profiling');
+    if (!chart) return;
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'gst-benchmark-profiling.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'gst-benchmark-profiling.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'gst-benchmark-profiling',
+      });
+    }
+  };
+
   return (
     <>
       <CardHeader className="chart-card-header">
-        <div className="chart-headers">
-          GST Comparison - Payable Vs Refundable
+        <div className="chart-headers d-flex flex-row gap-5 align-items-center">
+          <div>GST Comparison - Payable Vs Refundable</div>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-default"
+              size="sm"
+              className="download-dropdown-btn"
+            >
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>
+                Download PNG
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>
+                Download CSV
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </CardHeader>
       <CardBody>

@@ -1,37 +1,13 @@
-import { Tally1 } from 'lucide-react';
-import React, { use, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import Chart from 'react-apexcharts';
+import ApexCharts from 'apexcharts';
 import '../charts.css';
-import { CardBody, CardHeader } from 'react-bootstrap';
-
-var riskData = {
-  gst: {
-    High: {
-      count: 2,
-      assessments: [1, 2],
-    },
-    Moderate: {
-      count: 1,
-      assessments: [3],
-    },
-  },
-  swt: {
-    High: {
-      count: 1,
-      assessments: [5],
-    },
-    Low: {
-      count: 2,
-      assessments: [7, 8],
-    },
-  },
-};
+import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 
 const RiskBreakdownCategoryProfilingChart = ({
   riskBreakdownByCategoryDataProfiling,
 }) => {
-  //const [filterData, setFilterData] = useState(riskData ? riskData["gst"] ?? {} : {});
   const [selectedCategory, setSelectedCategory] = useState('gst');
   const [filteredData, setFilteredData] = useState([]);
 
@@ -75,18 +51,15 @@ const RiskBreakdownCategoryProfilingChart = ({
         }
       }
     }
-
-    console.log('Chart Labels:', labels);
-    console.log('Chart Series:', series);
-
     return { labels, series };
   }, [filteredData]);
 
   const options = {
     chart: {
+      id: 'risk-breakdown-catergory',
       type: 'pie',
       height: 350,
-      toolbar: { show: true },
+      toolbar: { show: false },
     },
     labels: labels,
     noData: {
@@ -124,33 +97,61 @@ const RiskBreakdownCategoryProfilingChart = ({
     },
   };
 
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('risk-breakdown-catergory');
+    if (!chart) return;
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'risk-breakdown-catergory.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'risk-breakdown-catergory.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'risk-breakdown-catergory',
+      });
+    }
+  };
   return (
     <div>
       <CardHeader className="chart-card-header">
         <div className="chart-headers">Risk Breakdown Category</div>
-        {/* <Tally1 style={{ color: '#7c879d' }} /> */}
-        <div style={{ display: 'flex' }}>
-          <span
-            style={{ color: '#7c879d', fontSize: '16px', marginRight: '10px' }}
+        <div className="d-flex flex-row gap-2 align-items-center">
+          <select
+            className="chart-filter"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            Filter By :{' '}
-          </span>
-          <div>
-            <select
-              style={{
-                marginRight: 8,
-                padding: '4px 8px',
-                borderRadius: 4,
-                border: '1px solid #ccc',
-              }}
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+            <option value="gst">GST</option>
+            <option value="swt">SWT</option>
+            <option value="cit">CIT</option>
+          </select>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-default"
+              size="sm"
+              className="download-dropdown-btn"
             >
-              <option value="gst">GST</option>
-              <option value="swt">SWT</option>
-              <option value="cit">CIT</option>
-            </select>
-          </div>
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>
+                Download PNG
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>
+                Download CSV
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </CardHeader>
       <CardBody>
