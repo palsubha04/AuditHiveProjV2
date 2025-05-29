@@ -1,7 +1,8 @@
 import { Download, Tally1 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import ApexCharts from "apexcharts";
+import { Button, Card, CardBody, CardHeader, Col, Dropdown, Row } from "react-bootstrap";
 
 const sampleData = {
   start_date: '01-01-2020',
@@ -113,7 +114,7 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
       );
 
       setRecords(result);
-     
+
     }
   }, [taxFilingComplianceData]);
 
@@ -152,9 +153,10 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
 
   var options = {
     chart: {
+      id: 'tax-filing-non-filing-chart',
       type: 'bar',
       height: 350,
-      toolbar: { show: true },
+      toolbar: { show: false },
     },
     plotOptions: {
       bar: {
@@ -208,19 +210,9 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
 
   const handleDownload = () => {
     const rows = [["Category", "Taxpayer ID"]];
-
-  //   Object.entries(filterData).forEach(([category, info]) => {
-  //     if (info.taxpayers && Array.isArray(info.taxpayers)) {
-  //       info.taxpayers.forEach((taxpayerId) => {
-  //         rows.push([category, taxpayerId]);
-  //       });
-  //     }
-  //   });
-
     const csvContent = rows.map((row) => row.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
     link.href = url;
     link.setAttribute("download", "non_filing_taxpayers.csv");
@@ -229,105 +221,74 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
     document.body.removeChild(link);
   };
 
+  // Toolbar functions
+  const handleDownloadExport = async (format) => {
+    const chart = await ApexCharts.getChartByID('tax-filing-non-filing-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'tax-filing-non-filing-chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'tax-filing-non-filing-chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'tax-filing-non-filing-chart',
+      });
+    }
+  };
+
   return (
     <>
-    <div style={{ display: "flex", alignItems: "center", marginBottom: 16 }}>
-    <span className='chart-headers'>Tax Filing vs Non Filing</span>
-    <Tally1 style={{ color: "#7c879d" }} />
-               <span
-                style={{
-                  color: "#7c879d",
-                  fontSize: "16px",
-                  marginRight: "10px",
-                }}
-              >
-                Filter By :{" "}
-              </span>
-    <select
-      
-      onChange={(e) => changeCategoryData(e.target.value)}
-      className='chart-filter'
-    >
-      <option value="gst">GST</option>
-      <option value="swt">SWT</option>
-      <option value="cit">CIT</option>
-    </select>
-    <Button
-                onClick={handleDownload}
-                className="mx-2"
-                tooltip="Download Non-Filing CSV"
-                variant="outline-primary"
-                size="sm"
-                title="Download Non-Filing CSV"
-              >
-                <Download />
-              </Button>
-  </div>
-  <Chart options={options} series={series} type="bar" height={350} />
-  </>
-    // <Card className="mb-4 box-background">
-    //   <Card.Body>
-    //     <Row className="mb-4">
-    //       <Col>
-    //         <div
-    //           style={{
-    //             display: "flex",
-    //             alignItems: "center",
-    //             marginBottom: 16,
-    //           }}
-    //         >
-    //           <h4
-    //             className="mb-0 me-3 fw-bold"
-    //             style={{ color: "#6366F1", fontSize: "22px" }}
-    //           >
-    //             Tax Filing vs Non Filing
-    //           </h4>
-    //           <Tally1 style={{ color: "#7c879d" }} />
-    //           <span
-    //             style={{
-    //               color: "#7c879d",
-    //               fontSize: "16px",
-    //               marginRight: "10px",
-    //             }}
-    //           >
-    //             Filter By :{" "}
-    //           </span>
-
-    //           <select
-    //             onChange={(e) => changeCategoryData(e.target.value)}
-    //             style={{
-    //               padding: "4px 8px",
-    //               borderRadius: 4,
-    //               border: "1px solid #ccc",
-    //             }}
-    //           >
-    //             <option value="gst">GST</option>
-    //             <option value="swt">SWT</option>
-    //             <option value="cit">CIT</option>
-    //           </select>
-    //           <Button
-    //             onClick={handleDownload}
-    //             className="mx-2"
-    //             tooltip="Download Non-Filing CSV"
-    //             variant="outline-primary"
-    //             size="sm"
-    //             title="Download Non-Filing CSV"
-    //           >
-    //             <Download />
-    //           </Button>
-    //         </div>
-    //       </Col>
-    //     </Row>
-    //     <Chart options={options} series={series} type="bar" height={350} />
-    //     {/* <ReactApexChart
-    //       options={chartOptions}
-    //       series={chartData.series}
-    //       type="line"
-    //       height={350}
-    //     /> */}
-    //     chart
-    //   </Card.Body>
-    // </Card>
+      <CardHeader className="chart-card-header">
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <div className="d-flex align-items-center gap-2">
+            <span className="chart-headers">Tax Filing vs Non Filing</span>
+            <select
+              onChange={(e) => changeCategoryData(e.target.value)}
+              className='chart-filter'
+            >
+              <option value="gst">GST</option>
+              <option value="swt">SWT</option>
+              <option value="cit">CIT</option>
+            </select>
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+                {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+                Export
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleDownloadExport('png')}>Download PNG</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleDownloadExport('csv')}>Download CSV</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button
+              onClick={handleDownload}
+              variant="outline-default"
+              className="chart-filter"
+              title="Download Non-Filing CSV"
+              style={{ background: "#fff", padding: '5px', cursor: 'pointer' }}
+            >
+              <Download style={{ height: "18px", width: "18px", color: '#5671ff' }} />
+            </Button>
+          </div>
+        </div>
+      </CardHeader>
+      <CardBody>
+        <Chart options={options} series={series} type="bar" height={400} />
+      </CardBody>
+    </>
   );
 };
 

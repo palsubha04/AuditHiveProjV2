@@ -69,22 +69,22 @@ const Compliance = () => {
     );
     //  }
 
-        if (!profitLossComplianceData) {
-          dispatch(
-            fetchProfitLossCompliance({
-              start_date: dateRange.start_date,
-              end_date: dateRange.end_date,
-            })
-          );
-        }
-    
-        console.log('Dispatching for new range:', currentKey);
-        fetchedRangeRef.current = currentKey;
-      }, [dateRange, dispatch]);
-  
-    const handleFilterChange = (range) => {
-      setDateRange(range);
-    };
+    //   if (!profitLossComplianceData) {
+    dispatch(
+      fetchProfitLossCompliance({
+        start_date: dateRange.start_date,
+        end_date: dateRange.end_date,
+      })
+    );
+    //   }
+
+    console.log('Dispatching for new range:', currentKey);
+    fetchedRangeRef.current = currentKey;
+  }, [dateRange, dispatch]);
+
+  const handleFilterChange = (range) => {
+    setDateRange(range);
+  };
 
   console.log('taxDelayComplianceData', taxDelayComplianceData);
   return (
@@ -92,6 +92,11 @@ const Compliance = () => {
       <div className="page-container">
         <div className="top-filter-class">
           <TenureFilter onFilterChange={handleFilterChange} />
+          <div className="d-flex ps-2 gap-2 justify-center align-items-center">
+            <span>{dateRange.start_date}</span>
+            <span>to</span>
+            <span>{dateRange.end_date}</span>
+          </div>
         </div>
         <div className="content">
           <div className="d-flex flex-column" style={{ gap: '32px' }}>
@@ -104,11 +109,9 @@ const Compliance = () => {
                     </Spinner>
                   </div>
                 ) : (
-                  <div className="p-0 w-100">
-                    <TaxFillingComplianceChart
-                      taxFilingComplianceData={taxFilingComplianceData}
-                    />
-                  </div>
+                  <TaxFillingComplianceChart
+                    taxFilingComplianceData={taxFilingComplianceData}
+                  />
                 )}
               </Card>
             </div>
@@ -121,27 +124,21 @@ const Compliance = () => {
                     </Spinner>
                   </div>
                 ) : (
-                  <div className="p-0 w-100">
-                    <TaxDelayComplianceChart
-                      taxDelayComplianceData={taxDelayComplianceData}
-                    />
-                  </div>
+                  <TaxDelayComplianceChart
+                    taxDelayComplianceData={taxDelayComplianceData}
+                  />
                 )}
               </Card>
               <Card className='chart-cards-half'>
-                <CardBody>
-                  {profitLossComplianceLoading ? (
-                    <div className='spinner-div'>
-                      <Spinner animation="border" role="status" variant="primary">
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  ) : (
-                    <div className="p-0 w-100">
-                      <ProfitLossComplianceChart sampleData={profitLossComplianceData}/>
-                    </div>
-                  )}
-                </CardBody>
+                {profitLossComplianceLoading ? (
+                  <div className='spinner-div'>
+                    <Spinner animation="border" role="status" variant="primary">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </div>
+                ) : (
+                  <ProfitLossComplianceChart profitLossComplianceData={profitLossComplianceData} />
+                )}
               </Card>
             </div>
           </div>

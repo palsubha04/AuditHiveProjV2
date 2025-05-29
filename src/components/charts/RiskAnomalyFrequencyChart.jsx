@@ -174,8 +174,8 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
           {source === 'Risk Assessment' && (
             <CSVExportButton
               records={records}
-              filename="risk_taxpayers.csv"
-              buttonLabel="Download Risk Breakdown By Category Taxpayer List"
+              filename="frequency_by_risk_anomalies_taxpayers.csv"
+              buttonLabel="Download Frequency Of Risk Anomalies Taxpayer List"
             />
           )}
           {source === 'Risk Profiling' && (

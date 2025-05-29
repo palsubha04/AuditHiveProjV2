@@ -1,83 +1,11 @@
 import { Tally1 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import { Card, Col, Row } from "react-bootstrap";
+import ApexCharts from "apexcharts";
+import { Card, CardBody, CardHeader, Col, Dropdown, Row } from "react-bootstrap";
 import CSVExportButton from "../../CSVExportButton";
 
-// const sampleData = {
-//   start_date: "01-01-2020",
-//   end_date: "01-01-2022",
-//   gst: {
-//     large: {
-//       profit_making_taxpayers: 450,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     medium: {
-//       profit_making_taxpayers: 400,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     small: {
-//       profit_making_taxpayers: 350,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     micro: {
-//       profit_making_taxpayers: 150,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//   },
-//   swt: {
-//     large: {
-//       profit_making_taxpayers: 350,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     medium: {
-//       profit_making_taxpayers: 440,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     small: {
-//       profit_making_taxpayers: 320,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     micro: {
-//       profit_making_taxpayers: 150,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//   },
-//   cit: {
-//     large: {
-//       profit_making_taxpayers: 450,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     medium: {
-//       profit_making_taxpayers: 400,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     small: {
-//       profit_making_taxpayers: 350,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//     micro: {
-//       profit_making_taxpayers: 150,
-//       loss_making_taxpayers: 50,
-//       total: 500,
-//     },
-//   },
-// };
-
 const entityTypes = ['large', 'medium', 'small', 'micro'];
-
-
 
 const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
   console.log("profitLossComplianceData from chart", profitLossComplianceData);
@@ -121,9 +49,10 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
 
     setChartOptions({
       chart: {
+        id: 'profit-loss-chart',
         type: 'line',
         height: 350,
-        toolbar: { show: true },
+        toolbar: { show: false },
       },
       stroke: {
         width: 3,
@@ -140,7 +69,7 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
         title: { text: 'Number of Taxpayers' },
         labels: { style: { fontWeight: 500, color: '#334155' } },
       },
-      legend: { position: 'top', fontWeight: 600 },
+      legend: { position: 'bottom' },
       colors: ['#2563eb', '#f97316'],
       markers: { size: 5 },
       tooltip: {
@@ -179,42 +108,74 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
 
   const isDataAvailable = profitLossComplianceData && profitLossComplianceData[selectedCategory];
 
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('profit-loss-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'profit-loss-chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'profit-loss-chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'profit-loss-chart',
+      });
+    }
+  };
+
   return (
     <>
-    <div style={{ display: "flex", alignItems: "center", marginBottom: 16 }}>
-    <span className='chart-headers'> Profit vs Loss</span>
-    <Tally1 style={{ color: "#7c879d" }} />
-               <span
-                style={{
-                  color: "#7c879d",
-                  fontSize: "16px",
-                  marginRight: "10px",
-                }}
-              >
-                Filter By :{" "}
-              </span>
-    <select
-      value={selectedCategory}
-      onChange={(e) => setSelectedCategory(e.target.value)}
-      className='chart-filter'
-    >
-      <option value="gst">GST</option>
-      <option value="swt">SWT</option>
-      <option value="cit">CIT</option>
-    </select>
-    <CSVExportButton
-          records={records}
-          filename="profit_loss_taxpayers.csv"
-          buttonLabel="Download Profit vs Loss Taxpayer List"
-        />
-  </div>
-  <Chart
+      <CardHeader className="chart-card-header">
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <div className="d-flex align-items-center gap-2">
+            <span className="chart-headers">Profit vs Loss</span>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className='chart-filter'
+            >
+              <option value="gst">GST</option>
+              <option value="swt">SWT</option>
+              <option value="cit">CIT</option>
+            </select>
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+                Export
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <CSVExportButton
+              records={records}
+              filename="profit_loss_taxpayers.csv"
+              buttonLabel="Download Profit vs Loss Taxpayer List"
+            />
+          </div>
+        </div>
+      </CardHeader>
+      <CardBody>
+        <Chart
           options={chartOptions}
           series={chartSeries}
           type="line"
-          height={350}
+          height={400}
         />
-     
+      </CardBody>
     </>
   );
 };
