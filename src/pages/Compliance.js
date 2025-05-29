@@ -69,20 +69,22 @@ const Compliance = () => {
     );
     //  }
 
-    dispatch(
-      fetchProfitLossCompliance({
-        start_date: dateRange.start_date,
-        end_date: dateRange.end_date,
-      })
-    );
-
-    console.log('Dispatching for new range:', currentKey);
-    fetchedRangeRef.current = currentKey;
-  }, [dateRange, dispatch]);
-
-  const handleFilterChange = (range) => {
-    setDateRange(range);
-  };
+     //   if (!profitLossComplianceData) {
+          dispatch(
+            fetchProfitLossCompliance({
+              start_date: dateRange.start_date,
+              end_date: dateRange.end_date,
+            })
+          );
+     //   }
+    
+        console.log('Dispatching for new range:', currentKey);
+        fetchedRangeRef.current = currentKey;
+      }, [dateRange, dispatch]);
+  
+    const handleFilterChange = (range) => {
+      setDateRange(range);
+    };
 
   console.log('taxDelayComplianceData', taxDelayComplianceData);
   return (
