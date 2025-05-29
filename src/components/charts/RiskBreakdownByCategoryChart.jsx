@@ -20,7 +20,7 @@ const monthMap = {
 };
 
 const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
-  //console.log("data received in RiskBreakdownByCategoryChart", riskBreakdownByCategoryData);
+  console.log("data received in RiskBreakdownByCategoryChart", riskBreakdownByCategoryData);
   const [filterData, setFilterData] = useState(
     riskBreakdownByCategoryData ? riskBreakdownByCategoryData['gst'] ?? {} : {}
   );
@@ -33,12 +33,13 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
       const result = Object.entries(
         riskBreakdownByCategoryData[defaultCategory]
       ).flatMap(([category, { records }]) =>
-        records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+        records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month,risk_type }) => ({
           Tin: tin,
           'Taxpayer Name': taxpayer_name,
           'Tax Period Year': tax_period_year,
           'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
           Segmentation: category,
+          'Risk Type': risk_type,
         }))
       );
 
