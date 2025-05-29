@@ -40,15 +40,15 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
   }, [startDate, endDate]);
 
   const formatCurrency = (value) => {
-    if (value === undefined || value === null) return 'K0.00';
+    if (value === undefined || value === null) return 'PGK 0.00';
     if (value >= 1e9) {
-      return `K${(value / 1e9).toFixed(2)}B`;
+      return `PGK ${(value / 1e9).toFixed(2)}B`;
     } else if (value >= 1e6) {
-      return `K${(value / 1e6).toFixed(2)}M`;
+      return `PGK ${(value / 1e6).toFixed(2)}M`;
     } else if (value >= 1e3) {
-      return `K${(value / 1e3).toFixed(2)}K`;
+      return `PGK ${(value / 1e3).toFixed(2)}K`;
     }
-    return `K${value.toFixed(2)}`;
+    return `PGK  ${value.toFixed(2)}`;
   };
 
   const formatNumber = (value) => {

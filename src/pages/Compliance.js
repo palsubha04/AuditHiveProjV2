@@ -69,22 +69,22 @@ const Compliance = () => {
     );
     //  }
 
-     //   if (!profitLossComplianceData) {
-          dispatch(
-            fetchProfitLossCompliance({
-              start_date: dateRange.start_date,
-              end_date: dateRange.end_date,
-            })
-          );
-     //   }
-    
-        console.log('Dispatching for new range:', currentKey);
-        fetchedRangeRef.current = currentKey;
-      }, [dateRange, dispatch]);
-  
-    const handleFilterChange = (range) => {
-      setDateRange(range);
-    };
+    //   if (!profitLossComplianceData) {
+    dispatch(
+      fetchProfitLossCompliance({
+        start_date: dateRange.start_date,
+        end_date: dateRange.end_date,
+      })
+    );
+    //   }
+
+    console.log('Dispatching for new range:', currentKey);
+    fetchedRangeRef.current = currentKey;
+  }, [dateRange, dispatch]);
+
+  const handleFilterChange = (range) => {
+    setDateRange(range);
+  };
 
   console.log('taxDelayComplianceData', taxDelayComplianceData);
   return (
@@ -92,6 +92,11 @@ const Compliance = () => {
       <div className="page-container">
         <div className="top-filter-class">
           <TenureFilter onFilterChange={handleFilterChange} />
+          <div className="d-flex ps-2 gap-2 justify-center align-items-center">
+            <span>{dateRange.start_date}</span>
+            <span>to</span>
+            <span>{dateRange.end_date}</span>
+          </div>
         </div>
         <div className="content">
           <div className="d-flex flex-column" style={{ gap: '32px' }}>

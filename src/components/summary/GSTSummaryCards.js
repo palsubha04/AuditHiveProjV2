@@ -33,13 +33,13 @@ const GSTSummaryCards = ({ startDate, endDate }) => {
 
   const formatCurrency = (value) => {
     if (value >= 1e9) {
-      return (value / 1e9).toFixed(2) + 'B';
+      return 'PGK ' + (value / 1e9).toFixed(2) + 'B';
     } else if (value >= 1e6) {
-      return (value / 1e6).toFixed(2) + 'M';
+      return 'PGK ' + (value / 1e6).toFixed(2) + 'M';
     } else if (value >= 1e3) {
-      return (value / 1e3).toFixed(2) + 'K';
+      return 'PGK ' + (value / 1e3).toFixed(2) + 'K';
     }
-    return value;
+    return 'PGK ' + value;
   };
 
   const formatNumber = (value) => {
@@ -63,19 +63,19 @@ const GSTSummaryCards = ({ startDate, endDate }) => {
       </Card>
       <Card className='widget-card' style={{ background: '#47C99E'}}>
         <MetricCard
-          value={formatNumber(summary.total_sales_income)}
+          value={formatCurrency(summary.total_sales_income)}
           label="Total Sales Income"
         />
       </Card>
       <Card className='widget-card' style={{ background: '#F96992'}}>
         <MetricCard
-          value={formatNumber(summary.total_gst_payable)}
+          value={formatCurrency(summary.total_gst_payable)}
           label="Total GST Payable"
         />
       </Card>
       <Card className='widget-card' style={{ background: '#FFA56D'}}>
         <MetricCard
-          value={formatNumber(summary.total_gst_refundable)}
+          value={formatCurrency(summary.total_gst_refundable)}
           label="Total GST Refundable"
         />
       </Card>
