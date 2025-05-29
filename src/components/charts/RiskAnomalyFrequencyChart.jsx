@@ -37,11 +37,11 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
       setFilteredData(rules);
       if (source === 'Risk Assessment') {
         const result = rules.flatMap(({ rule, records }) =>
-          records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month  }) => ({
+          records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
             Tin: tin,
             'Taxpayer Name': taxpayer_name,
             'Tax Period Year': tax_period_year,
-          'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
+            'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
             Rule: rule,
           }))
         );
@@ -65,7 +65,7 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
       type: 'pie',
       height: 350,
       toolbar: { show: false },
-      
+
     },
     tooltip: {
       custom: function ({ series, seriesIndex, w }) {
@@ -165,18 +165,11 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
           {source === 'Risk Assessment' && (
             <CSVExportButton
               records={records}
-              filename="risk_taxpayers.csv"
-              buttonLabel="Download Risk Breakdown By Category Taxpayer List"
+              filename="frequency_by_risk_anomalies_taxpayers.csv"
+              buttonLabel="Download Frequency Of Risk Anomalies Taxpayer List"
             />
           )}
         </div>
-        {source === 'Risk Assessment' && (
-          <CSVExportButton
-            records={records}
-            filename="frequency_by_risk_anomalies_taxpayers.csv"
-            buttonLabel="Download Frequency Of Risk Anomalies Taxpayer List"
-          />
-        )}
       </CardHeader>
 
       {/* Chart */}
