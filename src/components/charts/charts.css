@@ -19,6 +19,7 @@
 
 .chart-filter{
     border: solid 0.6px #e6edff;
+    background: #fff;
     border-radius: 10px;
     padding: 3px;
 }
@@ -41,4 +42,15 @@
 
 .download-dropdown-btn::after {
     display: inline-block;
+}
+
+.chart-download-btn {
+    background: #fff;
+    border-radius: 10px;
+    color: #05004E;
+    padding: 5px 7px;
+    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 28px;
 }

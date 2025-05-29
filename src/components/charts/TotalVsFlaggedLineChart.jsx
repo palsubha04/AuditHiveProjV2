@@ -3,7 +3,7 @@ import ApexCharts from 'apexcharts'; // Added useRef
 import ReactApexChart from 'react-apexcharts';
 import './charts.css';
 // import CSVExportButton from '../CSVExportButton';
-import { CardBody, CardHeader } from 'react-bootstrap';
+import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 import { Menu } from 'lucide-react';
 import CSVExportButton from '../CSVExportButton';
 
@@ -79,14 +79,6 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
         height: 350,
         toolbar: {
           show: false, // Keep this true if you want default toolbar, or manage custom exports
-          tools: {
-            download: false, // Disable default download if using custom menu
-            zoomin: false,
-            zoomout: false,
-            zoom: false,
-            pan: false,
-            reset: false,
-          },
         },
       },
       stroke: {
@@ -104,7 +96,7 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
         title: { text: 'Number of Taxpayers' },
         labels: { style: { fontWeight: 500, color: '#334155' } },
       },
-      legend: { position: 'top', fontWeight: 600 },
+      legend: { position: 'bottom' },
       colors: ['#2563eb', '#f97316'],
       markers: { size: 5 },
       tooltip: {
@@ -145,31 +137,6 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
 
   const toggleMenu = () => setShowMenu(!showMenu);
 
-  const handleExport = async (format) => {
-    const chart = await ApexCharts.getChartByID('total-vs-flagged-chart');
-    if (!chart) return;
-
-    if (format === 'png') {
-      chart.dataURI().then(({ imgURI }) => {
-        const link = document.createElement('a');
-        link.href = imgURI;
-        link.download = 'total-vs-flagged-chart.png';
-        link.click();
-      });
-    } else if (format === 'svg') {
-      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
-        const link = document.createElement('a');
-        link.href = svgURI;
-        link.download = 'total-vs-flagged-chart.svg';
-        link.click();
-      });
-    } else if (format === 'csv') {
-      chart.exportToCSV({
-        filename: 'total-vs-flagged-data',
-      });
-    }
-  };
-
   // Logic for CSVExportButton if you want to use the `records` data
   const handleRecordsCSVExport = () => {
     // This is a placeholder for how you might trigger the CSV export for `records`
@@ -195,8 +162,34 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
     setShowMenu(false);
   };
 
-  const isDataAvailable =
-    totalTaxPayerVsRiskFlagged && totalTaxPayerVsRiskFlagged[selectedCategory];
+  const isDataAvailable = totalTaxPayerVsRiskFlagged && totalTaxPayerVsRiskFlagged[selectedCategory];
+
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('total-vs-flagged-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'total-vs-flagged-chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'total-vs-flagged-chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'total-vs-flagged-chart',
+      });
+    }
+  };
+
 
   return (
     <>
@@ -213,73 +206,33 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
             <option value="cit">CIT</option>
           </select>
         </div>
-        <CSVExportButton
-          records={records}
-          filename="risk_taxpayers.csv"
-          buttonLabel="Download Risk Taxpayer List"
-        />
-        <div style={{ position: 'relative' }}>
-          {' '}
-          {/* Container for menu positioning */}
-          <Menu onClick={toggleMenu} style={{ cursor: 'pointer' }} />
-          {showMenu && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '100%', // Position below the icon
-                right: 0,
-                backgroundColor: 'white',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                zIndex: 1000, // Ensure it's above other elements
-                minWidth: '150px',
-              }}
-            >
-              <ul style={{ listStyle: 'none', margin: 0, padding: '5px 0' }}>
-                <li
-                  onClick={() => handleExport('svg')}
-                  style={{ padding: '8px 15px', cursor: 'pointer' }}
-                  className="chart-menu-item"
-                >
-                  Download SVG
-                </li>
-                <li
-                  onClick={() => handleExport('png')}
-                  style={{ padding: '8px 15px', cursor: 'pointer' }}
-                  className="chart-menu-item"
-                >
-                  Download PNG
-                </li>
-                <li
-                  onClick={handleRecordsCSVExport} // Use this for your 'records' data
-                  // onClick={() => handleExport('csv')} // Use this for ApexCharts internal CSV export
-                  style={{ padding: '8px 15px', cursor: 'pointer' }}
-                  className="chart-menu-item"
-                >
-                  Download CSV
-                </li>
-              </ul>
-            </div>
-          )}
+        <div className='d-flex align-items-center gap-2'>
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+              {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <CSVExportButton
+            records={records}
+            filename="risk_taxpayers.csv"
+            buttonLabel="Download Risk Taxpayer List"
+          />
+
         </div>
       </CardHeader>
       <CardBody>
         <ReactApexChart
-          ref={chartRef} // Assign ref here
+          // ref={chartRef} // Assign ref here
           options={chartOptions}
           series={chartSeries}
           type="line"
         />
       </CardBody>
-      {/* <EmployeeLineChart options={chartOptions} series={chartSeries} /> */}
-      {/* {isDataAvailable ? (
-        <EmployeeLineChart options={chartOptions} series={chartSeries} />
-      ) : (
-        <div style={{ textAlign: 'center', padding: '40px 0', color: '#888' }}>
-          No data available for the selected category.
-        </div>
-      )} */}
     </>
   );
 };

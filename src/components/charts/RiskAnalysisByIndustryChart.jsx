@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
+import ApexCharts from 'apexcharts';
 import './charts.css';
-import { CardBody, CardHeader } from 'react-bootstrap';
+import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 
 const riskLevels = [
   'Critical Risk',
@@ -46,18 +47,19 @@ const RiskAnalysisByIndustryChart = ({ riskData }) => {
   const series =
     filteredData && typeof filteredData === 'object'
       ? riskLevels.map((risk) => ({
-          name: risk,
-          data: ['micro', 'small', 'medium', 'large'].map(
-            (size) => filteredData[size]?.[risk] || 0
-          ),
-        }))
+        name: risk,
+        data: ['micro', 'small', 'medium', 'large'].map(
+          (size) => filteredData[size]?.[risk] || 0
+        ),
+      }))
       : [];
 
   const options = {
     chart: {
+      id: 'risk-analysis-industry-chart',
       type: 'bar',
       stacked: false,
-      toolbar: { show: true },
+      toolbar: { show: false },
     },
     plotOptions: {
       bar: {
@@ -81,7 +83,7 @@ const RiskAnalysisByIndustryChart = ({ riskData }) => {
     },
     colors: ['#F36464', '#FF779D', '#f1c40f', '#FFD12C', '#00E096', '#34C759'],
     legend: {
-      position: 'top',
+      position: 'bottom',
     },
     tooltip: {
       shared: true,
@@ -99,46 +101,88 @@ const RiskAnalysisByIndustryChart = ({ riskData }) => {
     },
   };
 
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID('risk-analysis-industry-chart');
+    if (!chart) return;
+
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'risk-analysis-industry-chart.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'risk-analysis-industry-chart.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'risk-analysis-industry-chart',
+      });
+    }
+  };
+
   return (
     <>
       <CardHeader className="chart-card-header">
-        <span className="chart-headers">Risk Analysis By Industry</span>
+        <div className='d-flex justify-content-between align-items-center w-100'>
+          <div className='d-flex justify-content-between align-items-center gap-2'>
+            <span className="chart-headers">Risk Analysis By Industry</span>
 
-        <div>
-          <select
-            className="chart-filter"
-            value={selectedCategory}
-            onChange={(e) => {
-              const newCategory = e.target.value;
-              const industryList = Object.keys(riskData?.[newCategory] || {});
-              const firstIndustry = industryList[0] || '';
-              setSelectedCategory(newCategory);
-              setSelectedIndustry(firstIndustry);
-            }}
-          >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat.toUpperCase()}
-              </option>
-            ))}
-          </select>
-          <span className="mx-2" style={{ color: '#7c879d', fontSize: '16px' }}>
-            and
-          </span>
-          <select
-            className="chart-filter"
-            value={selectedIndustry}
-            onChange={(e) => setSelectedIndustry(e.target.value)}
-            disabled={!selectedCategory}
-          >
-            {industries.map((ind) => (
-              <option key={ind} value={ind}>
-                {ind.charAt(0).toUpperCase() +
-                  ind.slice(1).replaceAll('_', ' ')}
-              </option>
-            ))}
-          </select>
+            <div>
+              <select
+                className="chart-filter"
+                value={selectedCategory}
+                onChange={(e) => {
+                  const newCategory = e.target.value;
+                  const industryList = Object.keys(riskData?.[newCategory] || {});
+                  const firstIndustry = industryList[0] || '';
+                  setSelectedCategory(newCategory);
+                  setSelectedIndustry(firstIndustry);
+                }}
+              >
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+              <span className="mx-2" style={{ color: '#7c879d', fontSize: '16px' }}>
+                and
+              </span>
+              <select
+                className="chart-filter"
+                value={selectedIndustry}
+                onChange={(e) => setSelectedIndustry(e.target.value)}
+                disabled={!selectedCategory}
+              >
+                {industries.map((ind) => (
+                  <option key={ind} value={ind}>
+                    {ind.charAt(0).toUpperCase() +
+                      ind.slice(1).replaceAll('_', ' ')}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className='d-flex justify-content-between align-items-center gap-2'>
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+                {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+                Export
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
+
       </CardHeader>
       <CardBody>
         <Chart options={options} series={series} type="bar" height={400} />
