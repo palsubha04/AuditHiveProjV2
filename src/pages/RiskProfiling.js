@@ -33,14 +33,14 @@ import { fetchDelayedFiling } from '../slice/risk-profiling/delayedFilingsSlice'
 
 function RiskProfiling() {
   const [dateRange, setDateRange] = useState({
-    start_date: "01-01-2022",
-    end_date: "31-12-2022",
+    start_date: '01-01-2022',
+    end_date: '31-12-2022',
   });
   const dispatch = useDispatch();
-  const [selectedTIN, setSelectedTIN] = useState("");
+  const [selectedTIN, setSelectedTIN] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [tins, setTins] = useState([]);
   const [tinWithLabel, setTinWithLabel] = useState([]);
   const [tinLabels, setTinLabels] = useState([]);
@@ -130,7 +130,7 @@ function RiskProfiling() {
       const tinWithTaxpayerName = [];
       for (let i = 0; i < data.records.length; i++) {
         tinLabelList.push({
-          label: data.records[i].tin + " - " + data.records[i].taxpayer_name,
+          label: data.records[i].tin + ' - ' + data.records[i].taxpayer_name,
           value: data.records[i].tin,
         });
         tinWithTaxpayerName.push(
@@ -154,8 +154,8 @@ function RiskProfiling() {
         setIsDropdownOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Fix: Filter tinWithLabel instead of tins
@@ -378,10 +378,10 @@ function RiskProfiling() {
             <label
               style={{
                 fontWeight: 500,
-                fontSize: "14px",
-                whiteSpace: "nowrap",
-                display: "flex",
-                alignItems: "center",
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
               TIN
@@ -392,10 +392,10 @@ function RiskProfiling() {
             >
               {selectedTIN
                 ? selectedTIN +
-                  " - " +
+                  ' - ' +
                   (data?.records?.find((record) => record.tin === selectedTIN)
-                    ?.taxpayer_name || "N/A")
-                : "Select TIN"}{" "}
+                    ?.taxpayer_name || 'N/A')
+                : 'Select TIN'}{' '}
               <ChevronDown />
             </div>
             {isDropdownOpen && (
@@ -411,23 +411,23 @@ function RiskProfiling() {
                   height={200}
                   itemCount={filteredTins.length}
                   itemSize={35}
-                  width={"100%"}
+                  width={'100%'}
                 >
                   {({ index, style }) => (
                     <div
                       style={{
                         ...style,
-                        padding: "8px 12px",
+                        padding: '8px 12px',
                         background:
                           filteredTins[index].value === selectedTIN
-                            ? "#e0e7ef"
-                            : "#fff",
-                        cursor: "pointer",
+                            ? '#e0e7ef'
+                            : '#fff',
+                        cursor: 'pointer',
                       }}
                       onClick={() => {
                         setSelectedTIN(filteredTins[index].value);
                         setIsDropdownOpen(false);
-                        setSearchTerm("");
+                        setSearchTerm('');
                       }}
                       key={filteredTins[index].value}
                     >
@@ -456,8 +456,8 @@ function RiskProfiling() {
          
         </div> */}
         <div className="content">
-          <div className="d-flex flex-column" style={{ gap: "32px" }}>
-            <div className="d-flex" style={{ gap: "32px" }}>
+          <div className="d-flex flex-column" style={{ gap: '32px' }}>
+            <div className="d-flex" style={{ gap: '32px' }}>
               <Card className="chart-cards-half">
                 {frequencyOfAnomalyProfilingLoading ? (
                   <div className="spinner-div">
@@ -492,7 +492,7 @@ function RiskProfiling() {
                 )}
               </Card>
             </div>
-            <div className="d-flex" style={{ gap: "32px" }}>
+            <div className="d-flex" style={{ gap: '32px' }}>
               <Card className="chart-cards-half">
                 {gstBenchmarkProfilingLoading ? (
                   <div className="spinner-div">
@@ -526,7 +526,7 @@ function RiskProfiling() {
                 )}
               </Card>
             </div>
-            <div className="d-flex" style={{ gap: "32px" }}>
+            <div className="d-flex" style={{ gap: '32px' }}>
               <Card className="chart-cards-half">
                 {swtBenchmarkProfilingLoading ? (
                   <div className="spinner-div">
@@ -560,7 +560,7 @@ function RiskProfiling() {
                 )}
               </Card>
             </div>
-            <div className="d-flex flex-column" style={{ gap: "32px" }}>
+            <div className="d-flex flex-column" style={{ gap: '32px' }}>
               <Card className="chart-cards-full">
                 {monthlySalesLoading ? (
                   <div className="chart-big">
@@ -585,17 +585,17 @@ function RiskProfiling() {
               <Card className="chart-cards-full">
                 {gstLoading ? (
                   <div className="chart-big">
-                    {" "}
+                    {' '}
                     <div className="spinner-div">
-                      {" "}
+                      {' '}
                       <Spinner
                         animation="border"
                         role="status"
                         variant="primary"
                       >
-                        {" "}
-                        <span className="visually-hidden">Loading...</span>{" "}
-                      </Spinner>{" "}
+                        {' '}
+                        <span className="visually-hidden">Loading...</span>{' '}
+                      </Spinner>{' '}
                     </div>
                   </div>
                 ) : (
@@ -607,7 +607,7 @@ function RiskProfiling() {
                 )}
               </Card>
             </div>
-            <div className="d-flex flex-column" style={{ gap: "32px" }}>
+            <div className="d-flex flex-column" style={{ gap: '32px' }}>
               <Card className="chart-cards-full">
                 {payrollLoading ? (
                   <div className="chart-big">
@@ -617,10 +617,10 @@ function RiskProfiling() {
                         role="status"
                         variant="primary"
                       >
-                        {" "}
-                        <span className="visually-hidden">Loading...</span>{" "}
-                      </Spinner>{" "}
-                    </div>{" "}
+                        {' '}
+                        <span className="visually-hidden">Loading...</span>{' '}
+                      </Spinner>{' '}
+                    </div>{' '}
                   </div>
                 ) : (
                   <EmployeeLineChart
@@ -652,7 +652,7 @@ function RiskProfiling() {
                 )}
               </Card>
             </div>
-            <div className="d-flex" style={{ gap: "32px" }}>
+            <div className="d-flex" style={{ gap: '32px' }}>
               <Card className="chart-cards-full">
                 {delayedFilingLoading ? (
                   <div className="spinner-div">

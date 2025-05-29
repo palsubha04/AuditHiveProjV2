@@ -1,7 +1,8 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
+import ApexCharts from 'apexcharts';
 import '../charts.css';
-import { CardBody, CardHeader } from 'react-bootstrap';
+import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 
 const SWTBenchmarkEmployeesProfilingChart = ({
   swtBenchmarkEmployeesProfilingData,
@@ -25,7 +26,9 @@ const SWTBenchmarkEmployeesProfilingChart = ({
 
   const options = {
     chart: {
+      id: 'swt-benchmark-employees-profiling',
       type: 'bar',
+      toolbar: { show: false },
     },
     plotOptions: {
       bar: {
@@ -104,12 +107,55 @@ const SWTBenchmarkEmployeesProfilingChart = ({
     },
   };
 
+  // Toolbar functions
+  const handleDownload = async (format) => {
+    const chart = await ApexCharts.getChartByID(
+      'swt-benchmark-employees-profiling'
+    );
+    if (!chart) return;
+    if (format === 'png') {
+      chart.dataURI().then(({ imgURI }) => {
+        const link = document.createElement('a');
+        link.href = imgURI;
+        link.download = 'swt-benchmark-employees-profiling.png';
+        link.click();
+      });
+    } else if (format === 'svg') {
+      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
+        const link = document.createElement('a');
+        link.href = svgURI;
+        link.download = 'swt-benchmark-employees-profiling.svg';
+        link.click();
+      });
+    } else if (format === 'csv') {
+      chart.exportToCSV({
+        filename: 'swt-benchmark-employees-profiling',
+      });
+    }
+  };
   return (
     <>
       <CardHeader className="chart-card-header">
         <div className="chart-headers">
           SWT Comparison - Employees On Payroll Vs SWT Employees
         </div>
+        <Dropdown>
+          <Dropdown.Toggle
+            variant="outline-default"
+            size="sm"
+            className="download-dropdown-btn"
+          >
+            Export
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleDownload('png')}>
+              Download PNG
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleDownload('csv')}>
+              Download CSV
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </CardHeader>
       <CardBody>
         <Chart options={options} series={series} type="bar" height={430} />

@@ -30,8 +30,7 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});
   const [records, setRecords] = useState([]);
-  const [showMenu, setShowMenu] = useState(false); // State for menu visibility
-  const chartRef = useRef(null); // Ref for ApexChart
+  const [showMenu, setShowMenu] = useState(false); // State for menu visibility // Ref for ApexChart
 
   useEffect(() => {
     if (
@@ -47,13 +46,15 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
 
     const result = Object.entries(currentData).flatMap(
       ([category, { records }]) =>
-      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
-        Tin: tin,
-        'Taxpayer Name': taxpayer_name,
-        'Tax Period Year': tax_period_year,
-        'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
-        Segmentation: category,
-      }))
+        records.map(
+          ({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+            Tin: tin,
+            'Taxpayer Name': taxpayer_name,
+            'Tax Period Year': tax_period_year,
+            'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
+            Segmentation: category,
+          })
+        )
     );
     setRecords(result);
 
@@ -74,7 +75,7 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
 
     setChartOptions({
       chart: {
-        id: 'total-vs-flagged-chart',
+        id: 'total-taxpayers-vs-risk-flagged',
         type: 'line',
         height: 350,
         toolbar: {
@@ -135,61 +136,33 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
     });
   }, [selectedCategory, totalTaxPayerVsRiskFlagged]);
 
-  const toggleMenu = () => setShowMenu(!showMenu);
-
-  // Logic for CSVExportButton if you want to use the `records` data
-  const handleRecordsCSVExport = () => {
-    // This is a placeholder for how you might trigger the CSV export for `records`
-    // You would typically use a library like 'papaparse' or a custom function
-    // to convert `records` (JSON) to CSV and trigger a download.
-    // For now, let's simulate the CSVExportButton's functionality if it were a direct function call.
-    if (records.length > 0) {
-      const header = Object.keys(records[0]).join(',');
-      const csv = records.map((row) => Object.values(row).join(',')).join('\n');
-      const csvData = `\uFEFF${header}\n${csv}`;
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'total_vs_flagged_data.csv');
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    }
-    setShowMenu(false);
-  };
-
-  const isDataAvailable = totalTaxPayerVsRiskFlagged && totalTaxPayerVsRiskFlagged[selectedCategory];
-
   // Toolbar functions
   const handleDownload = async (format) => {
-    const chart = await ApexCharts.getChartByID('total-vs-flagged-chart');
+    const chart = await ApexCharts.getChartByID(
+      'total-taxpayers-vs-risk-flagged'
+    );
     if (!chart) return;
 
     if (format === 'png') {
       chart.dataURI().then(({ imgURI }) => {
         const link = document.createElement('a');
         link.href = imgURI;
-        link.download = 'total-vs-flagged-chart.png';
+        link.download = 'total-taxpayers-vs-risk-flagged.png';
         link.click();
       });
     } else if (format === 'svg') {
       chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
         const link = document.createElement('a');
         link.href = svgURI;
-        link.download = 'total-vs-flagged-chart.svg';
+        link.download = 'total-taxpayers-vs-risk-flagged.svg';
         link.click();
       });
     } else if (format === 'csv') {
       chart.exportToCSV({
-        filename: 'total-vs-flagged-chart',
+        filename: 'total-taxpayers-vs-risk-flagged',
       });
     }
   };
-
 
   return (
     <>
@@ -206,15 +179,22 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
             <option value="cit">CIT</option>
           </select>
         </div>
-        <div className='d-flex align-items-center gap-2'>
+        <div className="d-flex align-items-center gap-2">
           <Dropdown>
-            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
-              {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
+            <Dropdown.Toggle
+              variant="outline-default"
+              size="sm"
+              className="download-dropdown-btn"
+            >
               Export
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('png')}>
+                Download PNG
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>
+                Download CSV
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <CSVExportButton
@@ -222,7 +202,6 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
             filename="risk_taxpayers.csv"
             buttonLabel="Download Risk Taxpayer List"
           />
-
         </div>
       </CardHeader>
       <CardBody>
