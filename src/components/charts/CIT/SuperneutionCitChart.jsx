@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Dropdown, Row, Spinner } from 'react-bootstrap';
+import { Card, Dropdown, Spinner } from 'react-bootstrap';
 import Chart from 'react-apexcharts';
 import ApexCharts from 'apexcharts';
 import citService from '../../../services/cit.service';

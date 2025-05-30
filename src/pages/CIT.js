@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
+import { useState } from 'react';
 import Layout from '../components/Layout';
 import TenureFilter from '../components/filters/TenureFilter';
 import RiskCategoriesChart from '../components/charts/RiskCategoriesChart';

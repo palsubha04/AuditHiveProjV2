@@ -5,7 +5,6 @@ import { Card, Dropdown } from 'react-bootstrap';
 import gstService from '../../services/gst.service';
 import '../../pages/Dashboard.css';
 import './charts.css';
-import { Download } from 'lucide-react';
 
 const SalesComparison = ({ startDate, endDate }) => {
   const [chartData, setChartData] = useState({

@@ -6,7 +6,7 @@ import { fetchDatasets } from '../slice/datasetsSlice';
 import { ChevronDown } from 'lucide-react';
 import { FixedSizeList as List } from 'react-window';
 import { fetchRiskBreakdownByCategoryProfiling } from '../slice/risk-profiling/riskBreakdownCategoryProfilingSlice';
-import { Card, CardBody, Spinner } from 'react-bootstrap';
+import { Card, Spinner } from 'react-bootstrap';
 import { fetchFrequencyOfAnomalyProfiling } from '../slice/risk-profiling/frequencyOfAnomalyProfilingSlice';
 import RiskAnomalyFrequencyChart from '../components/charts/RiskAnomalyFrequencyChart';
 import RiskBreakdownCategoryProfilingChart from '../components/charts/risk-profiling/RiskBreakdownCategoryProfilingChart';
