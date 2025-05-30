@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Row, Col, Form, Badge, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Card,Spinner } from 'react-bootstrap';
 import Table from '../Table';
 import citService from '../../services/cit.service';
-import debounce from 'lodash/debounce';
 import '../../pages/Dashboard.css';
 import CSVExportButton from '../CSVExportButton';
 
@@ -10,10 +9,10 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchTin, setSearchTin] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalRecords, setTotalRecords] = useState(0);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  // const [searchTin, setSearchTin] = useState('');
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [totalRecords, setTotalRecords] = useState(0);
+  // const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const fetchRecords = async () => {
     // if (append && (loading || isLoadingMore)) return;
@@ -45,7 +44,7 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
       // }
       // }
       setRecords(response);
-      setTotalRecords(response.total_data_count);
+      // setTotalRecords(response.total_data_count);
     } catch (err) {
       setError('Failed to fetch tax records');
       console.error('Error fetching tax records:', err);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { Card, Row, Col, Dropdown } from 'react-bootstrap';
+import { Card, Dropdown } from 'react-bootstrap';
 import gstService from '../../services/gst.service';
 import '../../pages/Dashboard.css';
 import './charts.css';

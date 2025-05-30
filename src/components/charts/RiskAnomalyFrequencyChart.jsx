@@ -25,10 +25,10 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
   const categories = ['gst', 'swt', 'cit'];
   const [records, setRecords] = useState([]);
 
-  console.log(
-    'data received in RiskAnomalyFrequencyChart',
-    riskAnomalyFrequencyData
-  );
+  // console.log(
+  //   'data received in RiskAnomalyFrequencyChart',
+  //   riskAnomalyFrequencyData
+  // );
   useEffect(() => {
     if (riskAnomalyFrequencyData && selectedCategory) {
       const rules =

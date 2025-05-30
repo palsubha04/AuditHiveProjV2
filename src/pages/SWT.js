@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Layout from '../components/Layout';
 // import SWTSalesComparison from '../components/charts/SWTSalesComparison';
