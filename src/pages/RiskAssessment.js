@@ -38,7 +38,7 @@ function RiskAssessment() {
 
   //filters for top fraud
   const [selectedTaxType, setSelectedTaxType] = useState('gst');
-  const [selectedSegmentation, setSelectedSegmentation] = useState('all');
+  const [selectedSegmentation, setSelectedSegmentation] = useState('large');
 
   const {
     totalVsFlaggedTaxpayersData,
