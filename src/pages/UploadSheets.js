@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import UploadSheetTable from '../components/UploadSheetTable';
 import Papa from 'papaparse';
 import './Dashboard.css';
+import UploadSheetTableSubmit from '../components/UploadSheetTableSubmit';
 
 function UploadSheets() {
   const [uploading, setUploading] = useState(false);
@@ -438,18 +439,76 @@ function UploadSheets() {
           {jobStatus?.status === 'finished' && validRecords.length > 0 ? (
             <>
               {console.log('Rendering valid records table')}
-              <UploadSheetTable
+              <UploadSheetTableSubmit
                 data={validRecords}
                 columns={[
-                  { header: 'Tin', accessorKey: 'tin' },
-                  { header: 'Taxpayer Name', accessorKey: 'taxpayer_name' },
-                  { header: 'Taxpayer Type', accessorKey: 'taxpayer_type' },
+                  {
+                    header: 'Tin', accessorKey: 'tin', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Taxpayer Name', accessorKey: 'taxpayer_name', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Taxpayer Type', accessorKey: 'taxpayer_type', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
                   {
                     header: 'Tax Account No',
-                    accessorKey: 'tax_account_number',
+                    accessorKey: 'tax_account_number', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
                   },
-                  { header: 'Is Fraud', accessorKey: 'is_fraud' },
-                  { header: 'Fraud Reason', accessorKey: 'fraud_reason' },
+                  {
+                    header: 'Is Fraud', accessorKey: 'is_fraud', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Fraud Reason', accessorKey: 'fraud_reason', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
                 ]}
                 onLoadMore={handleLoadMore}
                 hasMore={hasMore}
@@ -470,15 +529,15 @@ function UploadSheets() {
           )}
 
           <div className="preview-actions">
+            <Button
+              variant="secondary"
+              onClick={() => setShowPreview(false)}
+              className="me-2"
+            >
+              Back
+            </Button>
             {!jobId && (
               <>
-                <Button
-                  variant="secondary"
-                  onClick={() => setShowPreview(false)}
-                  className="me-2"
-                >
-                  Back
-                </Button>
                 <Button
                   variant="primary"
                   onClick={handleSubmit}
@@ -546,7 +605,7 @@ function UploadSheets() {
                 <Form.Label>Select Tax Parameter</Form.Label>
                 <Form.Select
                   className='p-2'
-                  style={{borderRadius: "7px"}}
+                  style={{ borderRadius: "7px" }}
                   value={formData.type}
                   onChange={(e) =>
                     setFormData({ ...formData, type: e.target.value })
