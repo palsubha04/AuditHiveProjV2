@@ -154,7 +154,6 @@ const citService = {
       });
       return response.data;
     } catch (error) {
-      console.error("Error png vs expense data:", error);
       throw error;
     }
 },
@@ -185,7 +184,6 @@ const citService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching tax records summary:', error);
       throw error;
     }
   },
@@ -201,7 +199,6 @@ const citService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching segmentation distribution:', error);
       throw error;
     }
   },
@@ -215,7 +212,6 @@ const citService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error Total Amount By Expense Type:', error);
       throw error;
     }
   },
@@ -229,40 +225,11 @@ const citService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error Total Amount By Income Type:', error);
       throw error;
     }
   },
 
-//   getEmployeesComparison: async (startDate, endDate) => {
-//     try {
-//       const response = await api.get('/dashboard/cit/employees-comparison', {
-//         params: {
-//           start_date: startDate,
-//           end_date: endDate,
-//         }
-//       });
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error fetching employees comparison:', error);
-//       throw error;
-//     }
-//   },
 
-//   getSalariesComparison: async (startDate, endDate) => {
-//     try {
-//       const response = await api.get('/dashboard/cit/salaries-comparison', {
-//         params: {
-//           start_date: startDate,
-//           end_date: endDate,
-//         }
-//       });
-//       return response.data;
-//     } catch (error) {
-//       console.error('Error fetching salaries comparison:', error);
-//       throw error;
-//     }
-//   }
 };
 
 export default citService; 

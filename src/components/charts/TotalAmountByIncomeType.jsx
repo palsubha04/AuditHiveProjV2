@@ -92,7 +92,6 @@ const TotalAmountByIncomeType = ({ startDate, endDate }) => {
               series: chartSeries
             }));
           } catch (err) {
-            console.error('Error fetching Total Amount By Expense Type:', err);
             setError('Failed to load Total Amount By Expense Type data');
           } finally {
             setLoading(false);

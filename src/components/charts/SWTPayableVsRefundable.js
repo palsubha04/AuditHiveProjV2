@@ -75,10 +75,7 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
             },
           ],
         });
-        console.log('try');
       } catch (err) {
-        console.log('catch');
-        console.error('Error fetching salaries comparison:', err);
         setError('Failed to load salaries comparison data');
       } finally {
         setLoading(false);

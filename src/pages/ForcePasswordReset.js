@@ -65,7 +65,6 @@ function ForcePasswordReset() {
         }
       });
     } catch (error) {
-      console.error('Password reset error:', error);
       setError(error.response?.data?.message || 'Error resetting password');
     } finally {
       setLoading(false);

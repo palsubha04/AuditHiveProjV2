@@ -24,7 +24,6 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
         const response = await swtService.getTaxRecordsSummary(startDate, endDate);
         setSummary(response);
       } catch (err) {
-        console.error('Error fetching summary:', err);
         setError('Failed to load summary data');
       } finally {
         setLoading(false);

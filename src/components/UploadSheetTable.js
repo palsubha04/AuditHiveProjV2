@@ -57,13 +57,11 @@ function UploadSheetTable({
 
   const downloadFraudRecords = useCallback(async () => {
     if (!jobId) {
-      console.error('No job ID available for download');
       alert('Job ID is not available. Please try again later.');
       return;
     }
 
     try {
-      console.log('Downloading fraud records for job:', jobId);
       const response = await api.get(`/tax/jobs/${jobId}/fraud-records`, {
         responseType: 'blob',
       });
@@ -81,7 +79,6 @@ function UploadSheetTable({
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     } catch (error) {
-      console.error('Error downloading fraud records:', error);
       alert('Failed to download fraud records. Please try again.');
     }
   }, [jobId]);

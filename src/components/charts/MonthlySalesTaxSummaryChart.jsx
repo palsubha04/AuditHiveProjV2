@@ -11,12 +11,10 @@ const parseDDMMYYYY = (str) => {
 };
 
 const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
-  // console.log('start end _', start_date, end_date);
   // Parse dates safely
   const startDate = start_date ? parseDDMMYYYY(start_date) : null;
   const endDate = end_date ? parseDDMMYYYY(end_date) : null;
 
-  // console.log('startdate enddate', startDate, endDate);
 
   // Early return if dates aren't ready
   if (!startDate || !endDate) {
@@ -39,7 +37,6 @@ const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
   };
 
   const monthLabels = generateMonthLabels(startDate, endDate);
-  // console.log('month labels', monthLabels);
 
   // Create a map of data by "MMM yy" → entry
   const createMonthDataMap = (data = []) => {
@@ -56,7 +53,6 @@ const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
   };
 
   const monthDataMap = createMonthDataMap(salesData?.records);
-  // console.log('month datamap', monthDataMap);
 
   const getSeriesData = (key) =>
     monthLabels.map((label) => monthDataMap[label]?.[key] ?? 0);
@@ -79,7 +75,6 @@ const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
       data: getSeriesData('exempt_sales'),
     },
   ];
-  // console.log('chart series', chartSeries);
 
   const chartOptions = {
     chart: {

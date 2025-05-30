@@ -171,7 +171,6 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
           refundable: response.total_gst_refundable,
         });
       } catch (error) {
-        console.error('Error fetching GST data:', error);
       }
     };
 

@@ -80,11 +80,9 @@ function RiskAssessment() {
 
     const currentKey = `${dateRange.start_date}-${dateRange.end_date}`;
     if (fetchedRangeRef.current === currentKey) {
-      // console.log('Skipping fetch, already fetched:', currentKey);
       return;
     }
 
-    // if (!topFraudRulesProfilingData) {
     dispatch(
       fetchTopFraudRulesProfiling({
         start_date: dateRange.start_date,
@@ -93,9 +91,7 @@ function RiskAssessment() {
         segmentation: 'large',
       })
     );
-    // }
 
-    // console.log('Dispatching for new range:', currentKey);
     fetchedRangeRef.current = currentKey;
 
     dispatch(fetchTotalVsFlaggedTaxpayers(dateRange));
@@ -114,9 +110,6 @@ function RiskAssessment() {
   };
 
   const handleTopFraudFilterChange = (taxType, segmentation) => {
-    // console.log('filter chaged');
-    // console.log('taxtype', taxType);
-    // console.log('segmentaion', segmentation);
     setSelectedTaxType(taxType);
     setSelectedSegmentation(segmentation);
     dispatch(

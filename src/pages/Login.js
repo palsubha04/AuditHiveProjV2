@@ -65,7 +65,6 @@ function Login() {
         setError('Invalid response from server');
       }
     } catch (err) {
-      console.error('Login error:', err);
       setError(err.response?.data?.message || 'Invalid email or password');
     } finally {
       setLoading(false);
@@ -82,7 +81,6 @@ function Login() {
       alert('Password reset instructions have been sent to your email');
       setIsForgotPassword(false);
     } catch (err) {
-      console.error('Forgot password error:', err);
       // Handle the specific error format from the API
       if (err.response?.data?.email?.[0]) {
         setError(err.response.data.email[0]);

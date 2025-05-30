@@ -5,13 +5,9 @@ import api from "../../services/axios.config";
 export const fetchCitBenchmarkProfiling = createAsyncThunk(
   "citBenchmarkProfiling/fetch",
   async ({ start_date, end_date, tin }) => {
-    console.log("start_date", start_date);
-    console.log("end_date", end_date);
-    console.log("tin", tin);
     const response = await api.get(
       `/analytics/compliance/benchmark/cit_payable_vs_cit_refundable/${tin}?start_date=${start_date}&end_date=${end_date}`
     );
-    console.log("response", response);
     return response.data;
   }
 );

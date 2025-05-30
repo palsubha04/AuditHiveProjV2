@@ -5,13 +5,9 @@ import api from "../../services/axios.config";
 export const fetchSwtBenchmarkEmployeesProfiling = createAsyncThunk(
   "swtBenchmarkEmployeesProfiling/fetch",
   async ({ start_date, end_date, tin }) => {
-    console.log("start_date", start_date);
-    console.log("end_date", end_date);
-    console.log("tin", tin);
     const response = await api.get(
       `/analytics/compliance/benchmark/employees_on_payroll_vs_swt_employees/${tin}?start_date=${start_date}&end_date=${end_date}`
     );
-    console.log("response", response);
     return response.data;
   }
 );

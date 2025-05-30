@@ -8,7 +8,6 @@ import CSVExportButton from "../../CSVExportButton";
 const entityTypes = ['large', 'medium', 'small', 'micro'];
 
 const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
-  console.log("profitLossComplianceData from chart", profitLossComplianceData);
   const [selectedCategory, setSelectedCategory] = useState("cit");
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});

@@ -59,7 +59,6 @@ const SalesComparison = ({ startDate, endDate }) => {
               ],
         });
       } catch (error) {
-        console.error('Error fetching sales comparison data:', error);
       }
     };
 

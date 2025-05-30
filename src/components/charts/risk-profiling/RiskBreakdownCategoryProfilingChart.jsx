@@ -12,10 +12,6 @@ const RiskBreakdownCategoryProfilingChart = ({
   const [filteredData, setFilteredData] = useState([]);
   const [records, setRecords] = useState([]);
 
-  // console.log(
-  //   'riskBreakdownByCategoryDataProfiling',
-  //   riskBreakdownByCategoryDataProfiling
-  // );
 
   const riskLevels = [
     'Critical Risk',
@@ -45,8 +41,6 @@ const RiskBreakdownCategoryProfilingChart = ({
     if (riskBreakdownByCategoryDataProfiling && selectedCategory) {
       const rules =
         riskBreakdownByCategoryDataProfiling[selectedCategory] ?? {};
-      console.log('Selected Category:', selectedCategory);
-      console.log('Filtered Data:', rules);
       setFilteredData(rules);
       const result = Object.entries(
         riskBreakdownByCategoryDataProfiling[selectedCategory]

@@ -98,7 +98,6 @@ const swtService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching tax records summary:', error);
       throw error;
     }
   },
@@ -114,7 +113,6 @@ const swtService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching segmentation distribution:', error);
       throw error;
     }
   },
@@ -129,7 +127,6 @@ const swtService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching employees comparison:', error);
       throw error;
     }
   },
@@ -144,7 +141,6 @@ const swtService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching salaries comparison:', error);
       throw error;
     }
   }

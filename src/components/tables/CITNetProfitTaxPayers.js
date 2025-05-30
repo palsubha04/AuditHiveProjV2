@@ -47,7 +47,6 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
       // setTotalRecords(response.total_data_count);
     } catch (err) {
       setError('Failed to fetch tax records');
-      console.error('Error fetching tax records:', err);
     } finally {
       setLoading(false);
       // setIsLoadingMore(false);

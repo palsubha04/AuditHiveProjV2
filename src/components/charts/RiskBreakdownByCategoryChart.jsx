@@ -21,7 +21,6 @@ const monthMap = {
 };
 
 const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
-  // console.log("data received in RiskBreakdownByCategoryChart", riskBreakdownByCategoryData);
   const [filterData, setFilterData] = useState(
     riskBreakdownByCategoryData ? riskBreakdownByCategoryData['gst'] ?? {} : {}
   );
