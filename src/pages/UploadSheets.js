@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import UploadSheetTable from '../components/UploadSheetTable';
 import Papa from 'papaparse';
 import './Dashboard.css';
+import UploadSheetTableSubmit from '../components/UploadSheetTableSubmit';
 
 function UploadSheets() {
   const [uploading, setUploading] = useState(false);
@@ -334,13 +335,13 @@ function UploadSheets() {
 
   return (
     <Layout>
-      <h2 className="upload-title">
+      <h6 className='mb-3'>
         {showPreview
           ? `${formData.type.toUpperCase()} data for ${formatDate(
             formData.startDate
           )} to ${formatDate(formData.endDate)}`
-          : 'Upload Document'}
-      </h2>
+          : ''}
+      </h6>
 
       {error && <Alert variant="danger">{error}</Alert>}
       {success && jobStatus?.status !== 'finished' && (
@@ -438,18 +439,76 @@ function UploadSheets() {
           {jobStatus?.status === 'finished' && validRecords.length > 0 ? (
             <>
               {console.log('Rendering valid records table')}
-              <UploadSheetTable
+              <UploadSheetTableSubmit
                 data={validRecords}
                 columns={[
-                  { header: 'Tin', accessorKey: 'tin' },
-                  { header: 'Taxpayer Name', accessorKey: 'taxpayer_name' },
-                  { header: 'Taxpayer Type', accessorKey: 'taxpayer_type' },
+                  {
+                    header: 'Tin', accessorKey: 'tin', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Taxpayer Name', accessorKey: 'taxpayer_name', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Taxpayer Type', accessorKey: 'taxpayer_type', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
                   {
                     header: 'Tax Account No',
-                    accessorKey: 'tax_account_number',
+                    accessorKey: 'tax_account_number', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
                   },
-                  { header: 'Is Fraud', accessorKey: 'is_fraud' },
-                  { header: 'Fraud Reason', accessorKey: 'fraud_reason' },
+                  {
+                    header: 'Is Fraud', accessorKey: 'is_fraud', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Fraud Reason', accessorKey: 'fraud_reason', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
                 ]}
                 onLoadMore={handleLoadMore}
                 hasMore={hasMore}
@@ -470,15 +529,15 @@ function UploadSheets() {
           )}
 
           <div className="preview-actions">
+            <Button
+              variant="secondary"
+              onClick={() => setShowPreview(false)}
+              className="me-2"
+            >
+              Back
+            </Button>
             {!jobId && (
               <>
-                <Button
-                  variant="secondary"
-                  onClick={() => setShowPreview(false)}
-                  className="me-2"
-                >
-                  Back
-                </Button>
                 <Button
                   variant="primary"
                   onClick={handleSubmit}
@@ -541,209 +600,212 @@ function UploadSheets() {
               </div>
             </div>
 
-            <Form.Group className="form-group">
-              <Form.Label>Select Tax Parameter</Form.Label>
-              <Form.Select
-                value={formData.type}
-                onChange={(e) =>
-                  setFormData({ ...formData, type: e.target.value })
-                }
-              >
-                <option value="gst">GST</option>
-                <option value="cit">CIT</option>
-                <option value="swt">SWT</option>
-              </Form.Select>
-            </Form.Group>
+            <div className='d-flex flex-row gap-4'>
+              <div className='w-25'>
+                <Form.Label>Select Tax Parameter</Form.Label>
+                <Form.Select
+                  className='p-2'
+                  style={{ borderRadius: "7px" }}
+                  value={formData.type}
+                  onChange={(e) =>
+                    setFormData({ ...formData, type: e.target.value })
+                  }
+                >
+                  <option value="gst">GST</option>
+                  <option value="cit">CIT</option>
+                  <option value="swt">SWT</option>
+                </Form.Select>
+              </div>
+              <div className='w-75'>
+                <Form.Label>Assessed Dates</Form.Label>
+                <div className="date-range-container">
+                  <div className="datepicker-container">
+                    <DatePicker
+                      selected={formData.startDate}
+                      onChange={(date) =>
+                        setFormData({ ...formData, startDate: date })
+                      }
+                      dateFormat="dd/MM/yyyy"
+                      placeholderText="DD/MM/YYYY"
+                      maxDate={formData.endDate || new Date()}
+                      className="form-control"
+                      required
+                      showYearDropdown
+                      scrollableYearDropdown
+                      yearDropdownItemNumber={10}
+                      showMonthDropdown
+                      scrollableMonthDropdown
+                      renderCustomHeader={({
+                        date,
+                        changeYear,
+                        changeMonth,
+                        years = [],
+                        months = [],
+                      }) => {
+                        // Generate years array if not provided
+                        if (!years.length) {
+                          const currentYear = new Date().getFullYear();
+                          years = Array.from(
+                            { length: 20 },
+                            (_, i) => currentYear - 10 + i
+                          );
+                        }
 
-            <Form.Group className="form-group">
-              <Form.Label>Assessed Dates</Form.Label>
-              <div className="date-range-container">
-                <div className="datepicker-container">
-                  <DatePicker
-                    selected={formData.startDate}
-                    onChange={(date) =>
-                      setFormData({ ...formData, startDate: date })
-                    }
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="dd/MM/yyyy"
-                    maxDate={formData.endDate || new Date()}
-                    className="form-control"
-                    required
-                    showYearDropdown
-                    scrollableYearDropdown
-                    yearDropdownItemNumber={10}
-                    showMonthDropdown
-                    scrollableMonthDropdown
-                    renderCustomHeader={({
-                      date,
-                      changeYear,
-                      changeMonth,
-                      years = [],
-                      months = [],
-                    }) => {
-                      // Generate years array if not provided
-                      if (!years.length) {
-                        const currentYear = new Date().getFullYear();
-                        years = Array.from(
-                          { length: 20 },
-                          (_, i) => currentYear - 10 + i
+                        // Generate months array if not provided
+                        if (!months.length) {
+                          months = [
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December',
+                          ];
+                        }
+
+                        return (
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              gap: 8,
+                            }}
+                          >
+                            <select
+                              value={date.getFullYear()}
+                              onChange={({ target: { value } }) =>
+                                changeYear(Number(value))
+                              }
+                            >
+                              {years.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                            <select
+                              value={months[date.getMonth()]}
+                              onChange={({ target: { value } }) =>
+                                changeMonth(months.indexOf(value))
+                              }
+                            >
+                              {months.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         );
+                      }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      className="calendar-icon"
+                    />
+                  </div>
+                  <div className="date-separator">to</div>
+                  <div className="datepicker-container">
+                    <DatePicker
+                      selected={formData.endDate}
+                      onChange={(date) =>
+                        setFormData({ ...formData, endDate: date })
                       }
+                      dateFormat="dd/MM/yyyy"
+                      placeholderText="DD/MM/YYYY"
+                      minDate={formData.startDate}
+                      maxDate={new Date()}
+                      className="form-control"
+                      required
+                      showYearDropdown
+                      scrollableYearDropdown
+                      yearDropdownItemNumber={10}
+                      showMonthDropdown
+                      scrollableMonthDropdown
+                      renderCustomHeader={({
+                        date,
+                        changeYear,
+                        changeMonth,
+                        years = [],
+                        months = [],
+                      }) => {
+                        // Generate years array if not provided
+                        if (!years.length) {
+                          const currentYear = new Date().getFullYear();
+                          years = Array.from(
+                            { length: 20 },
+                            (_, i) => currentYear - 10 + i
+                          );
+                        }
 
-                      // Generate months array if not provided
-                      if (!months.length) {
-                        months = [
-                          'January',
-                          'February',
-                          'March',
-                          'April',
-                          'May',
-                          'June',
-                          'July',
-                          'August',
-                          'September',
-                          'October',
-                          'November',
-                          'December',
-                        ];
-                      }
+                        // Generate months array if not provided
+                        if (!months.length) {
+                          months = [
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December',
+                          ];
+                        }
 
-                      return (
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: 8,
-                          }}
-                        >
-                          <select
-                            value={date.getFullYear()}
-                            onChange={({ target: { value } }) =>
-                              changeYear(Number(value))
-                            }
+                        return (
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              gap: 8,
+                            }}
                           >
-                            {years.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                          <select
-                            value={months[date.getMonth()]}
-                            onChange={({ target: { value } }) =>
-                              changeMonth(months.indexOf(value))
-                            }
-                          >
-                            {months.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      );
-                    }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faCalendarAlt}
-                    className="calendar-icon"
-                  />
-                </div>
-                <div className="date-separator">to</div>
-                <div className="datepicker-container">
-                  <DatePicker
-                    selected={formData.endDate}
-                    onChange={(date) =>
-                      setFormData({ ...formData, endDate: date })
-                    }
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="dd/MM/yyyy"
-                    minDate={formData.startDate}
-                    maxDate={new Date()}
-                    className="form-control"
-                    required
-                    showYearDropdown
-                    scrollableYearDropdown
-                    yearDropdownItemNumber={10}
-                    showMonthDropdown
-                    scrollableMonthDropdown
-                    renderCustomHeader={({
-                      date,
-                      changeYear,
-                      changeMonth,
-                      years = [],
-                      months = [],
-                    }) => {
-                      // Generate years array if not provided
-                      if (!years.length) {
-                        const currentYear = new Date().getFullYear();
-                        years = Array.from(
-                          { length: 20 },
-                          (_, i) => currentYear - 10 + i
+                            <select
+                              value={date.getFullYear()}
+                              onChange={({ target: { value } }) =>
+                                changeYear(Number(value))
+                              }
+                            >
+                              {years.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                            <select
+                              value={months[date.getMonth()]}
+                              onChange={({ target: { value } }) =>
+                                changeMonth(months.indexOf(value))
+                              }
+                            >
+                              {months.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         );
-                      }
-
-                      // Generate months array if not provided
-                      if (!months.length) {
-                        months = [
-                          'January',
-                          'February',
-                          'March',
-                          'April',
-                          'May',
-                          'June',
-                          'July',
-                          'August',
-                          'September',
-                          'October',
-                          'November',
-                          'December',
-                        ];
-                      }
-
-                      return (
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: 8,
-                          }}
-                        >
-                          <select
-                            value={date.getFullYear()}
-                            onChange={({ target: { value } }) =>
-                              changeYear(Number(value))
-                            }
-                          >
-                            {years.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                          <select
-                            value={months[date.getMonth()]}
-                            onChange={({ target: { value } }) =>
-                              changeMonth(months.indexOf(value))
-                            }
-                          >
-                            {months.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      );
-                    }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faCalendarAlt}
-                    className="calendar-icon"
-                  />
+                      }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      className="calendar-icon"
+                    />
+                  </div>
                 </div>
               </div>
-            </Form.Group>
+            </div>
 
             <Button
               variant="primary"

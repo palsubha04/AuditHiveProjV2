@@ -45,10 +45,9 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
   ];
   return (
     <div className="d-flex h-100 flex-column">
-      <CardHeader className="table-card-header">
+      <CardHeader className="table-card-header mb-0">
         <div className="d-flex">
           <span className="chart-headers">Delayed Return Filings</span>
-
           <div>
             <select
               className="chart-filter"
