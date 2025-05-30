@@ -258,7 +258,6 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
           },
         }));
       } catch (err) {
-        console.error('Error fetching risk categories:', err);
         setError('Failed to load risk categories data');
       } finally {
         setLoading(false);

@@ -47,7 +47,6 @@ const Compliance = () => {
 
     const currentKey = `${dateRange.start_date}-${dateRange.end_date}`;
     if (fetchedRangeRef.current === currentKey) {
-      console.log('Skipping fetch, already fetched:', currentKey);
       return;
     }
 
@@ -78,7 +77,6 @@ const Compliance = () => {
     );
     //   }
 
-    console.log('Dispatching for new range:', currentKey);
     fetchedRangeRef.current = currentKey;
   }, [dateRange, dispatch]);
 
@@ -86,7 +84,6 @@ const Compliance = () => {
     setDateRange(range);
   };
 
-  console.log('taxDelayComplianceData', taxDelayComplianceData);
   return (
     <Layout>
       <div className="page-container">
@@ -144,25 +141,6 @@ const Compliance = () => {
           </div>
         </div>
       </div>
-      {/* <Container fluid>
-          <div
-            style={{ display: "flex", alignItems: "center", marginBottom: 24 }}
-          >
-            <TenureFilter onFilterChange={handleFilterChange} />
-          </div>
-
-          <div className="row">
-            <div className="col-12 mb-2"> 
-             <TaxFillingComplianceChart sampleData={taxFilingComplianceData}/>
-            </div>
-            <div className="col-6 mb-2">
-              <TaxDelayComplianceChart taxDelayComplianceData={taxDelayComplianceData}/>
-            </div>
-            <div className="col-6 mb-2">
-              <ProfitLossComplianceChart sampleData={profitLossComplianceData}/>
-            </div>
-          </div>
-        </Container> */}
     </Layout>
   );
 };

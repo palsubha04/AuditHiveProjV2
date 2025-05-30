@@ -9,7 +9,6 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
   const [selectedCategory, setSelectedCategory] = useState('gst');
   const [filteredData, setFilteredData] = useState([]);
   const categories = ['gst', 'swt', 'cit'];
-  console.log('Delayed Filing Data', delayedFilingData);
 
   useEffect(() => {
     if (delayedFilingData && selectedCategory) {

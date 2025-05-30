@@ -41,7 +41,6 @@ function SegmentationDistributionChart({ startDate, endDate }) {
 
         setData(chartData);
       } catch (err) {
-        console.error('Error fetching segmentation distribution:', err);
         setError('Failed to load segmentation distribution data');
       } finally {
         setLoading(false);

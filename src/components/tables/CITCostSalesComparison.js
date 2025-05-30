@@ -9,86 +9,31 @@ const CITCostSalesComparison = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const [searchTin, setSearchTin] = useState('');
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [totalRecords, setTotalRecords] = useState(0);
-  // const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const fetchRecords = async () => {
-    // if (append && (loading || isLoadingMore)) return;
-
-    // if (page === 1) {
-    //   setLoading(true);
-    // } else {
-    //   setIsLoadingMore(true);
-    // }
+    
     setLoading(true);
     setError(null);
     try {
       let response;
-      //   if (tin) {
-      //     response = await citService.getNetProfitTaxPayersByTIN(tin, startDate, endDate, page);
-      //     if (response.error) {
-      //       setError(response.error);
-      //       setRecords([]);
-      //     } else {
-      //       setRecords(Array.isArray(response.records) ? response.records : []);
-      //       setError(null);
-      //     }
-      //   } else {
+      
       response = await citService.getCostSalesComparison(startDate, endDate);
-      // if (append) {
-      //   setRecords(prev => [...prev, ...response.records]);
-      // } else {
-      //   setRecords(response.records);
-      // }
-      // }
+      
       setRecords(response);
-      //setTotalRecords(response.length);
     } catch (err) {
       setError('Failed to fetch tax records');
-      console.error('Error fetching tax records:', err);
     } finally {
       setLoading(false);
-      //setIsLoadingMore(false);
     }
   };
 
-  // Debounced search function
-  //   const debouncedSearch = useCallback(
-  //     debounce((value) => {
-  //       setCurrentPage(1);
-  //       if (value) {
-  //         fetchRecords(value);
-  //       } else {
-  //         fetchRecords();
-  //       }
-  //     }, 500),
-  //     [startDate, endDate]
-  //   );
-
-  // Handle search input change
-  //   const handleSearchChange = (e) => {
-  //     const value = e.target.value;
-  //     setSearchTin(value);
-  //     debouncedSearch(value);
-  //   };
-
+  
   useEffect(() => {
     if (startDate && endDate) {
-      //  setCurrentPage(1);
       fetchRecords();
     }
-    // fetchRecords();
   }, [startDate, endDate]);
 
-  //   const handleLoadMore = useCallback(() => {
-  //     if (records.length < totalRecords && !loading && !isLoadingMore) {
-  //       const nextPage = currentPage + 1;
-  //       setCurrentPage(nextPage);
-  //       fetchRecords(searchTin, nextPage, true);
-  //     }
-  //   }, [records.length, totalRecords, loading, isLoadingMore, currentPage, searchTin]);
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-US', {

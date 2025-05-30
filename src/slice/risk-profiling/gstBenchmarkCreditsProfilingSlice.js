@@ -5,13 +5,9 @@ import api from "../../services/axios.config";
 export const fetchGstBenchmarkCreditsProfiling = createAsyncThunk(
   "gstBenchmarkCreditsProfiling/fetch",
   async ({ start_date, end_date, tin }) => {
-    console.log("start_date", start_date);
-    console.log("end_date", end_date);
-    console.log("tin", tin);
     const response = await api.get(
       `/analytics/compliance/benchmark/input_credits_vs_output_debits/${tin}?start_date=${start_date}&end_date=${end_date}`
     );
-    console.log("response", response);
     return response.data;
   }
 );

@@ -22,7 +22,6 @@ const GSTSummaryCards = ({ startDate, endDate }) => {
         );
         setSummary(response);
       } catch (err) {
-        console.error('Error fetching summary:', err);
       }
     };
 

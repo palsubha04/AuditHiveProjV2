@@ -5,13 +5,9 @@ import api from "../../services/axios.config";
 export const fetchRiskBreakdownByCategoryProfiling = createAsyncThunk(
   "riskBreakdownByCategoryProfiling/fetch",
   async ({ start_date, end_date, tin }) => {
-    console.log("start_date", start_date);
-    console.log("end_date", end_date);
-    console.log("tin", tin);
     const response = await api.get(
       `analytics/risk-profiling/risk-category/${tin}?start_date=${start_date}&end_date=${end_date}`
     );
-    console.log("risk breakdown response", response);
     return response.data;
   }
 );

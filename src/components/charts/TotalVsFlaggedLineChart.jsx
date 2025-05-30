@@ -25,7 +25,6 @@ const monthMap = {
 };
 
 const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
-  // console.log('TotalVsFlaggedLineChart from chart', totalTaxPayerVsRiskFlagged);
   const [selectedCategory, setSelectedCategory] = useState('gst');
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});

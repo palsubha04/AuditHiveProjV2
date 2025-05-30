@@ -46,7 +46,6 @@ function UploadSheets() {
         );
         setAuditHistory(response.data);
       } catch (error) {
-        console.error('Error fetching audit history:', error);
         if (error.response?.status === 404) {
           setAuditHistory({
             message: `No ${formData.type} data upload found.`,
@@ -68,7 +67,6 @@ function UploadSheets() {
       try {
         const response = await api.get(`/tax/jobs/${jobId}/status`);
         const status = response.data;
-        console.log('Status response:', status);
         setJobStatus(status);
 
         if (status.status === 'finished') {
@@ -89,7 +87,6 @@ function UploadSheets() {
           timeoutId = setTimeout(pollStatus, 5000);
         }
       } catch (error) {
-        console.error('Error checking job status:', error);
         setError('Error checking job status');
         // Even on error, continue polling
         timeoutId = setTimeout(pollStatus, 5000);
@@ -97,7 +94,6 @@ function UploadSheets() {
     };
 
     if (jobId) {
-      console.log('Starting status polling for jobId:', jobId);
       pollStatus();
     }
 
@@ -171,12 +167,10 @@ function UploadSheets() {
           }
         },
         error: (error) => {
-          console.error('CSV parsing error:', error);
           setError('Error parsing CSV file');
         },
       });
     } catch (error) {
-      console.error('Preview error:', error);
       setError('Error previewing file');
     }
   };
@@ -188,27 +182,22 @@ function UploadSheets() {
         ? `/tax/jobs/${jobId}/valid-records?cursor=${cursor}&tax_type=${formData.type}`
         : `/tax/jobs/${jobId}/valid-records?tax_type=${formData.type}`;
 
-      console.log('Loading valid records from:', url);
       const response = await api.get(url);
-      console.log('Valid records response:', response.data);
       const { results, next_cursor, has_more } = response.data;
 
       if (cursor) {
         // Append new data to existing data
         setValidRecords((prev) => {
           const newData = [...prev, ...results];
-          console.log('Updated records after append:', newData);
           return newData;
         });
       } else {
         // Set initial data
-        console.log('Setting initial records:', results);
         setValidRecords(results);
       }
       setNextCursor(next_cursor);
       setHasMore(has_more);
     } catch (error) {
-      console.error('Error loading valid records:', error);
       setError('Error loading valid records');
     } finally {
       setLoadingMore(false);
@@ -216,9 +205,7 @@ function UploadSheets() {
   };
 
   const handleLoadMore = () => {
-    console.log('handleLoadMore called', { nextCursor, hasMore, loadingMore });
     if (nextCursor && hasMore && !loadingMore && jobId) {
-      console.log('Loading more records with cursor:', nextCursor);
       loadValidRecords(jobId, nextCursor);
     }
   };
@@ -237,7 +224,6 @@ function UploadSheets() {
       link.click();
       link.remove();
     } catch (error) {
-      console.error('Error downloading invalid records:', error);
       setError('Error downloading invalid records');
     }
   };
@@ -273,7 +259,6 @@ function UploadSheets() {
       setSuccess('Your data is in sync transmit.');
       setProgress(0);
     } catch (error) {
-      console.error('Upload error:', error);
       if (error.response?.status === 401) {
         // Let the axios interceptor handle the logout
         return;
@@ -433,12 +418,9 @@ function UploadSheets() {
             </div>
           </div>
 
-          {console.log('Current jobStatus:', jobStatus)}
-          {console.log('Current validRecords:', validRecords)}
 
           {jobStatus?.status === 'finished' && validRecords.length > 0 ? (
             <>
-              {console.log('Rendering valid records table')}
               <UploadSheetTableSubmit
                 data={validRecords}
                 columns={[
@@ -519,7 +501,6 @@ function UploadSheets() {
           ) : (
             previewData && (
               <div className="preview-table-container">
-                {console.log('Rendering preview table')}
                 <UploadSheetTable
                   data={previewData.data}
                   columns={previewData.columns}

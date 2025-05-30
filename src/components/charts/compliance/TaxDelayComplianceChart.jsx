@@ -25,7 +25,6 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
   const [selectedSegment, setSelectedSegment] = useState('large');
   const [filterData, setFilterData] = useState({});
   const [records, setRecords] = useState([]);
-  console.log("taxDelayComplianceData inside", taxDelayComplianceData);
 
   useEffect(() => {
     let updatedData = [];

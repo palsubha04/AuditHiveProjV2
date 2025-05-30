@@ -58,7 +58,6 @@ const SWTSalesComparison = ({ startDate, endDate }) => {
           ]
         });
       } catch (err) {
-        console.error('Error fetching employees comparison:', err);
         setError('Failed to load employees comparison data');
       } finally {
         setLoading(false);
