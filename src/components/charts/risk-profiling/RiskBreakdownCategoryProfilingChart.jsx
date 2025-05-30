@@ -51,13 +51,13 @@ const RiskBreakdownCategoryProfilingChart = ({
       setFilteredData(rules);
       const result = Object.entries(
         riskBreakdownByCategoryDataProfiling[selectedCategory]
-      ).flatMap(([category, { assessments}]) =>
-      assessments.map(({ assessment_number, tax_period_year, tax_period_month }) => ({
+      ).flatMap(([category, { assessments }]) =>
+        assessments.map(({ assessment_number, tax_period_year, tax_period_month }) => ({
           'Assessment Number': assessment_number,
           'Tax Period Year': tax_period_year,
           'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
           "Risk Type": category,
-          
+
         }))
       );
 
@@ -115,24 +115,24 @@ const RiskBreakdownCategoryProfilingChart = ({
         const label = w.globals.labels[seriesIndex];
         const count = series[seriesIndex];
         let assessments = '';
-    
+
         if (filteredData[label]) {
           const assessmentNumbers = filteredData[label].assessments.map(a => a.assessment_number);
-          
+
           for (let i = 0; i < assessmentNumbers.length; i++) {
             if (i > 0) {
               // Add comma before each item except the first
               assessments += ', ';
             }
             assessments += assessmentNumbers[i];
-    
+
             // Add <br/> after every 5 items, except the last one
             if ((i + 1) % 5 === 0 && i !== assessmentNumbers.length - 1) {
               assessments += '<br/>';
             }
           }
         }
-    
+
         return `
           <div style="padding:8px;">
             <strong>${label}:</strong> ${count}<br/>
@@ -142,7 +142,7 @@ const RiskBreakdownCategoryProfilingChart = ({
         `;
       },
     }
-    
+
   };
 
   // Toolbar functions
@@ -172,8 +172,8 @@ const RiskBreakdownCategoryProfilingChart = ({
   return (
     <div>
       <CardHeader className="chart-card-header">
-        <div className="chart-headers">Risk Breakdown Category</div>
         <div className="d-flex flex-row gap-2 align-items-center">
+          <div className="chart-headers">Risk Breakdown Category</div>
           <select
             className="chart-filter"
             value={selectedCategory}
@@ -183,6 +183,8 @@ const RiskBreakdownCategoryProfilingChart = ({
             <option value="swt">SWT</option>
             <option value="cit">CIT</option>
           </select>
+        </div>
+        <div className="d-flex flex-row gap-2 align-items-center">
           <Dropdown>
             <Dropdown.Toggle
               variant="outline-default"
@@ -201,10 +203,10 @@ const RiskBreakdownCategoryProfilingChart = ({
             </Dropdown.Menu>
           </Dropdown>
           <CSVExportButton
-              records={records}
-              filename="risk_breakdown_by_category_assessments.csv"
-              buttonLabel="Download Risk Breakdown By Category Assessments List"
-            />
+            records={records}
+            filename="risk_breakdown_by_category_assessments.csv"
+            buttonLabel="Download Risk Breakdown By Category Assessments List"
+          />
         </div>
       </CardHeader>
       <CardBody>

@@ -176,26 +176,21 @@ function UploadSheetTable({
       onScroll={(e) => fetchMoreOnBottomReached(e.target)}
     >
       <table style={{ display: 'grid' }}>
-        <thead
-          style={{
-            display: 'grid',
-            position: 'sticky',
-            top: 0,
-            zIndex: 1,
-            backgroundColor: 'white',
-          }}
-        >
+        <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} style={{ display: 'flex', width: '100%' }}>
+            <tr key={headerGroup.id} style={{ display: 'flex' }}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
                   style={{
-                    display: 'inline-block',
-                    width: '100%',
-                    padding: '12px',
-                    borderBottom: '2px solid #eee',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    width: '120px',
                   }}
+                  title={flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
                 >
                   {flexRender(
                     header.column.columnDef.header,
