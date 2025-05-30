@@ -1,7 +1,7 @@
-import { Tally1 } from 'lucide-react';
+// import { Tally1 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Table from '../../Table';
-import { Badge } from 'react-bootstrap';
+// import { Badge } from 'react-bootstrap';
 import CSVExportButton from '../../CSVExportButton';
 import { CardBody, CardHeader } from 'react-bootstrap';
 import './TopFruadRulesProfiling.css';

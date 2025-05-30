@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card} from 'react-bootstrap';
 import gstService from '../../services/gst.service';
 import '../../pages/Dashboard.css';
 

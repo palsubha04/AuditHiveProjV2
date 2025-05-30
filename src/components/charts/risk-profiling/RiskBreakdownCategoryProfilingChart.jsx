@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import Chart from 'react-apexcharts';
 import ApexCharts from 'apexcharts';
 import '../charts.css';
 import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
@@ -13,10 +12,10 @@ const RiskBreakdownCategoryProfilingChart = ({
   const [filteredData, setFilteredData] = useState([]);
   const [records, setRecords] = useState([]);
 
-  console.log(
-    'riskBreakdownByCategoryDataProfiling',
-    riskBreakdownByCategoryDataProfiling
-  );
+  // console.log(
+  //   'riskBreakdownByCategoryDataProfiling',
+  //   riskBreakdownByCategoryDataProfiling
+  // );
 
   const riskLevels = [
     'Critical Risk',

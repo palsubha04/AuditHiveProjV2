@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Form } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { useLocation } from 'react-router-dom';
@@ -19,7 +17,6 @@ function TenureFilter({ onFilterChange, tenureOptions }) {
     { label: 'Custom Range', value: 'custom' }
   ];
   const location = useLocation();
-  console.log('Location:', location.pathname);
   if (
     location.pathname === "/compliance" ||
     location.pathname === "/cit" ||
