@@ -202,7 +202,7 @@ const RiskBreakdownCategoryProfilingChart = ({
           />
         </div>
       </CardHeader>
-      <CardBody>
+      <CardBody style={{'paddingLeft':'105px'}}>
         {labels.length === 1 && labels[0] === "No Risk" ? (
           <div className="spinner-div" style={{
             fontSize : "17px",
