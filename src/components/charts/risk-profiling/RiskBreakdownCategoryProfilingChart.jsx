@@ -202,7 +202,7 @@ const RiskBreakdownCategoryProfilingChart = ({
           />
         </div>
       </CardHeader>
-      <CardBody>
+      <CardBody style={{'paddingLeft':'105px'}}>
         <ReactApexChart
           key={JSON.stringify(series)} // forces remount when data changes
           options={options}
