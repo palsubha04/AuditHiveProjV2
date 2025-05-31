@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faUser, 
-  faLock, 
-  faEnvelope 
+import { Eye, EyeOff } from 'lucide-react';
+
+import {
+  faUser,
+  faLock,
+  faEnvelope
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -23,6 +24,7 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     // Check for message in location state (from password reset)
@@ -54,12 +56,12 @@ function Login() {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
         localStorage.setItem('user', JSON.stringify(response.user));
-        
+
         // Update auth context with user data
         login(response.user);
 
         dispatch(fetchDatasets());
-        
+
         navigate('/gst', { replace: true });
       } else {
         setError('Invalid response from server');
@@ -75,7 +77,7 @@ function Login() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    
+
     try {
       await authService.forgotPassword({ email });
       alert('Password reset instructions have been sent to your email');
@@ -93,12 +95,12 @@ function Login() {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-page" style={{ backgroundImage: `url('/login/LoginBackground.svg')` }}>
       <Container className="d-flex align-items-center justify-content-center min-vh-100">
         <div className="login-box">
-          <h1 className="text-center mb-4">
+          <div className="text-center mb-4" style={{ color: '#4F545B', fontFamily: 'Poppins', fontWeight: '600', fontSize: '30px', lineHeight: '100%', letterSpacing: '0px', textAlign: 'center', }}>
             {isForgotPassword ? 'Forgot Password' : 'Login'}
-          </h1>
+          </div>
           {error && (
             <Alert variant="danger" className="mb-3">
               {error}
@@ -106,41 +108,46 @@ function Login() {
           )}
           {!isForgotPassword ? (
             <Form onSubmit={handleLogin}>
-              <Form.Group className="mb-3 input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    <FontAwesomeIcon icon={faUser} color="#968D8D" size="lg" />
-                  </span>
-                </div>
+              <Form.Group className="mb-3 input-group d-flex flex-column">
+                <Form.Label style={{ color: '#666666', fontSize: '16px' }}>Username</Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="form-input"
+                  className="form-input-login w-100"
                   required
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3 input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    <FontAwesomeIcon icon={faLock} color="#968D8D" size="lg" />
+              <Form.Group className="mb-3 input-group position-relative">
+                <Form.Label style={{ color: '#666666', fontSize: '16px' }}>Password</Form.Label>
+                <div className="position-relative w-100">
+                  <Form.Control
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="form-input-login w-100 pe-5"
+                    required
+                  />
+                  <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      right: '10px',
+                      transform: 'translateY(-50%)',
+                      cursor: 'pointer',
+                      color: '#666',
+                    }}
+                  >
+                    {showPassword ? <EyeOff style={{color: "#999999"}} size={18} /> : <Eye style={{color: "#999999"}} size={18} />}
                   </span>
                 </div>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="form-input"
-                  required
-                />
               </Form.Group>
 
               <div className="text-end mb-3">
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="forgot-password"
                   onClick={(e) => {
                     e.preventDefault();
@@ -152,8 +159,8 @@ function Login() {
                 </a>
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-100 login-button"
                 disabled={loading}
               >
@@ -163,24 +170,19 @@ function Login() {
           ) : (
             <Form onSubmit={handleForgotPassword}>
               <Form.Group className="mb-3 input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    <FontAwesomeIcon icon={faEnvelope} color="#968D8D" size="lg" />
-                  </span>
-                </div>
+                <Form.Label style={{ color: '#666666' }}>Enter email</Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="form-input"
+                  className="form-input-login w-100"
                   required
                 />
               </Form.Group>
 
               <div className="d-flex justify-content-between align-items-center mb-3">
-                <a 
-                  href="#" 
+                <a
+                  href="#"
                   className="back-to-login"
                   onClick={(e) => {
                     e.preventDefault();
@@ -192,8 +194,8 @@ function Login() {
                 </a>
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-100 login-button"
                 disabled={loading}
               >
@@ -202,8 +204,8 @@ function Login() {
             </Form>
           )}
         </div>
-      </Container>
-    </div>
+      </Container >
+    </div >
   );
 }
 
