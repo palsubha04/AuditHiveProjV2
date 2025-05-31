@@ -1,7 +1,5 @@
-// import { Tally1 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Table from '../../Table';
-// import { Badge } from 'react-bootstrap';
 import CSVExportButton from '../../CSVExportButton';
 import { CardBody, CardHeader } from 'react-bootstrap';
 import './TopFruadRulesProfiling.css';
@@ -17,7 +15,7 @@ const monthMap = {
   9: 'September',
   10: 'October',
   11: 'November',
-  12: 'December'
+  12: 'December',
 };
 
 const TopFraudRulesProfiling = ({
@@ -26,35 +24,26 @@ const TopFraudRulesProfiling = ({
   selectedTaxType,
   selectedSegmentation,
 }) => {
-  // const [selectedTaxType, setSelectedTaxType] = useState("gst");
-  // const [selectedSegmentation, setSelectedSegmentation] = useState("");
   const [records, setRecords] = useState([]);
   useEffect(() => {
-    const updatedData = topFraudRulesProfilingData?.records?.map(item => ({
-      ...item,
-      tax_period_month: monthMap[item.tax_period_month] || item.tax_period_month
-    })) || [];
-  
+    const updatedData =
+      topFraudRulesProfilingData?.records?.map((item) => ({
+        ...item,
+        tax_period_month:
+          monthMap[item.tax_period_month] || item.tax_period_month,
+      })) || [];
+
     setRecords(updatedData);
   }, [topFraudRulesProfilingData]);
-  
+
   const [filteredData, setFilteredData] = useState(
     topFraudRulesProfilingData && topFraudRulesProfilingData['records']
       ? topFraudRulesProfilingData['records']
       : []
   );
-  
-  
-
 
   const taxTypes = ['gst', 'swt', 'cit'];
   const segmentations = ['large', 'medium', 'small', 'micro'];
-
-  // useEffect(() => {
-  //   if (selectedTaxType && selectedSegmentation) {
-  //     handleTopFraudFilterChange(selectedTaxType, selectedSegmentation);
-  //   }
-  // }, [selectedTaxType, selectedSegmentation]);
 
   const columns = [
     {
@@ -68,26 +57,16 @@ const TopFraudRulesProfiling = ({
     },
     {
       accessorKey: 'tax_period_year',
-      header: 'Tax Period Year'
+      header: 'Tax Period Year',
     },
     {
       accessorKey: 'tax_period_month',
       header: 'Tax Period Month',
-
     },
     {
       accessorKey: 'segmentation',
       header: 'Segmentation',
     },
-    // {
-    //   accessorKey: 'is_fraud',
-    //   header: 'Is Fraud',
-    //   cell: ({ getValue }) => (
-    //     <Badge bg={getValue() ? 'danger' : 'success'}>
-    //       {getValue() ? 'Fraud' : 'Valid'}
-    //     </Badge>
-    //   ),
-    // },
     {
       accessorKey: 'fraud_reason',
       header: 'Fraud Reason',

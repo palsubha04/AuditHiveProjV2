@@ -15,13 +15,13 @@ import topFraudRulesProfilingReducer from './slice/risk-profiling/topFraudRulesP
 import gstBenchmarkProfilingReducer from './slice/risk-profiling/gstBenchmarkProfilingSlice';
 import citBenchmarkProfilingReducer from './slice/risk-profiling/citBenchmarkProfilingSlice';
 import swtBenchmarkProfilingReducer from './slice/risk-profiling/swtBenchmarkProfilingSlice';
-import gstBenchmarkCreditsProfilingReducer from "./slice/risk-profiling/gstBenchmarkCreditsProfilingSlice";
-import swtBenchmarkEmployeesProfilingReducer from "./slice/risk-profiling/swtBenchmarkEmployeesProfilingSlice";
-import taxFilingComplianceReducer from './slice/compliance/taxFilingComplianceSlice'
-import taxDelayComplianceReducer from "./slice/compliance/taxDelayComplianceSlice";
-import profitLossComplianceReducer from "./slice/compliance/profitLossComplianceSlice";
-import delayedFilingReducer from "./slice/risk-profiling/delayedFilingsSlice";
-
+import gstBenchmarkCreditsProfilingReducer from './slice/risk-profiling/gstBenchmarkCreditsProfilingSlice';
+import swtBenchmarkEmployeesProfilingReducer from './slice/risk-profiling/swtBenchmarkEmployeesProfilingSlice';
+import taxFilingComplianceReducer from './slice/compliance/taxFilingComplianceSlice';
+import taxDelayComplianceReducer from './slice/compliance/taxDelayComplianceSlice';
+import profitLossComplianceReducer from './slice/compliance/profitLossComplianceSlice';
+import delayedFilingReducer from './slice/risk-profiling/delayedFilingsSlice';
+import uploadHistoryReducer from './slice/uploadHistorySlice';
 
 const store = configureStore({
   reducer: {
@@ -46,7 +46,8 @@ const store = configureStore({
     taxFilingCompliance: taxFilingComplianceReducer,
     taxDelayCompliance: taxDelayComplianceReducer,
     profitLossCompliance: profitLossComplianceReducer,
-    delayedFiling : delayedFilingReducer,
+    delayedFiling: delayedFilingReducer,
+    uploadHistory: uploadHistoryReducer,
   },
 });
 
