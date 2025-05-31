@@ -52,13 +52,14 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
 
   // Risk levels to be used for each series
   const riskLevels = [
-    { key: 'Critical', color: '#c0392b' },
-    { key: 'High', color: '#e74c3c' },
-    { key: 'Moderate', color: '#f39c12' },
-    { key: 'Elevated', color: '#f1c40f' },
-    { key: 'Low', color: '#2ecc71' },
-    { key: 'Very Low', color: '#1abc9c' },
+    { key: 'Critical', color: '#FF779D' },
+    { key: 'High', color: '#FFD12C' },
+    { key: 'Moderate', color: '#20E5F3' },
+    { key: 'Elevated', color: '#6287FF' },
+    { key: 'Low', color: '#347AE2' },
+    { key: 'Very Low', color: '#00E096' },
   ];
+  
 
   const series = riskLevels.map((level) => ({
     name: level.key,
@@ -188,7 +189,20 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
         </div>
       </CardHeader>
       <CardBody>
+        {records && records.length > 0  ?
         <Chart options={options} series={series} type="bar" height={350} />
+        :  <div
+        className="text-center text-muted"
+        style={{
+          height: '350px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        No Data Found
+      </div>
+}
       </CardBody>
       {/* Only render chart if series data exists */}
       {/* {riskBreakdownByCategoryData ? (series.length > 0 && (

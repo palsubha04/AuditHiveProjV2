@@ -99,7 +99,7 @@ const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
     legend: {
       position: 'top',
     },
-    colors: ['#2563eb', '#22c55e', '#f59e42', '#a0aec0'],
+    colors: ["#6287FF", "#00E096", "#FFD12C", "#FF779D"],
     noData: {
       text: 'No Data Found',
       align: 'center',
@@ -159,12 +159,26 @@ const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
         </Dropdown>
       </CardHeader>
       <CardBody>
+        {salesData?.records?.length > 0 ? 
         <Chart
           options={chartOptions}
           series={chartSeries}
           type="line"
           height={430}
         />
+        :
+        <div
+        className="text-center text-muted"
+        style={{
+          height: '350px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        No Data Found
+      </div>
+  }
       </CardBody>
     </>
   );

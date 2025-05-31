@@ -57,6 +57,7 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
       position: 'bottom'
     },
     labels: ['Delayed', 'Non Delayed'],
+    colors: ['#FF779D', '#347AE2'],
     responsive: [
       {
         breakpoint: 480,

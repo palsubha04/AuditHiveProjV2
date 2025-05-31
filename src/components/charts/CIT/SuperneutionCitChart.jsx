@@ -25,6 +25,7 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
       position: "bottom",
     },
     labels: ['PNG', 'Foreign'],
+    colors:  ["#00E096", "#0095FF"],
     tooltip: {
       custom: function ({ series, seriesIndex, w }) {
         const value = series[seriesIndex];
@@ -240,6 +241,7 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
         </div>
       </Card.Header>
       <Card.Body>
+        
         <Chart
           options={chartData.options}
           series={chartData.series}

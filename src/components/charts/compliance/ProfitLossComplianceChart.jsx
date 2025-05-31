@@ -69,7 +69,7 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
         labels: { style: { fontWeight: 500, color: '#334155' } },
       },
       legend: { position: 'bottom' },
-      colors: ['#2563eb', '#f97316'],
+      colors: ['#347AE2', '#FF779D'],
       markers: { size: 5 },
       tooltip: {
         shared: true,

@@ -97,7 +97,7 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
         labels: { style: { fontWeight: 500, color: '#334155' } },
       },
       legend: { position: 'bottom' },
-      colors: ['#2563eb', '#f97316'],
+      colors: ['#347AE2', '#FF779D'],
       markers: { size: 5 },
       tooltip: {
         shared: true,
@@ -113,7 +113,7 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
               <strong>${sizeLabel}</strong><br/>
               Total Taxpayers: ${total}<br/>
               Risk-Flagged: ${flagged}<br/>
-              <span style="color:#f97316;">Risk Percentage: ${percent}%</span>
+              <span style="color:#FF779D;">Risk Percentage: ${percent}%</span>
             </div>
           `;
         },
@@ -162,6 +162,63 @@ const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
       });
     }
   };
+  if (!records || records.length === 0) {
+    return (
+     <>
+        <CardHeader className="chart-card-header">
+        <div className="d-flex">
+          <span className="chart-headers">Total Taxpayers vs Risk-Flagged</span>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="chart-filter"
+          >
+            <option value="gst">GST</option>
+            <option value="swt">SWT</option>
+            <option value="cit">CIT</option>
+          </select>
+        </div>
+        <div className="d-flex align-items-center gap-2">
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-default"
+              size="sm"
+              className="download-dropdown-btn"
+            >
+              Export
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => handleDownload('png')}>
+                Download PNG
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload('csv')}>
+                Download CSV
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <CSVExportButton
+            records={records}
+            filename="risk_taxpayers.csv"
+            buttonLabel="Download Risk Taxpayer List"
+          />
+        </div>
+      </CardHeader>
+        <CardBody>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        </CardBody>
+        </>
+    );
+  }
 
   return (
     <>

@@ -109,12 +109,7 @@ const TopFraudRulesProfiling = ({
                   </option>
                 ))}
             </select>
-            <span
-              className="mx-2"
-              style={{ color: '#7c879d', fontSize: '16px' }}
-            >
-              and
-            </span>
+          
             <select
               className="chart-filter"
               value={selectedSegmentation}
@@ -130,12 +125,7 @@ const TopFraudRulesProfiling = ({
                 </option>
               ))}
             </select>
-            <span
-              style={{ color: '#7c879d', fontSize: '16px', marginLeft: '5px' }}
-            >
-              {' '}
-              (Segmentation){' '}
-            </span>
+         
           </div>
         </div>
         <CSVExportButton

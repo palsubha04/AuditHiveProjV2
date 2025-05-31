@@ -158,7 +158,20 @@ const SWTBenchmarkEmployeesProfilingChart = ({
         </Dropdown>
       </CardHeader>
       <CardBody>
-        <Chart options={options} series={series} type="bar" height={430} />
+      {swtBenchmarkEmployeesProfilingData && Object.keys(swtBenchmarkEmployeesProfilingData).length > 0  ?
+      <Chart options={options} series={series} type="bar" height={430} />
+      :  <div
+      className="text-center text-muted"
+      style={{
+        height: '350px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      No Data Found
+    </div>
+      }
       </CardBody>
     </>
   );

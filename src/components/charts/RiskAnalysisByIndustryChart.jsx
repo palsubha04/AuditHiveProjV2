@@ -81,7 +81,7 @@ const RiskAnalysisByIndustryChart = ({ riskData }) => {
         text: 'Risk Count',
       },
     },
-    colors: ['#F36464', '#FF779D', '#f1c40f', '#FFD12C', '#00E096', '#34C759'],
+    colors: ['#FF779D', '#FFD12C', '#20E5F3', '#6287FF', '#347AE2', '#00E096'],
     legend: {
       position: 'bottom',
     },
@@ -151,9 +151,7 @@ const RiskAnalysisByIndustryChart = ({ riskData }) => {
                   </option>
                 ))}
               </select>
-              <span className="mx-2" style={{ color: '#7c879d', fontSize: '16px' }}>
-                and
-              </span>
+             
               <select
                 className="chart-filter"
                 value={selectedIndustry}
@@ -185,7 +183,20 @@ const RiskAnalysisByIndustryChart = ({ riskData }) => {
 
       </CardHeader>
       <CardBody>
+        {filteredData && Object.keys(filteredData).length > 0 ?
         <Chart options={options} series={series} type="bar" height={400} />
+        :  <div
+        className="text-center text-muted"
+        style={{
+          height: '350px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        No Data Found
+      </div>}
+        
       </CardBody>
     </>
   );
