@@ -12,7 +12,7 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
-import { Bell, CircleUserRound, Search } from 'lucide-react';
+import { Bell, CircleUserIcon, CircleUserRound, Search } from 'lucide-react';
 
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -107,17 +107,17 @@ function Header() {
           onToggle={(isOpen) => setIsDropdownOpen(isOpen)}
         >
           <Dropdown.Toggle className="user-dropdown">
-            <CircleUserRound />
+            <CircleUserIcon />
             <span style={{color:'#fff'}}>{getFullName()}</span>
             <FontAwesomeIcon
               icon={isDropdownOpen ? faChevronUp : faChevronDown}
               className="dropdown-arrow"
             />
           </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item onClick={handleLogout}>
-              <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
-              Logout
+          <Dropdown.Menu className='header-dropdown-item'>
+            <Dropdown.Item onClick={handleLogout} className='d-flex gap-2 header-dropdown-item'>
+              <img src="/header-icons/Logout.svg" alt="Logout" className="logout" />
+              <span style={{color : '#5671ff'}}>Logout</span>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
