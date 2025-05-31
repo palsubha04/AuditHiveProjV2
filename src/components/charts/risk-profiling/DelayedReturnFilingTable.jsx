@@ -9,7 +9,6 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
   const [selectedCategory, setSelectedCategory] = useState('gst');
   const [filteredData, setFilteredData] = useState([]);
   const categories = ['gst', 'swt', 'cit'];
-  console.log('Delayed Filing Data', delayedFilingData);
 
   useEffect(() => {
     if (delayedFilingData && selectedCategory) {
@@ -45,10 +44,9 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
   ];
   return (
     <div className="d-flex h-100 flex-column">
-      <CardHeader className="table-card-header">
+      <CardHeader className="table-card-header mb-0">
         <div className="d-flex">
           <span className="chart-headers">Delayed Return Filings</span>
-
           <div>
             <select
               className="chart-filter"

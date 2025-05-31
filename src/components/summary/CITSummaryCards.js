@@ -20,21 +20,6 @@ const SummaryCard = ({ title, value, icon }) => (
 const CITSummaryCards = ({ startDate, endDate }) => {
   const [summary, setSummary] = useState(null);
 
-//   useEffect(() => {
-//     const fetchSummary = async () => {
-//       try {
-//         const response = await citService.getTaxRecordsSummary(startDate, endDate);
-//         setSummary(response);
-//       } catch (err) {
-//         console.error('Error fetching summary:', err);
-//       }
-//     };
-
-//     if (startDate && endDate) {
-//       fetchSummary();
-//     }
-//   }, [startDate, endDate]);
-
   const formatCurrency = (value) => {
     if (value >= 1e9) {
       return `$${(value / 1e9).toFixed(2)}B`;

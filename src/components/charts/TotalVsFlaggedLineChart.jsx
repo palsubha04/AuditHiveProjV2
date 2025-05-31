@@ -4,7 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 import './charts.css';
 // import CSVExportButton from '../CSVExportButton';
 import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
-import { Menu } from 'lucide-react';
+// import { Menu } from 'lucide-react';
 import CSVExportButton from '../CSVExportButton';
 
 const entityTypes = ['large', 'medium', 'small', 'micro'];
@@ -25,7 +25,6 @@ const monthMap = {
 };
 
 const TotalVsFlaggedLineChart = ({ totalTaxPayerVsRiskFlagged }) => {
-  console.log('TotalVsFlaggedLineChart from chart', totalTaxPayerVsRiskFlagged);
   const [selectedCategory, setSelectedCategory] = useState('gst');
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});

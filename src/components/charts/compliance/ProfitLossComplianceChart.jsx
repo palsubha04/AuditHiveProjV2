@@ -8,7 +8,6 @@ import CSVExportButton from "../../CSVExportButton";
 const entityTypes = ['large', 'medium', 'small', 'micro'];
 
 const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
-  console.log("profitLossComplianceData from chart", profitLossComplianceData);
   const [selectedCategory, setSelectedCategory] = useState("cit");
   const [chartSeries, setChartSeries] = useState([]);
   const [chartOptions, setChartOptions] = useState({});
@@ -133,6 +132,29 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
       });
     }
   };
+
+  if (!records || records.length === 0) {
+    return (
+      <>
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Profit vs Loss</span>
+        </Card.Header>
+        <Card.Body>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        </Card.Body>
+      </>
+    );
+  }
 
   return (
     <>

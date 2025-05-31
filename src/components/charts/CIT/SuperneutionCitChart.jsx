@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Dropdown, Row, Spinner } from 'react-bootstrap';
+import { Card, Dropdown, Spinner } from 'react-bootstrap';
 import Chart from 'react-apexcharts';
 import ApexCharts from 'apexcharts';
 import citService from '../../../services/cit.service';
@@ -81,22 +81,22 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
           startDate,
           endDate
         );
-       // const filteredData = response.map(({ interest_expense_png, interest_expense_foreign, ...rest }) => rest);
-       const result = [];
+        // const filteredData = response.map(({ interest_expense_png, interest_expense_foreign, ...rest }) => rest);
+        const result = [];
 
-       response.forEach(entry => {
-         const { superannuation_png, superannuation_foreign, tax_period_year, records } = entry;
-       
-         records.forEach(record => {
-           result.push({
-             tin: record.tin,
-             taxpayer_name: record.taxpayer_name,
-             tax_period_year,
-             superannuation_png,
-             superannuation_foreign
-           });
-         });
-       });
+        response.forEach(entry => {
+          const { superannuation_png, superannuation_foreign, tax_period_year, records } = entry;
+
+          records.forEach(record => {
+            result.push({
+              tin: record.tin,
+              taxpayer_name: record.taxpayer_name,
+              tax_period_year,
+              superannuation_png,
+              superannuation_foreign
+            });
+          });
+        });
         setRecords(result);
         //var chart_Data = response;
         var superannuation_png = 0;
@@ -117,7 +117,6 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
           series: chartSeries,
         }));
       } catch (err) {
-        console.error('Error fetching Total Amount By Expense Type:', err);
         setError('Failed to load Total Amount By Expense Type data');
       } finally {
         setLoading(false);
@@ -190,6 +189,29 @@ const SuperneutionCitChart = ({ startDate, endDate }) => {
           style={{ height: '400px' }}
         >
           {error}
+        </Card.Body>
+      </Card>
+    );
+  }
+  
+  if (!records || records.length === 0) {
+    return (
+      <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Superannuation PNG vs Foreign</span>
+        </Card.Header>
+        <Card.Body>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
         </Card.Body>
       </Card>
     );

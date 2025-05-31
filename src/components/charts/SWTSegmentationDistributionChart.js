@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import ApexCharts from "apexcharts";
-import { Card, Row, Col, Spinner, Dropdown } from "react-bootstrap";
+import { Card, Spinner, Dropdown } from "react-bootstrap";
 import swtService from "../../services/swt.service";
 import "../../pages/Dashboard.css";
 
@@ -102,7 +102,6 @@ const SWTSegmentationDistributionChart = ({ startDate, endDate }) => {
           series: allZero ? [] : series,
         }));
       } catch (err) {
-        console.error("Error fetching segmentation distribution:", err);
         setError("Failed to load segmentation distribution data");
       } finally {
         setLoading(false);

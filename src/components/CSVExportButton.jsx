@@ -8,7 +8,6 @@ const CSVExportButton = ({
   buttonLabel = "Export CSV",
 }) => {
   const exportToCSV = () => {
-    console.log("received records", records);
     if (!records || records.length === 0) return;
 
     // Transform headers: remove underscores and capitalize each word

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Row, Col, Form, Badge } from 'react-bootstrap';
+import { Card, Form} from 'react-bootstrap';
 import Table from '../Table';
 import gstService from '../../services/gst.service';
 import debounce from 'lodash/debounce';
@@ -15,7 +15,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  const [fraudFilter, setFraudFilter] = useState('all'); // all | fraud | valid
+  //const [fraudFilter, setFraudFilter] = useState('all'); // all | fraud | valid
 
   const fetchRecords = async (tin = '', page = 1, append = false) => {
     if (loading || isLoadingMore) return;
@@ -31,11 +31,9 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
       let response;
       if (tin) {
         response = await gstService.getTaxRecordsByTIN(tin,startDate,endDate);
-        console.log('received data', response);
         setRecords(response.records);
       } else {
         response = await gstService.getTaxRecords(startDate, endDate, page);
-        console.log('received data', response);
         if (append) {
           setRecords((prev) => [...prev, ...response.records]);
         } else {
@@ -46,7 +44,6 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
       setLoading(false);
     } catch (err) {
       setError('Failed to fetch tax records');
-      console.error('Error fetching tax records:', err);
     } finally {
       setLoading(false);
       setIsLoadingMore(false);

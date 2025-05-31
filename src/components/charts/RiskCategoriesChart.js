@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { Card, Row, Col, Spinner, Dropdown } from 'react-bootstrap';
+import { Card, Spinner, Dropdown } from 'react-bootstrap';
 import analyticsService from '../../services/analytics.service';
 import '../../pages/Dashboard.css';
 import './charts.css'
@@ -258,7 +258,6 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
           },
         }));
       } catch (err) {
-        console.error('Error fetching risk categories:', err);
         setError('Failed to load risk categories data');
       } finally {
         setLoading(false);

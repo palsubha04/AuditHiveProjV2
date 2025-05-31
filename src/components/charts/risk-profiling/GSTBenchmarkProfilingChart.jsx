@@ -62,16 +62,16 @@ const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
         const ratio = isOverall
           ? gstBenchmarkProfilingData['gst_refundable'] != 0
             ? (
-                gstBenchmarkProfilingData['gst_payable'] /
-                gstBenchmarkProfilingData['gst_refundable']
-              ).toFixed(3)
+              gstBenchmarkProfilingData['gst_payable'] /
+              gstBenchmarkProfilingData['gst_refundable']
+            ).toFixed(3)
             : 'N/A'
           : gstBenchmarkProfilingData['average_gst_refundable'] != 0
-          ? (
+            ? (
               gstBenchmarkProfilingData['average_gst_payable'] /
               gstBenchmarkProfilingData['average_gst_refundable']
             ).toFixed(3)
-          : 'N/A';
+            : 'N/A';
 
         const ratioLabel = isOverall
           ? 'Payable vs Refundable'
@@ -131,8 +131,8 @@ const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
   return (
     <>
       <CardHeader className="chart-card-header">
-        <div className="chart-headers d-flex flex-row gap-5 align-items-center">
-          <div>GST Comparison - Payable Vs Refundable</div>
+        <div className="d-flex flex-row justify-content-between w-100 gap-2 align-items-center">
+          <div className='chart-headers'>GST Comparison - Payable Vs Refundable</div>
           <Dropdown>
             <Dropdown.Toggle
               variant="outline-default"

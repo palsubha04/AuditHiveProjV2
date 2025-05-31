@@ -10,7 +10,6 @@ const getTotalVsFlaggedTaxpayers = async (startDate, endDate) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching total vs flagged taxpayers:', error);
     throw error;
   }
 };

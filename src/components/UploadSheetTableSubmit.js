@@ -34,7 +34,7 @@ const DownloadIcon = () => (
   </svg>
 );
 
-function UploadSheetTable({
+function UploadSheetTableSubmit({
   data = [],
   columns = [],
   onLoadMore,
@@ -180,7 +180,7 @@ function UploadSheetTable({
                 <th
                   key={header.id}
                   style={{
-                    width: '200px',
+                    width: '250px',
                   }}
                   title={flexRender(
                     header.column.columnDef.header,
@@ -244,4 +244,4 @@ function UploadSheetTable({
   );
 }
 
-export default React.memo(UploadSheetTable);
+export default React.memo(UploadSheetTableSubmit);

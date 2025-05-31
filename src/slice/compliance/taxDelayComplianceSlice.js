@@ -5,13 +5,10 @@ import api from "../../services/axios.config";
 export const fetchTaxDelayCompliance = createAsyncThunk(
   "taxDelayCompliance/fetch",
   async ({ start_date, end_date }) => {
-    console.log("start_date", start_date);
-    console.log("end_date", end_date);
 
     const response = await api.get(
       `/analytics/compliance/benchmark/tax_delay_vs_non_time_delay?start_date=${start_date}&end_date=${end_date}`
     );
-    console.log("response", response);
     return response.data;
   }
 );

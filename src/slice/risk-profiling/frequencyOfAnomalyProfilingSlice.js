@@ -5,13 +5,9 @@ import api from "../../services/axios.config";
 export const fetchFrequencyOfAnomalyProfiling = createAsyncThunk(
   "frequencyOfAnomalyProfiling/fetch",
   async ({ start_date, end_date, tin }) => {
-    console.log("start_date", start_date);
-    console.log("end_date", end_date);
-    console.log("tin", tin);
     const response = await api.get(
       `/analytics/risk-assessment/fraud-rule-anomalies?start_date=${start_date}&end_date=${end_date}&tin=${tin}`
     );
-    console.log("response", response);
     return response.data;
   }
 );

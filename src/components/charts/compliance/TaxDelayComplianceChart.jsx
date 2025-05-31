@@ -25,7 +25,6 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
   const [selectedSegment, setSelectedSegment] = useState('large');
   const [filterData, setFilterData] = useState({});
   const [records, setRecords] = useState([]);
-  console.log("taxDelayComplianceData inside", taxDelayComplianceData);
 
   useEffect(() => {
     let updatedData = [];
@@ -54,8 +53,8 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
       type: 'pie',
       toolbar: { show: false },
     },
-    legend : {
-      position : 'bottom'
+    legend: {
+      position: 'bottom'
     },
     labels: ['Delayed', 'Non Delayed'],
     responsive: [
@@ -110,6 +109,29 @@ const TaxDelayComplianceChart = ({ taxDelayComplianceData }) => {
       });
     }
   };
+
+  if (!records || records.length === 0) {
+    return (
+      <>
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Delayed vs On-Time Returns</span>
+        </Card.Header>
+        <Card.Body>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        </Card.Body>
+      </>
+    );
+  }
 
   return (
     <>

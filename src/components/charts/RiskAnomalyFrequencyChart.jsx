@@ -25,10 +25,6 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
   const categories = ['gst', 'swt', 'cit'];
   const [records, setRecords] = useState([]);
 
-  console.log(
-    'data received in RiskAnomalyFrequencyChart',
-    riskAnomalyFrequencyData
-  );
   useEffect(() => {
     if (riskAnomalyFrequencyData && selectedCategory) {
       const rules =
@@ -178,18 +174,11 @@ const RiskAnomalyFrequencyChart = ({ riskAnomalyFrequencyData, source }) => {
               buttonLabel="Download Frequency Of Risk Anomalies Taxpayer List"
             />
           )}
-          {source === 'Risk Profiling' && (
-            <CSVExportButton
-              records={records}
-              filename="frequency_by_risk_anomalies_taxpayers.csv"
-              buttonLabel="Download Frequency Of Risk Anomalies Taxpayer List"
-            />
-          )}
         </div>
       </CardHeader>
 
       {/* Chart */}
-      <CardBody>
+      <CardBody style={{'paddingLeft':'105px'}}>
         <ReactApexChart
           key={`${selectedCategory}-${series.length}`} // important for rerendering
           options={options}

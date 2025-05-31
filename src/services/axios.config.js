@@ -34,7 +34,6 @@ api.interceptors.response.use(
   async (error) => {
     // Handle network errors or cases where error.response is undefined
     if (!error.response) {
-      console.error("Network error or no response:", error);
       return Promise.reject(error);
     }
 
@@ -52,7 +51,6 @@ api.interceptors.response.use(
     if (isTokenExpiredError) {
       // If this is already a retry attempt, logout
       if (originalRequest._retry) {
-        console.log("Token refresh failed, logging out...");
         authService.logout();
         return Promise.reject(error);
       }
@@ -62,7 +60,6 @@ api.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem("refresh_token");
         if (!refreshToken) {
-          console.log("No refresh token available, logging out...");
           authService.logout();
           return Promise.reject(error);
         }
@@ -83,7 +80,6 @@ api.interceptors.response.use(
       } catch (refreshError) {
         // Only logout if refresh token is invalid/expired
         if (refreshError.response?.status === 401) {
-          console.log("Refresh token expired, logging out...");
           authService.logout();
         }
         return Promise.reject(refreshError);

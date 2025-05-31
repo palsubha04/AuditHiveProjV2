@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import ApexCharts from 'apexcharts';
-import { Card, Row, Col, Spinner, Dropdown } from 'react-bootstrap';
+import { Card, Spinner, Dropdown } from 'react-bootstrap';
 import swtService from '../../services/swt.service';
 import '../../pages/Dashboard.css';
 import './charts.css';
@@ -75,10 +75,7 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
             },
           ],
         });
-        console.log('try');
       } catch (err) {
-        console.log('catch');
-        console.error('Error fetching salaries comparison:', err);
         setError('Failed to load salaries comparison data');
       } finally {
         setLoading(false);

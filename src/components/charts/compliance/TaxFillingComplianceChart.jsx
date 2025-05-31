@@ -92,7 +92,6 @@ const monthMap = {
 
 
 const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
-  console.log('taxFilingComplianceData', taxFilingComplianceData);
   const [filterData, setFilterData] = useState(
     taxFilingComplianceData ? sampleData["gst"] ?? {} : {}
   );
@@ -145,12 +144,10 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
     { key: 'filing', color: '#c0392b', title: 'Filing' },
     { key: 'non_filing', color: '#e74c3c', title: 'Non Filing' },
   ];
-  console.log('filterdata', filterData);
   const series = riskLevels.map((level) => ({
     name: level.title,
     data: categories.map((cat) => filterData?.[cat]?.[level.key] ?? 0),
   }));
-  console.log('series', series);
 
   var options = {
     chart: {
@@ -247,6 +244,29 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
       });
     }
   };
+
+  if (!records || records.length === 0) {
+    return (
+      <>
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Tax Filing vs Non Filing</span>
+        </Card.Header>
+        <Card.Body>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        </Card.Body>
+      </>
+    );
+  }
 
   return (
     <>

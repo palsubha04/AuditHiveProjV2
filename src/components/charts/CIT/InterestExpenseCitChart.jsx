@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Dropdown, Row, Spinner } from 'react-bootstrap';
+import { Card, Dropdown, Spinner } from 'react-bootstrap';
 import Chart from 'react-apexcharts';
 import ApexCharts from 'apexcharts';
 import citService from '../../../services/cit.service';
@@ -85,20 +85,20 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
 
         const result = [];
 
-       response.forEach(entry => {
-         const { interest_expense_png, interest_expense_foreign, tax_period_year, records } = entry;
-       
-         records.forEach(record => {
-           result.push({
-             tin: record.tin,
-             taxpayer_name: record.taxpayer_name,
-             tax_period_year,
-             interest_expense_png,
-             interest_expense_foreign,
-             
-           });
-         });
-       });
+        response.forEach(entry => {
+          const { interest_expense_png, interest_expense_foreign, tax_period_year, records } = entry;
+
+          records.forEach(record => {
+            result.push({
+              tin: record.tin,
+              taxpayer_name: record.taxpayer_name,
+              tax_period_year,
+              interest_expense_png,
+              interest_expense_foreign,
+
+            });
+          });
+        });
         setRecords(result);
 
         var interest_expense_png = 0;
@@ -122,7 +122,6 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
         }));
 
       } catch (err) {
-        console.error('Error fetching Total Amount By Expense Type:', err);
         setError('Failed to load Total Amount By Expense Type data');
       } finally {
         setLoading(false);
@@ -195,6 +194,29 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
           style={{ height: '400px' }}
         >
           {error}
+        </Card.Body>
+      </Card>
+    );
+  }
+
+  if (!records || records.length === 0) {
+    return (
+      <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Interest PNG vs Foreign</span>
+        </Card.Header>
+        <Card.Body>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
         </Card.Body>
       </Card>
     );

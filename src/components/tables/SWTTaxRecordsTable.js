@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Row, Col, Form, Badge, Spinner } from 'react-bootstrap';
+import { Card, Form, Badge } from 'react-bootstrap';
 import Table from '../Table';
 import swtService from '../../services/swt.service';
 import debounce from 'lodash/debounce';
@@ -52,7 +52,6 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
       setTotalRecords(response.total_data_count);
     } catch (err) {
       setError('Failed to fetch tax records');
-      console.error('Error fetching tax records:', err);
     } finally {
       setLoading(false);
       setIsLoadingMore(false);

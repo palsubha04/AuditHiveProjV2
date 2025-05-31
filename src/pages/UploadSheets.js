@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import UploadSheetTable from '../components/UploadSheetTable';
 import Papa from 'papaparse';
 import './Dashboard.css';
+import UploadSheetTableSubmit from '../components/UploadSheetTableSubmit';
 
 function UploadSheets() {
   const [uploading, setUploading] = useState(false);
@@ -45,7 +46,6 @@ function UploadSheets() {
         );
         setAuditHistory(response.data);
       } catch (error) {
-        console.error('Error fetching audit history:', error);
         if (error.response?.status === 404) {
           setAuditHistory({
             message: `No ${formData.type} data upload found.`,
@@ -67,7 +67,6 @@ function UploadSheets() {
       try {
         const response = await api.get(`/tax/jobs/${jobId}/status`);
         const status = response.data;
-        console.log('Status response:', status);
         setJobStatus(status);
 
         if (status.status === 'finished') {
@@ -88,7 +87,6 @@ function UploadSheets() {
           timeoutId = setTimeout(pollStatus, 5000);
         }
       } catch (error) {
-        console.error('Error checking job status:', error);
         setError('Error checking job status');
         // Even on error, continue polling
         timeoutId = setTimeout(pollStatus, 5000);
@@ -96,7 +94,6 @@ function UploadSheets() {
     };
 
     if (jobId) {
-      console.log('Starting status polling for jobId:', jobId);
       pollStatus();
     }
 
@@ -170,12 +167,10 @@ function UploadSheets() {
           }
         },
         error: (error) => {
-          console.error('CSV parsing error:', error);
           setError('Error parsing CSV file');
         },
       });
     } catch (error) {
-      console.error('Preview error:', error);
       setError('Error previewing file');
     }
   };
@@ -187,27 +182,22 @@ function UploadSheets() {
         ? `/tax/jobs/${jobId}/valid-records?cursor=${cursor}&tax_type=${formData.type}`
         : `/tax/jobs/${jobId}/valid-records?tax_type=${formData.type}`;
 
-      console.log('Loading valid records from:', url);
       const response = await api.get(url);
-      console.log('Valid records response:', response.data);
       const { results, next_cursor, has_more } = response.data;
 
       if (cursor) {
         // Append new data to existing data
         setValidRecords((prev) => {
           const newData = [...prev, ...results];
-          console.log('Updated records after append:', newData);
           return newData;
         });
       } else {
         // Set initial data
-        console.log('Setting initial records:', results);
         setValidRecords(results);
       }
       setNextCursor(next_cursor);
       setHasMore(has_more);
     } catch (error) {
-      console.error('Error loading valid records:', error);
       setError('Error loading valid records');
     } finally {
       setLoadingMore(false);
@@ -215,9 +205,7 @@ function UploadSheets() {
   };
 
   const handleLoadMore = () => {
-    console.log('handleLoadMore called', { nextCursor, hasMore, loadingMore });
     if (nextCursor && hasMore && !loadingMore && jobId) {
-      console.log('Loading more records with cursor:', nextCursor);
       loadValidRecords(jobId, nextCursor);
     }
   };
@@ -236,7 +224,6 @@ function UploadSheets() {
       link.click();
       link.remove();
     } catch (error) {
-      console.error('Error downloading invalid records:', error);
       setError('Error downloading invalid records');
     }
   };
@@ -272,7 +259,6 @@ function UploadSheets() {
       setSuccess('Your data is in sync transmit.');
       setProgress(0);
     } catch (error) {
-      console.error('Upload error:', error);
       if (error.response?.status === 401) {
         // Let the axios interceptor handle the logout
         return;
@@ -334,13 +320,13 @@ function UploadSheets() {
 
   return (
     <Layout>
-      <h2 className="upload-title">
+      <h6 className='mb-3'>
         {showPreview
           ? `${formData.type.toUpperCase()} data for ${formatDate(
             formData.startDate
           )} to ${formatDate(formData.endDate)}`
-          : 'Upload Document'}
-      </h2>
+          : ''}
+      </h6>
 
       {error && <Alert variant="danger">{error}</Alert>}
       {success && jobStatus?.status !== 'finished' && (
@@ -432,24 +418,79 @@ function UploadSheets() {
             </div>
           </div>
 
-          {console.log('Current jobStatus:', jobStatus)}
-          {console.log('Current validRecords:', validRecords)}
 
           {jobStatus?.status === 'finished' && validRecords.length > 0 ? (
             <>
-              {console.log('Rendering valid records table')}
-              <UploadSheetTable
+              <UploadSheetTableSubmit
                 data={validRecords}
                 columns={[
-                  { header: 'Tin', accessorKey: 'tin' },
-                  { header: 'Taxpayer Name', accessorKey: 'taxpayer_name' },
-                  { header: 'Taxpayer Type', accessorKey: 'taxpayer_type' },
+                  {
+                    header: 'Tin', accessorKey: 'tin', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Taxpayer Name', accessorKey: 'taxpayer_name', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Taxpayer Type', accessorKey: 'taxpayer_type', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
                   {
                     header: 'Tax Account No',
-                    accessorKey: 'tax_account_number',
+                    accessorKey: 'tax_account_number', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
                   },
-                  { header: 'Is Fraud', accessorKey: 'is_fraud' },
-                  { header: 'Fraud Reason', accessorKey: 'fraud_reason' },
+                  {
+                    header: 'Is Fraud', accessorKey: 'is_fraud', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
+                  {
+                    header: 'Fraud Reason', accessorKey: 'fraud_reason', size: 150,
+                    cell: ({ getValue }) => (
+                      <span
+                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        title={getValue() || 'N/A'}
+                      >
+                        {getValue() || 'N/A'}
+                      </span>
+                    )
+                  },
                 ]}
                 onLoadMore={handleLoadMore}
                 hasMore={hasMore}
@@ -460,7 +501,6 @@ function UploadSheets() {
           ) : (
             previewData && (
               <div className="preview-table-container">
-                {console.log('Rendering preview table')}
                 <UploadSheetTable
                   data={previewData.data}
                   columns={previewData.columns}
@@ -470,15 +510,15 @@ function UploadSheets() {
           )}
 
           <div className="preview-actions">
+            <Button
+              variant="secondary"
+              onClick={() => setShowPreview(false)}
+              className="me-2"
+            >
+              Back
+            </Button>
             {!jobId && (
               <>
-                <Button
-                  variant="secondary"
-                  onClick={() => setShowPreview(false)}
-                  className="me-2"
-                >
-                  Back
-                </Button>
                 <Button
                   variant="primary"
                   onClick={handleSubmit}
@@ -541,209 +581,212 @@ function UploadSheets() {
               </div>
             </div>
 
-            <Form.Group className="form-group">
-              <Form.Label>Select Tax Parameter</Form.Label>
-              <Form.Select
-                value={formData.type}
-                onChange={(e) =>
-                  setFormData({ ...formData, type: e.target.value })
-                }
-              >
-                <option value="gst">GST</option>
-                <option value="cit">CIT</option>
-                <option value="swt">SWT</option>
-              </Form.Select>
-            </Form.Group>
+            <div className='d-flex flex-row gap-4'>
+              <div className='w-25'>
+                <Form.Label>Select Tax Parameter</Form.Label>
+                <Form.Select
+                  className='p-2'
+                  style={{ borderRadius: "7px" }}
+                  value={formData.type}
+                  onChange={(e) =>
+                    setFormData({ ...formData, type: e.target.value })
+                  }
+                >
+                  <option value="gst">GST</option>
+                  <option value="cit">CIT</option>
+                  <option value="swt">SWT</option>
+                </Form.Select>
+              </div>
+              <div className='w-75'>
+                <Form.Label>Assessed Dates</Form.Label>
+                <div className="date-range-container">
+                  <div className="datepicker-container">
+                    <DatePicker
+                      selected={formData.startDate}
+                      onChange={(date) =>
+                        setFormData({ ...formData, startDate: date })
+                      }
+                      dateFormat="dd/MM/yyyy"
+                      placeholderText="DD/MM/YYYY"
+                      maxDate={formData.endDate || new Date()}
+                      className="form-control"
+                      required
+                      showYearDropdown
+                      scrollableYearDropdown
+                      yearDropdownItemNumber={10}
+                      showMonthDropdown
+                      scrollableMonthDropdown
+                      renderCustomHeader={({
+                        date,
+                        changeYear,
+                        changeMonth,
+                        years = [],
+                        months = [],
+                      }) => {
+                        // Generate years array if not provided
+                        if (!years.length) {
+                          const currentYear = new Date().getFullYear();
+                          years = Array.from(
+                            { length: 20 },
+                            (_, i) => currentYear - 10 + i
+                          );
+                        }
 
-            <Form.Group className="form-group">
-              <Form.Label>Assessed Dates</Form.Label>
-              <div className="date-range-container">
-                <div className="datepicker-container">
-                  <DatePicker
-                    selected={formData.startDate}
-                    onChange={(date) =>
-                      setFormData({ ...formData, startDate: date })
-                    }
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="dd/MM/yyyy"
-                    maxDate={formData.endDate || new Date()}
-                    className="form-control"
-                    required
-                    showYearDropdown
-                    scrollableYearDropdown
-                    yearDropdownItemNumber={10}
-                    showMonthDropdown
-                    scrollableMonthDropdown
-                    renderCustomHeader={({
-                      date,
-                      changeYear,
-                      changeMonth,
-                      years = [],
-                      months = [],
-                    }) => {
-                      // Generate years array if not provided
-                      if (!years.length) {
-                        const currentYear = new Date().getFullYear();
-                        years = Array.from(
-                          { length: 20 },
-                          (_, i) => currentYear - 10 + i
+                        // Generate months array if not provided
+                        if (!months.length) {
+                          months = [
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December',
+                          ];
+                        }
+
+                        return (
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              gap: 8,
+                            }}
+                          >
+                            <select
+                              value={date.getFullYear()}
+                              onChange={({ target: { value } }) =>
+                                changeYear(Number(value))
+                              }
+                            >
+                              {years.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                            <select
+                              value={months[date.getMonth()]}
+                              onChange={({ target: { value } }) =>
+                                changeMonth(months.indexOf(value))
+                              }
+                            >
+                              {months.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         );
+                      }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      className="calendar-icon"
+                    />
+                  </div>
+                  <div className="date-separator">to</div>
+                  <div className="datepicker-container">
+                    <DatePicker
+                      selected={formData.endDate}
+                      onChange={(date) =>
+                        setFormData({ ...formData, endDate: date })
                       }
+                      dateFormat="dd/MM/yyyy"
+                      placeholderText="DD/MM/YYYY"
+                      minDate={formData.startDate}
+                      maxDate={new Date()}
+                      className="form-control"
+                      required
+                      showYearDropdown
+                      scrollableYearDropdown
+                      yearDropdownItemNumber={10}
+                      showMonthDropdown
+                      scrollableMonthDropdown
+                      renderCustomHeader={({
+                        date,
+                        changeYear,
+                        changeMonth,
+                        years = [],
+                        months = [],
+                      }) => {
+                        // Generate years array if not provided
+                        if (!years.length) {
+                          const currentYear = new Date().getFullYear();
+                          years = Array.from(
+                            { length: 20 },
+                            (_, i) => currentYear - 10 + i
+                          );
+                        }
 
-                      // Generate months array if not provided
-                      if (!months.length) {
-                        months = [
-                          'January',
-                          'February',
-                          'March',
-                          'April',
-                          'May',
-                          'June',
-                          'July',
-                          'August',
-                          'September',
-                          'October',
-                          'November',
-                          'December',
-                        ];
-                      }
+                        // Generate months array if not provided
+                        if (!months.length) {
+                          months = [
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December',
+                          ];
+                        }
 
-                      return (
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: 8,
-                          }}
-                        >
-                          <select
-                            value={date.getFullYear()}
-                            onChange={({ target: { value } }) =>
-                              changeYear(Number(value))
-                            }
+                        return (
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              gap: 8,
+                            }}
                           >
-                            {years.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                          <select
-                            value={months[date.getMonth()]}
-                            onChange={({ target: { value } }) =>
-                              changeMonth(months.indexOf(value))
-                            }
-                          >
-                            {months.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      );
-                    }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faCalendarAlt}
-                    className="calendar-icon"
-                  />
-                </div>
-                <div className="date-separator">to</div>
-                <div className="datepicker-container">
-                  <DatePicker
-                    selected={formData.endDate}
-                    onChange={(date) =>
-                      setFormData({ ...formData, endDate: date })
-                    }
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="dd/MM/yyyy"
-                    minDate={formData.startDate}
-                    maxDate={new Date()}
-                    className="form-control"
-                    required
-                    showYearDropdown
-                    scrollableYearDropdown
-                    yearDropdownItemNumber={10}
-                    showMonthDropdown
-                    scrollableMonthDropdown
-                    renderCustomHeader={({
-                      date,
-                      changeYear,
-                      changeMonth,
-                      years = [],
-                      months = [],
-                    }) => {
-                      // Generate years array if not provided
-                      if (!years.length) {
-                        const currentYear = new Date().getFullYear();
-                        years = Array.from(
-                          { length: 20 },
-                          (_, i) => currentYear - 10 + i
+                            <select
+                              value={date.getFullYear()}
+                              onChange={({ target: { value } }) =>
+                                changeYear(Number(value))
+                              }
+                            >
+                              {years.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                            <select
+                              value={months[date.getMonth()]}
+                              onChange={({ target: { value } }) =>
+                                changeMonth(months.indexOf(value))
+                              }
+                            >
+                              {months.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         );
-                      }
-
-                      // Generate months array if not provided
-                      if (!months.length) {
-                        months = [
-                          'January',
-                          'February',
-                          'March',
-                          'April',
-                          'May',
-                          'June',
-                          'July',
-                          'August',
-                          'September',
-                          'October',
-                          'November',
-                          'December',
-                        ];
-                      }
-
-                      return (
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: 8,
-                          }}
-                        >
-                          <select
-                            value={date.getFullYear()}
-                            onChange={({ target: { value } }) =>
-                              changeYear(Number(value))
-                            }
-                          >
-                            {years.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                          <select
-                            value={months[date.getMonth()]}
-                            onChange={({ target: { value } }) =>
-                              changeMonth(months.indexOf(value))
-                            }
-                          >
-                            {months.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      );
-                    }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faCalendarAlt}
-                    className="calendar-icon"
-                  />
+                      }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      className="calendar-icon"
+                    />
+                  </div>
                 </div>
               </div>
-            </Form.Group>
+            </div>
 
             <Button
               variant="primary"

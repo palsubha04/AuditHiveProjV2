@@ -1,25 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Layout from '../components/Layout';
-import MonthlySalesTaxSummaryChart from '../components/charts/MonthlySalesTaxSummaryChart';
+// import MonthlySalesTaxSummaryChart from '../components/charts/MonthlySalesTaxSummaryChart';
 import RiskAnalysisByIndustryChart from '../components/charts/RiskAnalysisByIndustryChart';
 import RiskBreakdownByCategoryChart from '../components/charts/RiskBreakdownByCategoryChart';
 import { fetchTopFraudRulesProfiling } from '../slice/risk-profiling/topFraudRulesProfilingSlice';
-import EmployeeLineChart from '../components/charts/EmployeeLineChart';
+// import EmployeeLineChart from '../components/charts/EmployeeLineChart';
 import TotalVsFlaggedLineChart from '../components/charts/TotalVsFlaggedLineChart';
 import { useDispatch, useSelector } from 'react-redux';
 import TenureFilter from '../components/filters/TenureFilter';
 import { fetchTotalVsFlaggedTaxpayers } from '../slice/totalVsFlaggedTaxpayersSlice';
 import { fetchRiskBreakdownByCategory } from '../slice/riskBreakdownByCategorySlice';
 import { fetchRiskAnalysis } from '../slice/riskAnalysisByIndustrySlice';
-import { ClipLoader } from 'react-spinners';
-import { ToastContainer } from 'react-toastify';
+// import { ClipLoader } from 'react-spinners';
+// import { ToastContainer } from 'react-toastify';
 import { fetchDatasets } from '../slice/datasetsSlice';
 import RiskAnomalyFrequencyChart from '../components/charts/RiskAnomalyFrequencyChart';
 import { fetchRiskAnomaly } from '../slice/riskAnomalyFrequencySlice';
-import { Card, CardBody, CardHeader, Spinner } from 'react-bootstrap';
+import { Card,Spinner } from 'react-bootstrap';
 import TopFraudRulesProfiling from '../components/charts/risk-profiling/TopFraudRulesProfiling';
 import './RiskAssessment.css';
-import RiskChartPage from '../components/charts/TestChart';
+// import RiskChartPage from '../components/charts/TestChart';
 //import { set } from "react-datepicker/dist/date_utils";
 
 // Added by Soham - Total Tax Payer vs Risk Flagged
@@ -80,11 +80,9 @@ function RiskAssessment() {
 
     const currentKey = `${dateRange.start_date}-${dateRange.end_date}`;
     if (fetchedRangeRef.current === currentKey) {
-      console.log('Skipping fetch, already fetched:', currentKey);
       return;
     }
 
-    // if (!topFraudRulesProfilingData) {
     dispatch(
       fetchTopFraudRulesProfiling({
         start_date: dateRange.start_date,
@@ -93,9 +91,7 @@ function RiskAssessment() {
         segmentation: 'large',
       })
     );
-    // }
 
-    console.log('Dispatching for new range:', currentKey);
     fetchedRangeRef.current = currentKey;
 
     dispatch(fetchTotalVsFlaggedTaxpayers(dateRange));
@@ -114,9 +110,6 @@ function RiskAssessment() {
   };
 
   const handleTopFraudFilterChange = (taxType, segmentation) => {
-    console.log('filter chaged');
-    console.log('taxtype', taxType);
-    console.log('segmentaion', segmentation);
     setSelectedTaxType(taxType);
     setSelectedSegmentation(segmentation);
     dispatch(
