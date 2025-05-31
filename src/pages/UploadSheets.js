@@ -320,11 +320,11 @@ function UploadSheets() {
 
   return (
     <Layout>
-      <h6 className='mb-3'>
+      <h6 className="mb-3">
         {showPreview
           ? `${formData.type.toUpperCase()} data for ${formatDate(
-            formData.startDate
-          )} to ${formatDate(formData.endDate)}`
+              formData.startDate
+            )} to ${formatDate(formData.endDate)}`
           : ''}
       </h6>
 
@@ -334,9 +334,7 @@ function UploadSheets() {
           variant="warning"
           className="d-flex justify-content-between align-items-center"
         >
-          <span style={{ fontSize: '16px' }}>
-            Your data sync is in transit
-          </span>
+          <span style={{ fontSize: '16px' }}>Your data sync is in transit</span>
           <Spinner animation="border" role="status" variant="primary">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
@@ -368,8 +366,8 @@ function UploadSheets() {
         <>
           {!jobId && (
             <Alert variant="warning" className="preview-alert">
-              The following data has been submitted for upload, please
-              review and submit.
+              The following data has been submitted for upload, please review
+              and submit.
             </Alert>
           )}
 
@@ -377,10 +375,9 @@ function UploadSheets() {
             <div className="preview-info-left">
               {auditHistory ? (
                 auditHistory.message ===
-                  `No ${formData.type} data upload found.` ? (
+                `No ${formData.type} data upload found.` ? (
                   <div className="no-data-message">
-                    No {formData.type.toUpperCase()} data has been uploaded
-                    yet.
+                    No {formData.type.toUpperCase()} data has been uploaded yet.
                   </div>
                 ) : (
                   auditHistory.message.replace(
@@ -395,7 +392,7 @@ function UploadSheets() {
             <div className="preview-info-right">
               {auditHistory &&
                 auditHistory.message !==
-                `No ${formData.type} data upload found.` && (
+                  `No ${formData.type} data upload found.` && (
                   <span className="date-time">
                     <span>
                       Date:{' '}
@@ -418,78 +415,106 @@ function UploadSheets() {
             </div>
           </div>
 
-
           {jobStatus?.status === 'finished' && validRecords.length > 0 ? (
             <>
               <UploadSheetTableSubmit
                 data={validRecords}
                 columns={[
                   {
-                    header: 'Tin', accessorKey: 'tin', size: 150,
+                    header: 'Tin',
+                    accessorKey: 'tin',
+                    size: 150,
                     cell: ({ getValue }) => (
                       <span
-                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        style={{
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
                         title={getValue() || 'N/A'}
                       >
                         {getValue() || 'N/A'}
                       </span>
-                    )
+                    ),
                   },
                   {
-                    header: 'Taxpayer Name', accessorKey: 'taxpayer_name', size: 150,
+                    header: 'Taxpayer Name',
+                    accessorKey: 'taxpayer_name',
+                    size: 150,
                     cell: ({ getValue }) => (
                       <span
-                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        style={{
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
                         title={getValue() || 'N/A'}
                       >
                         {getValue() || 'N/A'}
                       </span>
-                    )
+                    ),
                   },
                   {
-                    header: 'Taxpayer Type', accessorKey: 'taxpayer_type', size: 150,
+                    header: 'Taxpayer Type',
+                    accessorKey: 'taxpayer_type',
+                    size: 150,
                     cell: ({ getValue }) => (
                       <span
-                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        style={{
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
                         title={getValue() || 'N/A'}
                       >
                         {getValue() || 'N/A'}
                       </span>
-                    )
+                    ),
                   },
                   {
                     header: 'Tax Account No',
-                    accessorKey: 'tax_account_number', size: 150,
+                    accessorKey: 'tax_account_number',
+                    size: 150,
                     cell: ({ getValue }) => (
                       <span
-                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        style={{
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
                         title={getValue() || 'N/A'}
                       >
                         {getValue() || 'N/A'}
                       </span>
-                    )
+                    ),
                   },
                   {
-                    header: 'Is Fraud', accessorKey: 'is_fraud', size: 150,
+                    header: 'Is Fraud',
+                    accessorKey: 'is_fraud',
+                    size: 150,
                     cell: ({ getValue }) => (
                       <span
-                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        style={{
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
                         title={getValue() || 'N/A'}
                       >
                         {getValue() || 'N/A'}
                       </span>
-                    )
+                    ),
                   },
                   {
-                    header: 'Fraud Reason', accessorKey: 'fraud_reason', size: 150,
+                    header: 'Fraud Reason',
+                    accessorKey: 'fraud_reason',
+                    size: 150,
                     cell: ({ getValue }) => (
                       <span
-                        style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                        style={{
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
                         title={getValue() || 'N/A'}
                       >
                         {getValue() || 'N/A'}
                       </span>
-                    )
+                    ),
                   },
                 ]}
                 onLoadMore={handleLoadMore}
@@ -565,10 +590,7 @@ function UploadSheets() {
                   </>
                 ) : (
                   <>
-                    <FontAwesomeIcon
-                      icon={faUpload}
-                      className="upload-icon"
-                    />
+                    <FontAwesomeIcon icon={faUpload} className="upload-icon" />
                     <p className="upload-text">
                       Drag and drop your CSV file here, or click to select a
                       file
@@ -581,12 +603,12 @@ function UploadSheets() {
               </div>
             </div>
 
-            <div className='d-flex flex-row gap-4'>
-              <div className='w-25'>
+            <div className="d-flex flex-row gap-4">
+              <div className="w-25">
                 <Form.Label>Select Tax Parameter</Form.Label>
                 <Form.Select
-                  className='p-2'
-                  style={{ borderRadius: "7px" }}
+                  className="p-2"
+                  style={{ borderRadius: '7px' }}
                   value={formData.type}
                   onChange={(e) =>
                     setFormData({ ...formData, type: e.target.value })
@@ -597,7 +619,7 @@ function UploadSheets() {
                   <option value="swt">SWT</option>
                 </Form.Select>
               </div>
-              <div className='w-75'>
+              <div className="w-75">
                 <Form.Label>Assessed Dates</Form.Label>
                 <div className="date-range-container">
                   <div className="datepicker-container">
