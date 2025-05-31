@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import ApexCharts from "apexcharts";
 import { Button, Card, CardBody, CardHeader, Col, Dropdown, Row } from "react-bootstrap";
+import CSVExportButton from "../../CSVExportButton";
 
 const sampleData = {
   start_date: '01-01-2020',
@@ -293,15 +294,11 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
                 <Dropdown.Item onClick={() => handleDownloadExport('csv')}>Download CSV</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <Button
-              onClick={handleDownload}
-              variant="outline-default"
-              className="chart-filter"
-              title="Download Non-Filing CSV"
-              style={{ background: "#fff", padding: '5px', cursor: 'pointer' }}
-            >
-              <Download style={{ height: "18px", width: "18px", color: '#5671ff' }} />
-            </Button>
+            <CSVExportButton
+              records={records}
+              filename="filing_vs_nonfiling_taxpayer.csv"
+              buttonLabel="Download Tax Filing vs Non Filing Taxpayer List"
+            />
           </div>
         </div>
       </CardHeader>
