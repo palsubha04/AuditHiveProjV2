@@ -19,28 +19,31 @@ const frequencyOfAnomalyProfilingSlice = createSlice({
     frequencyOfAnomalyProfilingLoading: false,
     frequencyOfAnomalyProfilingError: null,
   },
-  reducers: {},
+  reducers: {
+    resetFrequencyOfAnomalyProfiling: (state) => {
+      state.frequencyOfAnomalyProfilingData = null;
+      state.frequencyOfAnomalyProfilingLoading = false;
+      state.frequencyOfAnomalyProfilingError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFrequencyOfAnomalyProfiling.pending, (state) => {
         state.frequencyOfAnomalyProfilingLoading = true;
         state.frequencyOfAnomalyProfilingError = null;
       })
-      .addCase(
-        fetchFrequencyOfAnomalyProfiling.fulfilled,
-        (state, action) => {
-          state.frequencyOfAnomalyProfilingLoading = false;
-          state.frequencyOfAnomalyProfilingData = action.payload;
-        }
-      )
-      .addCase(
-        fetchFrequencyOfAnomalyProfiling.rejected,
-        (state, action) => {
-          state.frequencyOfAnomalyProfilingLoading = false;
-          state.frequencyOfAnomalyProfilingError = action.error.message;
-        }
-      );
+      .addCase(fetchFrequencyOfAnomalyProfiling.fulfilled, (state, action) => {
+        state.frequencyOfAnomalyProfilingLoading = false;
+        state.frequencyOfAnomalyProfilingData = action.payload;
+      })
+      .addCase(fetchFrequencyOfAnomalyProfiling.rejected, (state, action) => {
+        state.frequencyOfAnomalyProfilingLoading = false;
+        state.frequencyOfAnomalyProfilingError = action.error.message;
+      });
   },
 });
+
+export const { resetFrequencyOfAnomalyProfiling } =
+  frequencyOfAnomalyProfilingSlice.actions;
 
 export default frequencyOfAnomalyProfilingSlice.reducer;

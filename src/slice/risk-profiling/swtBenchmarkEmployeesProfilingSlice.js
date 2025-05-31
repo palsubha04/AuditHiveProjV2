@@ -19,22 +19,39 @@ const swtBenchmarkEmployeesProfilingSlice = createSlice({
     swtBenchmarkEmployeesProfilingLoading: false,
     swtBenchmarkEmployeesProfilingError: null,
   },
-  reducers: {},
+  reducers: {
+    // Add the reset reducer here
+    resetSwtBenchmarkEmployeesProfiling: (state) => {
+      state.swtBenchmarkEmployeesProfilingData = null;
+      state.swtBenchmarkEmployeesProfilingLoading = false;
+      state.swtBenchmarkEmployeesProfilingError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSwtBenchmarkEmployeesProfiling.pending, (state) => {
         state.swtBenchmarkEmployeesProfilingLoading = true;
         state.swtBenchmarkEmployeesProfilingError = null;
       })
-      .addCase(fetchSwtBenchmarkEmployeesProfiling.fulfilled, (state, action) => {
-        state.swtBenchmarkEmployeesProfilingLoading = false;
-        state.swtBenchmarkEmployeesProfilingData = action.payload;
-      })
-      .addCase(fetchSwtBenchmarkEmployeesProfiling.rejected, (state, action) => {
-        state.swtBenchmarkEmployeesProfilingLoading = false;
-        state.swtBenchmarkEmployeesProfilingError = action.error.message;
-      });
+      .addCase(
+        fetchSwtBenchmarkEmployeesProfiling.fulfilled,
+        (state, action) => {
+          state.swtBenchmarkEmployeesProfilingLoading = false;
+          state.swtBenchmarkEmployeesProfilingData = action.payload;
+        }
+      )
+      .addCase(
+        fetchSwtBenchmarkEmployeesProfiling.rejected,
+        (state, action) => {
+          state.swtBenchmarkEmployeesProfilingLoading = false;
+          state.swtBenchmarkEmployeesProfilingError = action.error.message;
+        }
+      );
   },
 });
+
+// Export the new action creator
+export const { resetSwtBenchmarkEmployeesProfiling } =
+  swtBenchmarkEmployeesProfilingSlice.actions;
 
 export default swtBenchmarkEmployeesProfilingSlice.reducer;

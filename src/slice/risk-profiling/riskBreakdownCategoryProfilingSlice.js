@@ -19,22 +19,37 @@ const riskBreakdownByCategoryProfilingSlice = createSlice({
     riskBreakdownByCategoryProfilingLoading: false,
     riskBreakdownByCategoryProfilingError: null,
   },
-  reducers: {},
+  reducers: {
+    resetRiskBreakdownByCategoryProfiling: (state) => {
+      state.riskBreakdownByCategoryProfilingData = null;
+      state.riskBreakdownByCategoryProfilingLoading = false;
+      state.riskBreakdownByCategoryProfilingError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchRiskBreakdownByCategoryProfiling.pending, (state) => {
         state.riskBreakdownByCategoryProfilingLoading = true;
         state.riskBreakdownByCategoryProfilingError = null;
       })
-      .addCase(fetchRiskBreakdownByCategoryProfiling.fulfilled, (state, action) => {
-        state.riskBreakdownByCategoryProfilingLoading = false;
-        state.riskBreakdownByCategoryProfilingData = action.payload;
-      })
-      .addCase(fetchRiskBreakdownByCategoryProfiling.rejected, (state, action) => {
-        state.riskBreakdownByCategoryProfilingLoading = false;
-        state.riskBreakdownByCategoryProfilingError = action.error.message;
-      });
+      .addCase(
+        fetchRiskBreakdownByCategoryProfiling.fulfilled,
+        (state, action) => {
+          state.riskBreakdownByCategoryProfilingLoading = false;
+          state.riskBreakdownByCategoryProfilingData = action.payload;
+        }
+      )
+      .addCase(
+        fetchRiskBreakdownByCategoryProfiling.rejected,
+        (state, action) => {
+          state.riskBreakdownByCategoryProfilingLoading = false;
+          state.riskBreakdownByCategoryProfilingError = action.error.message;
+        }
+      );
   },
 });
+
+export const { resetRiskBreakdownByCategoryProfiling } =
+  riskBreakdownByCategoryProfilingSlice.actions;
 
 export default riskBreakdownByCategoryProfilingSlice.reducer;

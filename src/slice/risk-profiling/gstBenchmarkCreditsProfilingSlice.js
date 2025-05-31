@@ -19,7 +19,14 @@ const gstBenchmarkCreditsProfilingSlice = createSlice({
     gstBenchmarkCreditsProfilingLoading: false,
     gstBenchmarkCreditsProfilingError: null,
   },
-  reducers: {},
+  reducers: {
+    // Add the reset reducer here
+    resetGstBenchmarkCreditsProfiling: (state) => {
+      state.gstBenchmarkCreditsProfilingData = null;
+      state.gstBenchmarkCreditsProfilingLoading = false;
+      state.gstBenchmarkCreditsProfilingError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGstBenchmarkCreditsProfiling.pending, (state) => {
@@ -36,5 +43,9 @@ const gstBenchmarkCreditsProfilingSlice = createSlice({
       });
   },
 });
+
+// Export the new action creator
+export const { resetGstBenchmarkCreditsProfiling } =
+  gstBenchmarkCreditsProfilingSlice.actions;
 
 export default gstBenchmarkCreditsProfilingSlice.reducer;

@@ -19,7 +19,14 @@ const gstBenchmarkProfilingSlice = createSlice({
     gstBenchmarkProfilingLoading: false,
     gstBenchmarkProfilingError: null,
   },
-  reducers: {},
+  reducers: {
+    // Add the reset reducer here
+    resetGstBenchmarkProfiling: (state) => {
+      state.gstBenchmarkProfilingData = null;
+      state.gstBenchmarkProfilingLoading = false;
+      state.gstBenchmarkProfilingError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGstBenchmarkProfiling.pending, (state) => {
@@ -36,5 +43,9 @@ const gstBenchmarkProfilingSlice = createSlice({
       });
   },
 });
+
+// Export the new action creator
+export const { resetGstBenchmarkProfiling } =
+  gstBenchmarkProfilingSlice.actions;
 
 export default gstBenchmarkProfilingSlice.reducer;

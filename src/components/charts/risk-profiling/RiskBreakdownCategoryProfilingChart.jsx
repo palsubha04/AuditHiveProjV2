@@ -1,26 +1,25 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
-import ApexCharts from 'apexcharts';
-import '../charts.css';
-import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
-import CSVExportButton from '../../CSVExportButton';
+import React, { useEffect, useMemo, useState } from "react";
+import ReactApexChart from "react-apexcharts";
+import ApexCharts from "apexcharts";
+import "../charts.css";
+import { CardBody, CardHeader, Dropdown } from "react-bootstrap";
+import CSVExportButton from "../../CSVExportButton";
 
 const RiskBreakdownCategoryProfilingChart = ({
   riskBreakdownByCategoryDataProfiling,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState('gst');
+  const [selectedCategory, setSelectedCategory] = useState("gst");
   const [filteredData, setFilteredData] = useState([]);
   const [records, setRecords] = useState([]);
 
-
   const riskLevels = [
-    'Critical Risk',
-    'High Risk',
-    'Moderate Risk',
-    'Elevated Risk',
-    'Low Risk',
-    'Very Low Risk',
-    'No Risk',
+    "Critical Risk",
+    "High Risk",
+    "Moderate Risk",
+    "Elevated Risk",
+    "Low Risk",
+    "Very Low Risk",
+    "No Risk",
   ];
   const monthMap = {
     1: "January",
@@ -35,7 +34,7 @@ const RiskBreakdownCategoryProfilingChart = ({
     10: "October",
     11: "November",
     12: "December",
-  }
+  };
 
   useEffect(() => {
     if (riskBreakdownByCategoryDataProfiling && selectedCategory) {
@@ -45,17 +44,17 @@ const RiskBreakdownCategoryProfilingChart = ({
       const result = Object.entries(
         riskBreakdownByCategoryDataProfiling[selectedCategory]
       ).flatMap(([category, { assessments }]) =>
-        assessments.map(({ assessment_number, tax_period_year, tax_period_month }) => ({
-          'Assessment Number': assessment_number,
-          'Tax Period Year': tax_period_year,
-          'Tax Period Month': monthMap[tax_period_month] || tax_period_month,
-          "Risk Type": category,
-
-        }))
+        assessments.map(
+          ({ assessment_number, tax_period_year, tax_period_month }) => ({
+            "Assessment Number": assessment_number,
+            "Tax Period Year": tax_period_year,
+            "Tax Period Month": monthMap[tax_period_month] || tax_period_month,
+            "Risk Type": category,
+          })
+        )
       );
 
       setRecords(result);
-
     }
   }, [riskBreakdownByCategoryDataProfiling, selectedCategory]);
 
@@ -66,9 +65,9 @@ const RiskBreakdownCategoryProfilingChart = ({
     for (let i = 0; i < riskLevels.length; i++) {
       const riskLevel = riskLevels[i];
       if (filteredData[riskLevel]) {
-        series.push(filteredData[riskLevel]['count']);
-        if (riskLevel === 'Unknown') {
-          labels.push('High');
+        series.push(filteredData[riskLevel]["count"]);
+        if (riskLevel === "Unknown") {
+          labels.push("High");
         } else {
           labels.push(riskLevel);
         }
@@ -79,26 +78,26 @@ const RiskBreakdownCategoryProfilingChart = ({
 
   const options = {
     chart: {
-      id: 'risk-breakdown-catergory',
-      type: 'pie',
+      id: "risk-breakdown-catergory",
+      type: "pie",
       height: 350,
       toolbar: { show: false },
     },
     labels: labels,
     noData: {
-      text: 'No Data Found',
-      align: 'center',
-      verticalAlign: 'middle',
+      text: "No Data Found",
+      align: "center",
+      verticalAlign: "middle",
       offsetX: 0,
       offsetY: 0,
       style: {
-        color: '#6c757d',
-        fontSize: '16px',
-        fontFamily: 'inherit',
+        color: "#6c757d",
+        fontSize: "16px",
+        fontFamily: "inherit",
       },
     },
     legend: {
-      position: 'bottom',
+      position: "bottom",
       onItemClick: {
         toggleDataSeries: true, // explicitly allow toggling
       },
@@ -107,21 +106,23 @@ const RiskBreakdownCategoryProfilingChart = ({
       custom: function ({ series, seriesIndex, w }) {
         const label = w.globals.labels[seriesIndex];
         const count = series[seriesIndex];
-        let assessments = '';
+        let assessments = "";
 
         if (filteredData[label]) {
-          const assessmentNumbers = filteredData[label].assessments.map(a => a.assessment_number);
+          const assessmentNumbers = filteredData[label].assessments.map(
+            (a) => a.assessment_number
+          );
 
           for (let i = 0; i < assessmentNumbers.length; i++) {
             if (i > 0) {
               // Add comma before each item except the first
-              assessments += ', ';
+              assessments += ", ";
             }
             assessments += assessmentNumbers[i];
 
             // Add <br/> after every 5 items, except the last one
             if ((i + 1) % 5 === 0 && i !== assessmentNumbers.length - 1) {
-              assessments += '<br/>';
+              assessments += "<br/>";
             }
           }
         }
@@ -134,36 +135,35 @@ const RiskBreakdownCategoryProfilingChart = ({
           </div>
         `;
       },
-    }
-
+    },
   };
 
   // Toolbar functions
   const handleDownload = async (format) => {
-    const chart = await ApexCharts.getChartByID('risk-breakdown-catergory');
+    const chart = await ApexCharts.getChartByID("risk-breakdown-catergory");
     if (!chart) return;
-    if (format === 'png') {
+    if (format === "png") {
       chart.dataURI().then(({ imgURI }) => {
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = imgURI;
-        link.download = 'risk-breakdown-catergory.png';
+        link.download = "risk-breakdown-catergory.png";
         link.click();
       });
-    } else if (format === 'svg') {
-      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
-        const link = document.createElement('a');
+    } else if (format === "svg") {
+      chart.dataURI({ type: "svg" }).then(({ svgURI }) => {
+        const link = document.createElement("a");
         link.href = svgURI;
-        link.download = 'risk-breakdown-catergory.svg';
+        link.download = "risk-breakdown-catergory.svg";
         link.click();
       });
-    } else if (format === 'csv') {
+    } else if (format === "csv") {
       chart.exportToCSV({
-        filename: 'risk-breakdown-catergory',
+        filename: "risk-breakdown-catergory",
       });
     }
   };
   return (
-    <div>
+    <>
       <CardHeader className="chart-card-header">
         <div className="d-flex flex-row gap-2 align-items-center">
           <div className="chart-headers">Risk Breakdown Category</div>
@@ -187,10 +187,10 @@ const RiskBreakdownCategoryProfilingChart = ({
               Export
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleDownload('png')}>
+              <Dropdown.Item onClick={() => handleDownload("png")}>
                 Download PNG
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleDownload('csv')}>
+              <Dropdown.Item onClick={() => handleDownload("csv")}>
                 Download CSV
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -202,16 +202,23 @@ const RiskBreakdownCategoryProfilingChart = ({
           />
         </div>
       </CardHeader>
-      <CardBody style={{'paddingLeft':'105px'}}>
-        <ReactApexChart
-          key={JSON.stringify(series)} // forces remount when data changes
-          options={options}
-          series={series}
-          type="pie"
-          width={500} // Adjust the width as needed
-        />
+      <CardBody>
+        {labels.length === 1 && labels[0] === "No Risk" ? (
+          <div className="spinner-div" style={{
+            fontSize : "17px",
+            opacity : 0.7
+          }}>No Risk</div>
+        ) : (
+          <ReactApexChart
+            key={JSON.stringify(series)} // forces remount when data changes
+            options={options}
+            series={series}
+            type="pie"
+            width={500} // Adjust the width as needed
+          />
+        )}
       </CardBody>
-    </div>
+    </>
   );
 };
 
