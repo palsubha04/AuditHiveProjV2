@@ -244,6 +244,29 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
     }
   };
 
+  if (!records || records.length === 0) {
+    return (
+      <>
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Tax Filing vs Non Filing</span>
+        </Card.Header>
+        <Card.Body>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        </Card.Body>
+      </>
+    );
+  }
+
   return (
     <>
       <CardHeader className="chart-card-header">

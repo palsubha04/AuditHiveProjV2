@@ -12,7 +12,7 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
-import { CircleUserRound } from 'lucide-react';
+import { Bell, CircleUserRound, Search } from 'lucide-react';
 
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -92,17 +92,14 @@ function Header() {
       <div className="header-left">
         <div className="header-titles">
           <img src="/header-icons/Logo.svg" alt="Logo" className="logo" />
-
-          {/* <h1>{headerTitle}</h1>
-          {headerSubtitle && <p>{headerSubtitle}</p>} */}
         </div>
       </div>
       <div className="header-right">
         <button className="icon-button">
-          <img src="/header-icons/bell.svg" alt="Help" />
+          <Bell />
         </button>
         <button className="icon-button">
-          <img src="/header-icons/search.svg" alt="Help" />
+          <Search />
         </button>
         <Dropdown
           align="end"
