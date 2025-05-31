@@ -19,7 +19,14 @@ const swtBenchmarkProfilingSlice = createSlice({
     swtBenchmarkProfilingLoading: false,
     swtBenchmarkProfilingError: null,
   },
-  reducers: {},
+  reducers: {
+    // Add the reset reducer here
+    resetSwtBenchmarkProfiling: (state) => {
+      state.swtBenchmarkProfilingData = null;
+      state.swtBenchmarkProfilingLoading = false;
+      state.swtBenchmarkProfilingError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSwtBenchmarkProfiling.pending, (state) => {
@@ -36,5 +43,9 @@ const swtBenchmarkProfilingSlice = createSlice({
       });
   },
 });
+
+// Export the new action creator
+export const { resetSwtBenchmarkProfiling } =
+  swtBenchmarkProfilingSlice.actions;
 
 export default swtBenchmarkProfilingSlice.reducer;

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import Table from '../../Table';
-import { Badge } from 'react-bootstrap';
-import CSVExportButton from '../../CSVExportButton';
-import { CardBody, CardHeader } from 'react-bootstrap';
-import './TopFruadRulesProfiling.css';
+import React, { useEffect, useState } from "react";
+import Table from "../../Table";
+import { Badge } from "react-bootstrap";
+import CSVExportButton from "../../CSVExportButton";
+import { CardBody, CardHeader } from "react-bootstrap";
+import "./TopFruadRulesProfiling.css";
 
 const DelayedReturnFilingTable = ({ delayedFilingData }) => {
-  const [selectedCategory, setSelectedCategory] = useState('gst');
+  const [selectedCategory, setSelectedCategory] = useState("gst");
   const [filteredData, setFilteredData] = useState([]);
-  const categories = ['gst', 'swt', 'cit'];
+  const categories = ["gst", "swt", "cit"];
 
   useEffect(() => {
     if (delayedFilingData && selectedCategory) {
@@ -21,23 +21,23 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
 
   const columns = [
     {
-      accessorKey: 'due_date',
-      header: 'Due Date',
+      accessorKey: "due_date",
+      header: "Due Date",
     },
     {
-      accessorKey: 'entry_date',
-      header: 'Entry Date',
+      accessorKey: "entry_date",
+      header: "Entry Date",
     },
     {
-      accessorKey: 'receive_date',
-      header: 'Receive Date',
+      accessorKey: "receive_date",
+      header: "Receive Date",
     },
     {
-      accessorKey: 'is_delayed',
-      header: 'Is Delayed',
+      accessorKey: "is_delayed",
+      header: "Is Delayed",
       cell: ({ getValue }) => (
-        <Badge bg={getValue() ? 'danger' : 'success'}>
-          {getValue() ? 'Delayed' : 'On Time'}
+        <Badge bg={getValue() ? "danger" : "success"}>
+          {getValue() ? "Delayed" : "On Time"}
         </Badge>
       ),
     },
@@ -68,7 +68,19 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
         />
       </CardHeader>
       <CardBody>
-        <Table columns={columns} data={filteredData} />
+        {filteredData && filteredData.length > 0 ? (
+          <Table columns={columns} data={filteredData} />
+        ) : (
+          <div
+            className="spinner-div"
+            style={{
+              fontSize: "17px",
+              opacity: 0.7,
+            }}
+          >
+            No Data Found
+          </div>
+        )}
       </CardBody>
     </div>
   );

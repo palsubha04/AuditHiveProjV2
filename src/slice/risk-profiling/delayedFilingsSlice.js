@@ -19,28 +19,32 @@ const delayedFilingSlice = createSlice({
     delayedFilingLoading: false,
     delayedFilingError: null,
   },
-  reducers: {},
+  reducers: {
+    // Add the reset reducer here
+    resetDelayedFiling: (state) => {
+      state.delayedFilingData = null;
+      state.delayedFilingLoading = false;
+      state.delayedFilingError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchDelayedFiling.pending, (state) => {
         state.delayedFilingLoading = true;
         state.delayedFilingError = null;
       })
-      .addCase(
-        fetchDelayedFiling.fulfilled,
-        (state, action) => {
-          state.delayedFilingLoading = false;
-          state.delayedFilingData = action.payload;
-        }
-      )
-      .addCase(
-        fetchDelayedFiling.rejected,
-        (state, action) => {
-          state.delayedFilingLoading = false;
-          state.delayedFilingError = action.error.message;
-        }
-      );
+      .addCase(fetchDelayedFiling.fulfilled, (state, action) => {
+        state.delayedFilingLoading = false;
+        state.delayedFilingData = action.payload;
+      })
+      .addCase(fetchDelayedFiling.rejected, (state, action) => {
+        state.delayedFilingLoading = false;
+        state.delayedFilingError = action.error.message;
+      });
   },
 });
+
+// Export the new action creator
+export const { resetDelayedFiling } = delayedFilingSlice.actions;
 
 export default delayedFilingSlice.reducer;
