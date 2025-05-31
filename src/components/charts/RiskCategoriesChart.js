@@ -334,6 +334,28 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
       </Card>
     );
   }
+  if (!records || records.length === 0) {
+    return (
+      <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header">
+          <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
+        </Card.Header>
+        <Card.Body>
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
 
   return (
     <Card className="mb-4 box-background">

@@ -141,8 +141,8 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
 
   // Risk levels to be used for each series
   const riskLevels = [
-    { key: 'filing', color: '#c0392b', title: 'Filing' },
-    { key: 'non_filing', color: '#e74c3c', title: 'Non Filing' },
+    { key: 'filing', color: '#00E096', title: 'Filing' },
+    { key: 'non_filing', color: '#FF779D', title: 'Non Filing' },
   ];
   const series = riskLevels.map((level) => ({
     name: level.title,

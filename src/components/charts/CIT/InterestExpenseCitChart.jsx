@@ -23,6 +23,7 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
       toolbar: { show: false },
     },
     labels: ['PNG', 'Foreign'],
+    colors:  ["#00E096", "#0095FF"],
     legend: {
       position: "bottom",
     },

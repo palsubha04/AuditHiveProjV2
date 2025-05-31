@@ -5,6 +5,7 @@ import '../charts.css';
 import { CardBody, CardHeader, Dropdown } from 'react-bootstrap';
 
 const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
+  console.log('GST Benchmark Profiling Data:', gstBenchmarkProfilingData);
   const series = [
     {
       name: 'Payable',
@@ -52,6 +53,7 @@ const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
         text: 'PGK (thousands)',
       },
     },
+    colors:  ["#00E096", "#0095FF"],
     fill: {
       opacity: 1,
     },
@@ -153,9 +155,22 @@ const GSTBenchmarkProfilingChart = ({ gstBenchmarkProfilingData }) => {
         </div>
       </CardHeader>
       <CardBody>
+        {gstBenchmarkProfilingData && Object.keys(gstBenchmarkProfilingData).length > 0 ? 
         <div className="chart-container">
           <Chart options={options} series={series} type="bar" height={430} />
         </div>
+        :   <div
+        className="text-center text-muted"
+        style={{
+          height: '350px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        No Data Found
+      </div>
+}
       </CardBody>
     </>
   );
