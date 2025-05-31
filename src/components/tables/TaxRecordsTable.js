@@ -6,6 +6,21 @@ import debounce from 'lodash/debounce';
 import '../../pages/Dashboard.css';
 import { Search } from 'lucide-react';
 
+const monthMap = {
+  1: 'January',
+  2: 'February',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December'
+};
+
 const TaxRecordsTable = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,13 +46,23 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
       let response;
       if (tin) {
         response = await gstService.getTaxRecordsByTIN(tin, startDate, endDate);
-        setRecords(response.records);
+        const modified = response.records.map((item) => ({
+          ...item,
+          tax_period_month:
+            monthMap[item.tax_period_month] || item.tax_period_month,
+        }));
+        setRecords(modified);
       } else {
         response = await gstService.getTaxRecords(startDate, endDate, page);
+        const modified = response.records.map((item) => ({
+          ...item,
+          tax_period_month:
+            monthMap[item.tax_period_month] || item.tax_period_month,
+        }));
         if (append) {
-          setRecords((prev) => [...prev, ...response.records]);
+          setRecords((prev) => [...prev, ...modified]);
         } else {
-          setRecords(response.records);
+          setRecords(modified);
         }
       }
       setTotalRecords(response.total_data_count);
