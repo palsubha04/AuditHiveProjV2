@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Form} from 'react-bootstrap';
+import { Card, Form } from 'react-bootstrap';
 import Table from '../Table';
 import gstService from '../../services/gst.service';
 import debounce from 'lodash/debounce';
@@ -30,7 +30,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
     try {
       let response;
       if (tin) {
-        response = await gstService.getTaxRecordsByTIN(tin,startDate,endDate);
+        response = await gstService.getTaxRecordsByTIN(tin, startDate, endDate);
         setRecords(response.records);
       } else {
         response = await gstService.getTaxRecords(startDate, endDate, page);
@@ -147,9 +147,6 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
               alignItems: 'center',
               padding: '4px 12px',
               borderRadius: '16px', // Adjust for more or less rounded corners
-              //backgroundColor: isFraud ? '#FEE2E2' : '#D1FAE5', // Light red for Fraud, Light green for Valid
-              //border: isFraud ? '1px solid #FECACA' : '1px solid #A7F3D0',
-              //border: '1px solid #D1D5DB', // Light gray border for both Fraud and Valid
             }}
           >
             <span
@@ -210,7 +207,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
           </Form.Group>
         </div>
       </Card.Header>
-      <Card.Body className='pt-0'>
+      <Card.Body className="pt-0">
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : error ? (
