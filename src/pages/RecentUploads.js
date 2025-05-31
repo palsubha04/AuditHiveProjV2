@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRecentUploads } from '../slice/reports/recentUploadsSlice';
 import Layout from '../components/Layout';
 import Table from '../components/Table';
 import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
@@ -6,83 +8,33 @@ import { Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import './RecentUploads.css'; // Make sure to create this CSS file
 
-const uploadsData = {
-  passed: 2000,
-  failed: 520,
-  date: 'Jul 21, 2025',
-  time: '12:30 PM',
-  uploader: 'John Dane',
-  lastAvailable: '05-02-2025',
-  data: [
-    {
-      tin: '00001',
-      name: 'Christine Brooks',
-      type: 'Enterprise',
-      account: '27029',
-      fraud: true,
-      reason: 'Electric',
-    },
-    {
-      tin: '00002',
-      name: 'Rosie Pearson',
-      type: 'Enterprise',
-      account: '27029',
-      fraud: true,
-      reason: 'Book',
-    },
-    {
-      tin: '00003',
-      name: 'Darrell Caldwell',
-      type: 'Enterprise',
-      account: '27029',
-      fraud: true,
-      reason: 'Medicine',
-    },
-    {
-      tin: '00004',
-      name: 'Gilbert Johnston',
-      type: 'Enterprise',
-      account: '27029',
-      fraud: false,
-      reason: 'Mobile',
-    },
-    {
-      tin: '00005',
-      name: 'Alan Cain',
-      type: 'Enterprise',
-      account: '27029',
-      fraud: false,
-      reason: 'Watch',
-    },
-    {
-      tin: '00006',
-      name: 'Alfred Murray',
-      type: 'Enterprise',
-      account: '27029',
-      fraud: false,
-      reason: 'Medicine',
-    },
-  ],
-};
-console.log('Data', uploadsData.data);
-
 const RecentUploads = () => {
   const [selectedCategory, setSelectedCategory] = useState('gst');
+  const dispatch = useDispatch();
+  const { recentUploadsData, recentUploadsLoading, recentUploadsError } =
+    useSelector((state) => state?.recentUploads);
+
+  useEffect(() => {
+    console.log('category: ', selectedCategory);
+    dispatch(fetchRecentUploads({ tax_type: selectedCategory }));
+  }, [selectedCategory, dispatch]);
+
+  console.log('Data: ', recentUploadsData);
+
   // Handler to export table data to Excel
   const handleDownload = () => {
-    // Prepare data for Excel
-    // const excelData = uploadsData.rows.map((row) => ({
-    //   tin: row.tin,
-    //   'Company Name': row.name,
-    //   'Taxpayer Type': row.type,
-    //   'Tax Account No': row.account,
-    //   'Is Fraud': row.fraud ? 'Yes' : 'No',
-    //   'Fraud Reason': row.reason,
-    // }));
-    // const worksheet = XLSX.utils.json_to_sheet(excelData);
-    // const workbook = XLSX.utils.book_new();
-    // XLSX.utils.book_append_sheet(workbook, worksheet, 'GST Data');
-    // XLSX.writeFile(workbook, 'gst_data.xlsx');
+    if (
+      !recentUploadsData ||
+      !recentUploadsData.records ||
+      recentUploadsData.records.length === 0
+    ) {
+      alert('No data available to download.');
+      return;
+    }
+    const worksheet = XLSX.utils.json_to_sheet(recentUploadsData.records);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'RecentUploads');
+    XLSX.writeFile(workbook, `RecentUploads_${selectedCategory}.xlsx`);
   };
 
   const columns = [
@@ -91,23 +43,31 @@ const RecentUploads = () => {
       header: 'Tin',
     },
     {
-      accessorKey: 'name',
+      accessorKey: 'company_name',
       header: 'Company Name',
     },
     {
-      accessorKey: 'type',
+      accessorKey: 'taxpayer_type',
       header: 'Taxpayer Type',
     },
     {
-      accessorKey: 'account',
+      accessorKey: 'tax_account_no',
       header: 'Tax Account No',
     },
     {
-      accessorKey: 'fraud',
+      accessorKey: 'tax_period_month',
+      header: 'Tax Period Month',
+    },
+    {
+      accessorKey: 'tax_period_year',
+      header: 'Tax Period Year',
+    },
+    {
+      accessorKey: 'is_fraud',
       header: 'Is Fraud',
     },
     {
-      accessorKey: 'reason',
+      accessorKey: 'fraud_reason',
       header: 'Fraud Reason',
     },
   ];
@@ -145,20 +105,25 @@ const RecentUploads = () => {
         <Row className="mb-2">
           <Col>
             <h5 className="fw-semibold fs-6 lh-base">
-              Last available GST data as on <b>{uploadsData.lastAvailable}</b>{' '}
-              Uploaded By:{' '}
+              Last available {selectedCategory} data as on{' '}
+              <b>{recentUploadsData?.end_date}</b> Uploaded By:{' '}
               <span style={{ color: '#3b82f6', fontWeight: 400 }}>
-                {uploadsData.uploader}
+                {recentUploadsData?.uploaded_by}
               </span>
             </h5>
           </Col>
           <Col className="text-end">
             <span>
-              Date: {uploadsData.date} &nbsp; Time: {uploadsData.time}
+              Date: {recentUploadsData?.uploaded_date} &nbsp; Time:{' '}
+              {recentUploadsData?.uploaded_time}
             </span>
           </Col>
         </Row>
-        <Table columns={columns} data={uploadsData.data} jobId={'test'} />
+        <Table
+          columns={columns}
+          data={recentUploadsData?.records}
+          jobId={'test'}
+        />
       </Container>
     </Layout>
   );
