@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Spinner } from 'react-bootstrap';
-import Table from '../Table';
-import citService from '../../services/cit.service';
-import '../../pages/Dashboard.css';
-import CSVExportButton from '../CSVExportButton';
+import React, { useState, useEffect, useCallback } from "react";
+import { Card, Spinner } from "react-bootstrap";
+import Table from "../Table";
+import citService from "../../services/cit.service";
+import "../../pages/Dashboard.css";
+import CSVExportButton from "../CSVExportButton";
 
 const CITNetLossTaxPayers = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
@@ -19,8 +19,8 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
       response = await citService.getNetLossTaxPayers(startDate, endDate);
       setRecords(response);
     } catch (err) {
-      setError('Failed to fetch tax records');
-      error('Error fetching tax records:', err);
+      setError("Failed to fetch tax records");
+      error("Error fetching tax records:", err);
     } finally {
       setLoading(false);
     }
@@ -33,10 +33,10 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
   }, [startDate, endDate]);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'PGK',
-      currencyDisplay: 'symbol',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "PGK",
+      currencyDisplay: "symbol",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
@@ -44,31 +44,31 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
 
   const columns = [
     {
-      accessorKey: 'tin',
-      header: 'TIN',
+      accessorKey: "tin",
+      header: "TIN",
     },
     {
-      accessorKey: 'taxpayer_name',
-      header: 'Taxpayer Name',
-      cell: ({ getValue }) => getValue() || 'N/A',
+      accessorKey: "taxpayer_name",
+      header: "Taxpayer Name",
+      cell: ({ getValue }) => getValue() || "N/A",
     },
     {
-      accessorKey: 'segmentation',
-      header: 'Segmentation',
+      accessorKey: "segmentation",
+      header: "Segmentation",
     },
     {
-      accessorKey: 'total_gross_income',
-      header: 'Total Gross Income',
+      accessorKey: "total_gross_income",
+      header: "Total Gross Income",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
-      accessorKey: 'total_operating_expense',
-      header: 'Total Operating Expenses',
+      accessorKey: "total_operating_expense",
+      header: "Total Operating Expenses",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
-      accessorKey: 'current_year_profit_loss_710',
-      header: 'Current Year Profit/Loss',
+      accessorKey: "current_year_profit_loss_710",
+      header: "Current Year Profit/Loss",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
   ];
@@ -79,19 +79,19 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
         <span className="chart-headers">Top 50 Net Loss Tax Payers</span>
         <CSVExportButton
           records={records}
-          filename="SalesVsCost.csv"
-          buttonLabel="Download Sales vs Cost List"
+          filename="Top 50 Net Loss.csv"
+          buttonLabel="Download Top 50 Net Loss List"
         />
       </Card.Header>
-      <Card.Body className='pt-0'>
+      <Card.Body className="pt-0">
         {loading ? (
           <div
             className="text-center"
             style={{
-              height: '400px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              height: "400px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Spinner animation="border" role="status" variant="primary">
@@ -104,23 +104,23 @@ const CITNetLossTaxPayers = ({ startDate, endDate }) => {
           <div
             className="text-center"
             style={{
-              height: '400px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              height: "400px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <div className="text-center text-muted" style={{ padding: '2rem' }}>
+            <div className="text-center text-muted" style={{ padding: "2rem" }}>
               No Data Found
             </div>
           </div>
         ) : (
           <div
             style={{
-              height: '400px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
+              height: "400px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
           >
             <Table

@@ -482,13 +482,13 @@ function RiskProfiling() {
                     </Spinner>
                   </div>
                 ) : (
-                  <div className="p-0 w-100">
+                  
                     <RiskBreakdownCategoryProfilingChart
                       riskBreakdownByCategoryDataProfiling={
                         riskBreakdownByCategoryProfilingData
                       }
                     />
-                  </div>
+                  
                 )}
               </Card>
             </div>

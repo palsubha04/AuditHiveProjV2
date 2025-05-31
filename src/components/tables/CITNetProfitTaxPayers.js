@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Card,Spinner } from 'react-bootstrap';
-import Table from '../Table';
-import citService from '../../services/cit.service';
-import '../../pages/Dashboard.css';
-import CSVExportButton from '../CSVExportButton';
+import React, { useState, useEffect } from "react";
+import { Card, Spinner } from "react-bootstrap";
+import Table from "../Table";
+import citService from "../../services/cit.service";
+import "../../pages/Dashboard.css";
+import CSVExportButton from "../CSVExportButton";
 
 const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
@@ -46,7 +46,7 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
       setRecords(response);
       // setTotalRecords(response.total_data_count);
     } catch (err) {
-      setError('Failed to fetch tax records');
+      setError("Failed to fetch tax records");
     } finally {
       setLoading(false);
       // setIsLoadingMore(false);
@@ -89,10 +89,10 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
   //   }, [records.length, totalRecords, loading, isLoadingMore, currentPage, searchTin]);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'PGK',
-      currencyDisplay: 'symbol',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "PGK",
+      currencyDisplay: "symbol",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
@@ -100,31 +100,31 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
 
   const columns = [
     {
-      accessorKey: 'tin',
-      header: 'TIN',
+      accessorKey: "tin",
+      header: "TIN",
     },
     {
-      accessorKey: 'taxpayer_name',
-      header: 'Taxpayer Name',
-      cell: ({ getValue }) => getValue() || 'N/A',
+      accessorKey: "taxpayer_name",
+      header: "Taxpayer Name",
+      cell: ({ getValue }) => getValue() || "N/A",
     },
     {
-      accessorKey: 'segmentation',
-      header: 'Segmentation',
+      accessorKey: "segmentation",
+      header: "Segmentation",
     },
     {
-      accessorKey: 'total_gross_income',
-      header: 'Total Gross Income',
+      accessorKey: "total_gross_income",
+      header: "Total Gross Income",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
-      accessorKey: 'total_operating_expense',
-      header: 'Total Operating Expense',
+      accessorKey: "total_operating_expense",
+      header: "Total Operating Expense",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
-      accessorKey: 'current_year_profit_loss_710',
-      header: 'Current Year Profit/Loss',
+      accessorKey: "current_year_profit_loss_710",
+      header: "Current Year Profit/Loss",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
   ];
@@ -135,19 +135,19 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
         <span className="chart-headers">Top 50 Net Profit Tax Payers</span>
         <CSVExportButton
           records={records}
-          filename="SalesVsCost.csv"
-          buttonLabel="Download Sales vs Cost List"
+          filename="Top 50 Net Profit.csv"
+          buttonLabel="Download Top 50 Net Profit List"
         />
       </Card.Header>
-      <Card.Body className='pt-0'>
+      <Card.Body className="pt-0">
         {loading ? (
           <div
             className="text-center"
             style={{
-              height: '400px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              height: "400px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <Spinner animation="border" role="status" variant="primary">
@@ -160,10 +160,10 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
           <div
             className="text-center text-muted"
             style={{
-              height: '400px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              height: "400px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             No Data Found
@@ -171,9 +171,9 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
         ) : (
           <div
             style={{
-              height: '400px',
-              display: 'flex',
-              flexDirection: 'column',
+              height: "400px",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <Table
@@ -183,7 +183,6 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
               error={error}
             />
           </div>
-
         )}
       </Card.Body>
     </Card>
