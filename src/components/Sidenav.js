@@ -79,7 +79,7 @@ function Sidenav({ isOpen, toggleSidenav }) {
         <div className="">
           <Nav.Link onClick={toggleDashboard} className="nav-item">
             {/* <img src="/sidebar-icons/dashboard.svg" alt="Dashboard" className="nav-icon" /> */}
-            <ChartNoAxesColumnIncreasing className='me-2' style={{color: "#5871FF"}}/>
+            <ChartNoAxesColumnIncreasing className='me-2' style={{color: "#347AE2"}}/>
             <span className='sidenav-items'>Dashboard</span>
             <span className={`arrow ${isDashboardOpen ? 'open' : ''}`}>
               <FontAwesomeIcon icon={faChevronDown} />
@@ -122,14 +122,14 @@ function Sidenav({ isOpen, toggleSidenav }) {
           className="nav-item"
         >
           {/* <img src="/sidebar-icons/upload.svg" alt="Upload" className="nav-icon" /> */}
-          <Upload className='me-2' style={{color: "#5871FF"}}/>
+          <Upload className='me-2' style={{color: "#347AE2"}}/>
           <span className='sidenav-items'>Upload Sheets</span>
         </Nav.Link>
 
         <div className="">
           <Nav.Link onClick={toggleAnalytics} className="nav-item">
             {/* <img src="/sidebar-icons/analytics.svg" alt="Analytics" className="nav-icon" /> */}
-            <ChartPie className='me-2' style={{color: "#5871FF"}}/>
+            <ChartPie className='me-2' style={{color: "#347AE2"}}/>
             <span className='sidenav-items'>Analytics</span>
             <span className={`arrow ${isAnalyticsOpen ? 'open' : ''}`}>
               <FontAwesomeIcon icon={faChevronDown} />
@@ -167,7 +167,7 @@ function Sidenav({ isOpen, toggleSidenav }) {
         <div className="">
           <Nav.Link onClick={toggleReports} className="nav-item">
             {/* <img src="/sidebar-icons/reports.svg" alt="Reports" className="nav-icon" /> */}
-            <FileSpreadsheet className='me-2' style={{color: "#5871FF"}}/>
+            <FileSpreadsheet className='me-2' style={{color: "#347AE2"}}/>
             <span className='sidenav-items'>Reports</span>
             <span className={`arrow ${isReportsOpen ? 'open' : ''}`}>
               <FontAwesomeIcon icon={faChevronDown} />
@@ -193,7 +193,7 @@ function Sidenav({ isOpen, toggleSidenav }) {
           className="nav-item"
         >
           {/* <img src="/sidebar-icons/history.svg" alt="Help" className="nav-icon" /> */}
-          <Eye className='me-2' style={{color: "#5871FF"}}/>
+          <Eye className='me-2' style={{color: "#347AE2"}}/>
           <span className='sidenav-items'>Upload History</span>
         </Nav.Link>
 
@@ -204,7 +204,7 @@ function Sidenav({ isOpen, toggleSidenav }) {
           className="nav-item"
         >
           {/* <img src="/sidebar-icons/help.svg" alt="Help" className="nav-icon" /> */}
-          <Info className='me-2' style={{color: "#5871FF"}}/>
+          <Info className='me-2' style={{color: "#347AE2"}}/>
           <span className='sidenav-items'>Help Centre</span>
         </Nav.Link>
 
