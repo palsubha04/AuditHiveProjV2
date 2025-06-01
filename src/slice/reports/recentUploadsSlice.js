@@ -4,10 +4,16 @@ import api from '../../services/axios.config';
 // Accept parameters for dynamic end_date and tin
 export const fetchRecentUploads = createAsyncThunk(
   'recentUploads/fetch',
-  async ({ tax_type }) => {
-    // console.log('tax_type: ', tax_type);
-    const response = await api.get(`/recent-upload?tax_type=${tax_type}`);
-    return response.data;
+  async ({ tax_type, cursor }, { rejectWithValue }) => {
+    try {
+      const url = cursor
+        ? `/recent-upload?tax_type=${tax_type}&cursor=${cursor}`
+        : `/recent-upload?tax_type=${tax_type}`;
+      const response = await api.get(url);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
@@ -17,8 +23,19 @@ const recentUploadsSlice = createSlice({
     recentUploadsData: null,
     recentUploadsLoading: false,
     recentUploadsError: null,
+    cursor: null,
+    records: [],
+    hasMore: true,
   },
-  reducers: {},
+  reducers: {
+    resetRecentUploads: (state) => {
+      state.recentUploadsData = null;
+      state.cursor = null;
+      state.records = [];
+      state.hasMore = true;
+      state.recentUploadsError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchRecentUploads.pending, (state) => {
@@ -28,12 +45,22 @@ const recentUploadsSlice = createSlice({
       .addCase(fetchRecentUploads.fulfilled, (state, action) => {
         state.recentUploadsLoading = false;
         state.recentUploadsData = action.payload;
+        state.cursor = action.payload.cursor;
+        if (action.meta.arg.cursor) {
+          // Append for next pages
+          state.records = [...state.records, ...(action.payload.records || [])];
+        } else {
+          // First page
+          state.records = action.payload.records || [];
+        }
+        state.hasMore = !!action.payload.cursor;
       })
       .addCase(fetchRecentUploads.rejected, (state, action) => {
         state.recentUploadsLoading = false;
-        state.recentUploadsError = action.error.message;
+        state.recentUploadsError = action.payload || action.error.message;
       });
   },
 });
 
+export const { resetRecentUploads } = recentUploadsSlice.actions;
 export default recentUploadsSlice.reducer;
