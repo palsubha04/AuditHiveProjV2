@@ -33,14 +33,50 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
       header: "Receive Date",
     },
     {
-      accessorKey: "is_delayed",
-      header: "Is Delayed",
-      cell: ({ getValue }) => (
-        <Badge bg={getValue() ? "danger" : "success"}>
-          {getValue() ? "Delayed" : "On Time"}
-        </Badge>
-      ),
+      accessorKey: 'is_delayed',
+      cell: ({ getValue }) => {
+        const is_delayed = getValue();
+        return (
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '4px 12px',
+              borderRadius: '16px', // Adjust for more or less rounded corners
+            }}
+          >
+            <span
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: is_delayed ? '#FF3535' : '#34C759', // Red for Fraud, Green for Valid
+                marginRight: '8px',
+              }}
+            ></span>
+            <span
+              style={{
+                color: '#000000',
+                fontSize: '14px',
+                fontWeight: '500',
+              }}
+            >
+              {is_delayed ? 'Delayed' : 'On Time'}
+            </span>
+          </div>
+        );
+      },
+      header: 'Is Delayed', // Keep this if you want to prevent filtering on this column
     },
+    // {
+    //   accessorKey: "is_delayed",
+    //   header: "Is Delayed",
+    //   cell: ({ getValue }) => (
+    //     <Badge bg={getValue() ? "danger" : "success"}>
+    //       {getValue() ? "Delayed" : "On Time"}
+    //     </Badge>
+    //   ),
+    // },
   ];
   return (
     <div className="d-flex h-100 flex-column">

@@ -84,7 +84,7 @@ const RiskBreakdownCategoryProfilingChart = ({
       toolbar: { show: false },
     },
     labels: labels,
-    colors: ['#00E096', '#FFD12C', '#20E5F3', '#6287FF', '#347AE2', '#FF779D'],
+    colors: ['#FF779D', '#00E096', '#20E5F3', '#6287FF', '#347AE2', '#FFD12C'],
     noData: {
       text: "No Data Found",
       align: "center",
