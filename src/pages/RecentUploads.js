@@ -69,12 +69,20 @@ const RecentUploads = () => {
     {
       accessorKey: 'fraud_reason',
       header: 'Fraud Reason',
+      cell: ({ getValue }) => (
+        <span
+          style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+          title={getValue() || 'N/A'}
+        >
+          {getValue() || 'N/A'}
+        </span>
+      ),
     },
   ];
 
   return (
     <Layout>
-      <Container className="mt-4">
+    
         <div className="selection-container">
           <div>
             <span>Select History Category:</span>
@@ -124,7 +132,7 @@ const RecentUploads = () => {
           data={recentUploadsData?.records}
           jobId={'test'}
         />
-      </Container>
+     
     </Layout>
   );
 };

@@ -83,7 +83,7 @@ const TopFraudRulesProfiling = ({
 
   return (
     <div className="d-flex h-100 flex-column">
-      <CardHeader className="table-card-header">
+      <CardHeader className="table-card-header mb-0">
         <div className="d-flex">
           <span className="chart-headers">
             Top 10 fraud companies (Tax and Segment wise)

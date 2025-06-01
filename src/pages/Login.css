@@ -13,6 +13,14 @@
   border-radius: 33px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.login-box-error {
+  background: #fff;
+  height: 500px;
+  width: 820px;
+  padding: 2rem 3.5rem 2rem 3.5rem;
+  border-radius: 33px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 .login-box h1 {
   color: #7D7C84;

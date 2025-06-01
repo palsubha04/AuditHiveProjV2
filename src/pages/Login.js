@@ -97,7 +97,7 @@ function Login() {
   return (
     <div className="login-page" style={{ backgroundImage: `url('/login/LoginBackground.svg')` }}>
       <Container className="d-flex align-items-center justify-content-center min-vh-100">
-        <div className="login-box">
+        <div className={error ? "login-box-error" : "login-box"}>
           <div className="text-center mb-4" style={{ color: '#4F545B', fontFamily: 'Poppins', fontWeight: '600', fontSize: '30px', lineHeight: '100%', letterSpacing: '0px', textAlign: 'center', }}>
             {isForgotPassword ? 'Forgot Password' : 'Login'}
           </div>

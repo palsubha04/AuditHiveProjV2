@@ -122,10 +122,10 @@ const SwtSalariesChart = ({ data, start_date, end_date }) => {
       position: 'top',
       fontWeight: 700,
       labels: {
-        colors: ['#4338ca', '#22c55e', '#f59e42'],
+        colors: ['#FF779D', '#f1c40f', '#2ecc71'],
       },
     },
-    colors: ['#4338ca', '#22c55e', '#f59e42'],
+    colors: ['#FF779D', '#f1c40f', '#2ecc71'],
     tooltip: {
       shared: true,
       intersect: false,

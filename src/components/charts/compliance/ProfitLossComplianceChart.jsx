@@ -161,8 +161,8 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
       <CardHeader className="chart-card-header">
         <div className="d-flex align-items-center justify-content-between w-100">
           <div className="d-flex align-items-center gap-2">
-            <span className="chart-headers">Profit vs Loss</span>
-            <select
+            <span className="chart-headers">Profit vs Loss (CIT)</span>
+            {/* <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className='chart-filter'
@@ -170,7 +170,7 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
               <option value="gst">GST</option>
               <option value="swt">SWT</option>
               <option value="cit">CIT</option>
-            </select>
+            </select> */}
           </div>
           <div className="d-flex align-items-center gap-2">
             <Dropdown>

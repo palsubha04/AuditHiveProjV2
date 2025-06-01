@@ -95,14 +95,7 @@ function Sidenav({ isOpen, toggleSidenav }) {
             >
               <span className='sidenav-items'>GST</span>
             </Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/cit"
-              active={location.pathname === '/cit'}
-              className="nav-item submenu-item"
-            >
-              <span className='sidenav-items'>CIT</span>
-            </Nav.Link>
+           
             <Nav.Link
               as={Link}
               to="/swt"
@@ -110,6 +103,14 @@ function Sidenav({ isOpen, toggleSidenav }) {
               className="nav-item submenu-item"
             >
               <span className='sidenav-items'>SWT</span>
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/cit"
+              active={location.pathname === '/cit'}
+              className="nav-item submenu-item"
+            >
+              <span className='sidenav-items'>CIT</span>
             </Nav.Link>
           </div>
         </div>
