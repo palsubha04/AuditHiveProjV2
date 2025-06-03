@@ -60,6 +60,7 @@ const RiskBreakdownByCategoryChart = ({ riskBreakdownByCategoryData }) => {
     { key: 'Very Low', color: '#00E096' },
   ];
   
+  
 
   const series = riskLevels.map((level) => ({
     name: level.key,
