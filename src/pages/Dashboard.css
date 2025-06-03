@@ -459,6 +459,7 @@
 .box-background {
   border-color: #dfe4f0;
   border-radius: 12px;
+  /* background: radial-gradient(circle at top left, #d5e6ff, #ffffff 550px); */
 }
 
 .chart-columns-div {
