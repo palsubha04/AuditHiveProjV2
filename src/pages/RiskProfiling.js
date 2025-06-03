@@ -30,6 +30,8 @@ import { fetchswtSalariesComparison } from '../slice/swtSalariesComparisonSlice'
 import './RiskProfilling.css';
 import DelayedReturnFilingTable from '../components/charts/risk-profiling/DelayedReturnFilingTable';
 import { fetchDelayedFiling, resetDelayedFiling } from '../slice/risk-profiling/delayedFilingsSlice';
+import { fetchTaxpayerDetails, resetTaxperDetails } from '../slice/risk-profiling/taxpayerDetailsSlice';
+import RiskProfilingSummaryCards from '../components/summary/RiskProfilingSummaryCards';
 
 function RiskProfiling() {
   const [dateRange, setDateRange] = useState({
@@ -103,6 +105,10 @@ function RiskProfiling() {
     swtSalariesComparisonError,
   } = useSelector((state) => state?.swtSalariesComparison);
 
+  const { taxpayerDetailsData, taxpayerDetailsLoading, taxpayerDetailsError } = useSelector(
+    (state) => state?.taxpayerDetails
+  );
+
 
   useEffect(() => {
     if (!data) {
@@ -117,6 +123,7 @@ function RiskProfiling() {
       dispatch(resetSwtBenchmarkProfiling());
       dispatch(resetSwtBenchmarkEmployeesProfiling());
       dispatch(resetDelayedFiling());
+      dispatch(resetTaxperDetails());
     };
   }, [data, dispatch]);
 
@@ -287,6 +294,13 @@ function RiskProfiling() {
           })
         );
       }
+      if (!taxpayerDetailsData) {
+        dispatch(
+          fetchTaxpayerDetails({
+            tin: selectedTIN,
+          })
+        );
+      }
     }
   }, [data, selectedTIN, dateRange]);
 
@@ -379,6 +393,11 @@ function RiskProfiling() {
         tin: selectedTIN,
       })
     );
+    dispatch(
+      fetchTaxpayerDetails({
+        tin: selectedTIN,
+      })
+    )
   };
 
   return (
@@ -466,7 +485,9 @@ function RiskProfiling() {
         {/* <div className="content">
          
         </div> */}
+         <RiskProfilingSummaryCards taxpayerDetailsData={taxpayerDetailsData} taxpayerDetailsLoading={taxpayerDetailsLoading} taxpayerDetailsError={taxpayerDetailsError}/>
         <div className="content">
+
           <div className="d-flex flex-column" style={{ gap: "32px" }}>
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">

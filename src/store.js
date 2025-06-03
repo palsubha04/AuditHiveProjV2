@@ -23,6 +23,7 @@ import profitLossComplianceReducer from './slice/compliance/profitLossCompliance
 import delayedFilingReducer from './slice/risk-profiling/delayedFilingsSlice';
 import uploadHistoryReducer from './slice/uploadHistorySlice';
 import recentUploadsReducer from './slice/reports/recentUploadsSlice';
+import taxPayerDetailsReducer from './slice/risk-profiling/taxpayerDetailsSlice';
 
 const store = configureStore({
   reducer: {
@@ -50,6 +51,7 @@ const store = configureStore({
     delayedFiling: delayedFilingReducer,
     uploadHistory: uploadHistoryReducer,
     recentUploads: recentUploadsReducer,
+    taxpayerDetails : taxPayerDetailsReducer,
   },
 });
 
