@@ -1,18 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Spinner } from 'react-bootstrap';
-import swtService from '../../services/swt.service';
+import React, { useState, useEffect } from "react";
+import { Card, Row, Col, Spinner, Placeholder } from "react-bootstrap";
+import swtService from "../../services/swt.service";
 import "../../pages/Dashboard.css";
 
+// const MetricCard = ({ value, label, color }) => (
+//   <div style={{ textAlign: 'start', minWidth: 150, paddingLeft: '0.5rem' }}>
+//     <div style={{ fontWeight: 700, fontSize: 24, color }}>{value}</div>
+//     <div style={{ fontSize: 15, color: '#fff', marginBottom: 4, textOverflow: 'ellipsis',
+//           whiteSpace: 'nowrap',
+//           overflow: 'hidden', // Essential for ellipsis
+//           width: '200px',      // The width at which text truncates
+//          }} title={label} // This is where the magic happens!
+//          >{label}</div>
+//   </div>
+// );
 
-const MetricCard = ({ value, label, color }) => (
-  <div style={{ textAlign: 'start', minWidth: 150, paddingLeft: '0.5rem' }}>
-    <div style={{ fontWeight: 700, fontSize: 24, color }}>{value}</div>
-    <div style={{ fontSize: 15, color: '#fff', marginBottom: 4, textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden', // Essential for ellipsis
-          width: '200px',      // The width at which text truncates
-         }} title={label} // This is where the magic happens!
-         >{label}</div>
+const MetricCard = ({ value, label, color, isLoading }) => (
+  <div style={{ textAlign: "start", minWidth: 150, paddingLeft: "0.5rem" }}>
+    {isLoading ? (
+      <>
+        <Placeholder
+          as="div"
+          animation="glow"
+          style={{ width: "80%", height: 24, marginBottom: 4 }}
+        >
+          <Placeholder xs={10} />
+        </Placeholder>
+        <Placeholder
+          as="div"
+          animation="glow"
+          style={{ width: "60%", height: 36 }}
+        >
+          <Placeholder xs={8} />
+        </Placeholder>
+      </>
+    ) : (
+      <>
+        <div style={{ fontWeight: 700, fontSize: 24, color }}>{value}</div>
+        <div style={{ fontSize: 15, color: "#fff", marginBottom: 4 }}>
+          {label}
+        </div>
+      </>
+    )}
   </div>
 );
 
@@ -26,10 +55,13 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
       try {
         setLoading(true);
         setError(null);
-        const response = await swtService.getTaxRecordsSummary(startDate, endDate);
+        const response = await swtService.getTaxRecordsSummary(
+          startDate,
+          endDate
+        );
         setSummary(response);
       } catch (err) {
-        setError('Failed to load summary data');
+        setError("Failed to load summary data");
       } finally {
         setLoading(false);
       }
@@ -44,7 +76,7 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
   }, [startDate, endDate]);
 
   const formatCurrency = (value) => {
-    if (value === undefined || value === null) return 'PGK 0.00';
+    if (value === undefined || value === null) return "PGK 0.00";
     if (value >= 1e9) {
       return `PGK ${(value / 1e9).toFixed(2)}B`;
     } else if (value >= 1e6) {
@@ -56,7 +88,7 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
   };
 
   const formatNumber = (value) => {
-    if (value === undefined || value === null) return '0';
+    if (value === undefined || value === null) return "0";
     if (value >= 1e6) {
       return `${(value / 1e6).toFixed(1)}M`;
     } else if (value >= 1e3) {
@@ -65,32 +97,30 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
     return value.toString();
   };
 
-  if (loading) {
-    return (
-      <Row className="mb-4 g-3 ">
-        {[1, 2, 3, 4, 5].map((index) => (
-          <Col key={index}>
-            <Card className="h-100 box-background">
-              <Card.Body className="d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
-                <Spinner animation="border" role="status" variant="primary" size="sm">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Row className="mb-4 g-3 ">
+  //       {[1, 2, 3, 4, 5].map((index) => (
+  //         <Col key={index}>
+  //           <Card className="h-100 box-background">
+  //             <Card.Body className="d-flex align-items-center justify-content-center" style={{ height: '100px' }}>
+  //               <Spinner animation="border" role="status" variant="primary" size="sm">
+  //                 <span className="visually-hidden">Loading...</span>
+  //               </Spinner>
+  //             </Card.Body>
+  //           </Card>
+  //         </Col>
+  //       ))}
+  //     </Row>
+  //   );
+  // }
 
   if (error) {
     return (
       <Row className="mb-4 g-3">
         <Col>
           <Card className="h-100 box-background">
-            <Card.Body className="text-center text-danger">
-              {error}
-            </Card.Body>
+            <Card.Body className="text-center text-danger">{error}</Card.Body>
           </Card>
         </Col>
       </Row>
@@ -99,40 +129,54 @@ const SWTSummaryCards = ({ startDate, endDate }) => {
 
   if (!summary) return null;
 
+  // Render "No data available" message if not loading and no summary data
+  // if (!loading && !summary && startDate && endDate) {
+  //   return (
+  //     <div className="alert alert-info text-center" role="alert">
+  //       No GST summary data available for the selected period.
+  //     </div>
+  //   );
+  // }
+
   return (
-    <div className='widget-main-div'>
-      <Card className='widget-card' style={{ background: '#5096ff' }}>
+    <div className="widget-main-div">
+      <Card className="widget-card" style={{ background: "#5096ff" }}>
         <MetricCard
           value={formatNumber(summary.employees_on_payroll)}
           label="Employees on Payroll"
+          isLoading={loading}
         />
       </Card>
-      <Card className='widget-card' style={{ background: '#47C99E' }}>
+      <Card className="widget-card" style={{ background: "#47C99E" }}>
         <MetricCard
           label="Employees Paid SWT"
           value={formatNumber(summary.employees_paid_swt)}
+          isLoading={loading}
         />
       </Card>
-      <Card className='widget-card' style={{ background: '#F96992' }}>
+      <Card className="widget-card" style={{ background: "#F96992" }}>
         <MetricCard
           label="Total Salary Wages Paid"
           value={formatCurrency(summary.total_salary_wages_paid)}
+          isLoading={loading}
         />
       </Card>
-      <Card className='widget-card' style={{ background: '#FFA56D' }}>
+      <Card className="widget-card" style={{ background: "#FFA56D" }}>
         <MetricCard
           label="Salary Wages Paid for SWT Deduction"
           value={formatCurrency(summary.sw_paid_for_swt_deduction)}
+          isLoading={loading}
         />
       </Card>
-      <Card className='widget-card' style={{ background: '#26DCE9' }}>
+      <Card className="widget-card" style={{ background: "#26DCE9" }}>
         <MetricCard
           label="Total SWT Tax Deducted"
           value={formatCurrency(summary.total_swt_tax_deducted)}
+          isLoading={loading}
         />
       </Card>
     </div>
   );
 };
 
-export default SWTSummaryCards; 
+export default SWTSummaryCards;

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { Card, Dropdown } from 'react-bootstrap';
+import { Card, Dropdown, Placeholder } from 'react-bootstrap';
 import gstService from '../../services/gst.service';
 import '../../pages/Dashboard.css';
 import './charts.css';
 
 const GSTPayableVsRefundable = ({ startDate, endDate }) => {
+  const [loading, setLoading] = useState(false); // Add loading state
   const [chartData, setChartData] = useState({
     series: [
       {
@@ -114,6 +115,7 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true)
         const response = await gstService.getPayableVsRefundable(
           startDate,
           endDate
@@ -171,6 +173,8 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
           refundable: response.total_gst_refundable,
         });
       } catch (error) {
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -204,6 +208,34 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
       });
     }
   };
+
+  if (loading) {
+    return (
+      <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <div className="chart-headers" style={{ height: "30px" }}></div>
+        </Card.Header>
+        <Card.Body>
+          <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
 
   return (
     <Card className="mb-4 box-background">

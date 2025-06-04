@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import ApexCharts from 'apexcharts';
-import { Card, Spinner, Dropdown } from 'react-bootstrap';
+import { Card, Spinner, Dropdown, Placeholder } from 'react-bootstrap';
 import swtService from '../../services/swt.service';
 import "../../pages/Dashboard.css";
 import './charts.css'
 
 const SWTSalesComparison = ({ startDate, endDate }) => {
+  
   const [chartData, setChartData] = useState({
     xAxis: [],
     series: [
@@ -162,15 +163,26 @@ const SWTSalesComparison = ({ startDate, endDate }) => {
   if (loading) {
     return (
       <Card className="mb-4 box-background">
-        <Card.Header className="chart-card-header">
-          <div className="align-items-center d-flex justify-content-between w-100">
-            <span className="chart-headers">Employees Comparison</span>
-          </div>
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <div className="chart-headers" style={{ height: "30px" }}></div>
         </Card.Header>
-        <Card.Body className="d-flex align-items-center justify-content-center" style={{ height: '350px' }}>
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+        <Card.Body>
+          <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
         </Card.Body>
       </Card>
     );

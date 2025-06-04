@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Spinner } from "react-bootstrap";
+import { Card, Placeholder, Spinner } from "react-bootstrap";
 import Table from "../Table";
 import citService from "../../services/cit.service";
 import "../../pages/Dashboard.css";
@@ -129,8 +129,40 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
     },
   ];
 
+
+  if (loading) {
+    return (
+      <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <div className="chart-headers" style={{ height: "30px" }}></div>
+        </Card.Header>
+        <Card.Body>
+          <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="mb-4 box-background">
+    <Card
+      className="mb-4 box-background"
+      style={records.length === 0 ? {} : { border: "none" }}
+    >
       <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
         <span className="chart-headers">Top 50 Net Profit Tax Payers</span>
         <CSVExportButton
@@ -139,7 +171,7 @@ const CITNetProfitTaxPayers = ({ startDate, endDate }) => {
           buttonLabel="Download Top 50 Net Profit List"
         />
       </Card.Header>
-      <Card.Body className="pt-0">
+      <Card.Body className="pt-0 px-0">
         {loading ? (
           <div
             className="text-center"

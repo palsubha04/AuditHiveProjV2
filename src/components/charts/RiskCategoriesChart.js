@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ApexCharts from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { Card, Spinner, Dropdown } from 'react-bootstrap';
+import { Card, Spinner, Dropdown, Placeholder } from 'react-bootstrap';
 import analyticsService from '../../services/analytics.service';
 import '../../pages/Dashboard.css';
 import './charts.css'
@@ -304,16 +304,26 @@ const RiskCategoriesChart = ({ startDate, endDate, taxType }) => {
   if (loading) {
     return (
       <Card className="mb-4 box-background">
-        <Card.Header className="chart-card-header">
-          <span className="chart-headers">Risk Flagged vs Non-Risk Flagged Taxpayers</span>
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <div className="chart-headers" style={{ height: "30px" }}></div>
         </Card.Header>
-        <Card.Body
-          className="d-flex align-items-center justify-content-center"
-          style={{ height: '470px' }}
-        >
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+        <Card.Body>
+          <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
         </Card.Body>
       </Card>
     );

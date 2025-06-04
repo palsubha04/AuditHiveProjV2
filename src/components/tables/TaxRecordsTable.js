@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Form } from 'react-bootstrap';
+import { Card, Form, Placeholder } from 'react-bootstrap';
 import Table from '../Table';
 import gstService from '../../services/gst.service';
 import debounce from 'lodash/debounce';
@@ -199,8 +199,36 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
     },
   ];
 
+  if (loading) {
+    return (
+      <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <div className="chart-headers" style={{ height: "30px" }}></div>
+        </Card.Header>
+        <Card.Body>
+          <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="mb-4 box-background">
+    <Card className="mb-4 box-background" style={{border : "none"}}>
       <Card.Header className="chart-card-header">
         <div className="d-flex align-items-center justify-content-between w-100">
           <span className="chart-headers">Tax Records</span>
@@ -232,7 +260,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
           </Form.Group>
         </div>
       </Card.Header>
-      <Card.Body className="pt-0">
+      <Card.Body className="pt-0 px-0">
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : error ? (
