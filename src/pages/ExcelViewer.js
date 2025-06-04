@@ -35,24 +35,41 @@ const ExcelViewer = () => {
       <th
         key={key}
         colSpan={Object.keys(data[0]).length}
-        style={{ textAlign: "center" }}
+        style={{ textAlign: "center", fontSize: "1.2rem" }}
         className="border px-4 py-2 bg-gray-200"
       >
         {key}
       </th>
     ))}
 </tr>
+<tr>
+{Object.entries(data[0])
+  .filter(([key]) => !key.includes("EMPTY"))
+  .map(([key, value]) => (
+    <th
+      key={key}
+      colSpan={Object.keys(data[0]).length}
+      style={{ textAlign: "center" }}
+      className="border px-4 py-2 bg-gray-200"
+    >
+      {value}
+    </th>
+  ))}
+</tr>
             </thead>
             <tbody>
-              {data.map((row, i) => (
-                <tr key={i}>
-                  {Object.values(row).map((val, j) => (
-                    <td key={j} className="border px-4 py-2">
-                      {val}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+
+            {data.map((row, i) =>
+  i > 0 && (
+    <tr key={i}>
+      {Object.values(row).map((val, j) => (
+        <td key={j} className="border px-4 py-2">
+          {val}
+        </td>
+      ))}
+    </tr>
+  )
+)}
             </tbody>
           </table>
         ) : (
