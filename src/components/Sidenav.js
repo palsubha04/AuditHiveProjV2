@@ -183,6 +183,14 @@ function Sidenav({ isOpen, toggleSidenav }) {
             >
               <span className='sidenav-items'>Recent Uploads</span>
             </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/taxpayer-report-risk-profiling"
+              active={location.pathname === '/taxpayer-report-risk-profiling'}
+              className="nav-item submenu-item"
+            >
+              <span className='sidenav-items'>Taxpayer Report Risk Profiling</span>
+            </Nav.Link>
           </div>
         </div>
 

@@ -31,6 +31,7 @@ import { AuthProvider } from './context/AuthContext';
 import UploadHistory from './pages/UploadHistory';
 import Compliance from './pages/Compliance';
 import RecentUploads from './pages/RecentUploads';
+import ExcelViewer from './pages/ExcelViewer';
 
 function App() {
   return (
@@ -129,6 +130,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <RecentUploads />
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/taxpayer-report-risk-profiling"
+            element={
+              <ProtectedRoute>
+                <ExcelViewer/>
               </ProtectedRoute>
             }
           />
