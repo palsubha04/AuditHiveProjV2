@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import ApexCharts from "apexcharts";
-import { Card, Spinner, Dropdown } from "react-bootstrap";
+import { Card, Spinner, Dropdown, Placeholder } from "react-bootstrap";
 import swtService from "../../services/swt.service";
 import "../../pages/Dashboard.css";
 
@@ -148,18 +148,41 @@ const SWTSegmentationDistributionChart = ({ startDate, endDate }) => {
   if (loading) {
     return (
       <Card className="mb-4 box-background">
-        <Card.Header className="chart-card-header">
-          <div className="align-items-center d-flex justify-content-between w-100">
-            <span className="chart-headers">Segmentation Distribution</span>
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <div className="chart-headers" style={{ height: "30px" }}>
+            {/* Placeholder for the chart title */}
+            <Placeholder as="span" animation="glow" xs={5} />
           </div>
+          {/* Placeholder for the export dropdown */}
         </Card.Header>
-        <Card.Body
-          className="d-flex align-items-center justify-content-center"
-          style={{ height: "468px" }}
-        >
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+        <Card.Body>
+          <div
+            style={{
+              height: 350,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Placeholder
+              as="div"
+              animation="glow"
+              // Set explicit equal width and height for a perfect circle
+              style={{
+                width: "250px", // Or any desired size, just make sure height matches
+                height: "250px",
+                borderRadius: "50%",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </div>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
         </Card.Body>
       </Card>
     );

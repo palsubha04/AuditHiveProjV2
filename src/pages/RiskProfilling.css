@@ -108,6 +108,13 @@
     height: 520px;
 }
 
+.chart-cards-75{
+    border-radius: 14px;
+    border-color: #e6edff;
+    width: 75%;
+    
+}
+
 .chart-cards-table{
     border-radius: 14px;
     border-color: #e6edff;

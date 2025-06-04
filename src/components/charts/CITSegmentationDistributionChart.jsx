@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import ReactApexChart from 'react-apexcharts';
-import ApexCharts from 'apexcharts';
-import { Card, Spinner, Dropdown } from 'react-bootstrap';
-import citService from '../../services/cit.service';
+import React, { useState, useEffect } from "react";
+import ReactApexChart from "react-apexcharts";
+import ApexCharts from "apexcharts";
+import { Card, Spinner, Dropdown, Placeholder } from "react-bootstrap";
+import citService from "../../services/cit.service";
 import "../../pages/Dashboard.css";
-import './charts.css';
+import "./charts.css";
 
 const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
   const [chartData, setChartData] = useState({
@@ -79,25 +79,28 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
       try {
         setLoading(true);
         setError(null);
-        const response = await citService.getSegmentationDistribution(startDate, endDate);
+        const response = await citService.getSegmentationDistribution(
+          startDate,
+          endDate
+        );
 
         // Process the response data
         const series = [
           response.micro || 0,
           response.small || 0,
           response.medium || 0,
-          response.large || 0
+          response.large || 0,
         ];
 
         // Check if all values are zero
-        const allZero = series.every(val => val === 0);
+        const allZero = series.every((val) => val === 0);
 
-        setChartData(prevData => ({
+        setChartData((prevData) => ({
           ...prevData,
-          series: allZero ? [] : series
+          series: allZero ? [] : series,
         }));
       } catch (err) {
-        setError('Failed to load segmentation distribution data');
+        setError("Failed to load segmentation distribution data");
       } finally {
         setLoading(false);
       }
@@ -107,35 +110,37 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
       fetchData();
     } else {
       setLoading(false);
-      setChartData(prevData => ({
+      setChartData((prevData) => ({
         ...prevData,
-        series: []
+        series: [],
       }));
     }
   }, [startDate, endDate]);
 
   // Toolbar functions
   const handleDownload = async (format) => {
-    const chart = await ApexCharts.getChartByID('cit-segmentation-distribution-chart');
+    const chart = await ApexCharts.getChartByID(
+      "cit-segmentation-distribution-chart"
+    );
     if (!chart) return;
 
-    if (format === 'png') {
+    if (format === "png") {
       chart.dataURI().then(({ imgURI }) => {
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = imgURI;
-        link.download = 'cit-segmentation-distribution-chart.png';
+        link.download = "cit-segmentation-distribution-chart.png";
         link.click();
       });
-    } else if (format === 'svg') {
-      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
-        const link = document.createElement('a');
+    } else if (format === "svg") {
+      chart.dataURI({ type: "svg" }).then(({ svgURI }) => {
+        const link = document.createElement("a");
         link.href = svgURI;
-        link.download = 'cit-segmentation-distribution-chart.svg';
+        link.download = "cit-segmentation-distribution-chart.svg";
         link.click();
       });
-    } else if (format === 'csv') {
+    } else if (format === "csv") {
       chart.exportToCSV({
-        filename: 'cit-segmentation-distribution-chart',
+        filename: "cit-segmentation-distribution-chart",
       });
     }
   };
@@ -144,12 +149,40 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
     return (
       <Card className="mb-4 box-background">
         <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-          <span className="chart-headers">Segmentation Distribution</span>
+          <div className="chart-headers" style={{ height: "30px" }}>
+            {/* Placeholder for the chart title */}
+            <Placeholder as="span" animation="glow" xs={5} />
+          </div>
+          {/* Placeholder for the export dropdown */}
         </Card.Header>
-        <Card.Body className="d-flex align-items-center justify-content-center" style={{ height: '400px' }}>
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+        <Card.Body>
+          <div
+            style={{
+              height: 350,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Placeholder
+              as="div"
+              animation="glow"
+              // Set explicit equal width and height for a perfect circle
+              style={{
+                width: "250px", // Or any desired size, just make sure height matches
+                height: "250px",
+                borderRadius: "50%",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </div>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
         </Card.Body>
       </Card>
     );
@@ -161,7 +194,10 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
         <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
           <span className="chart-headers">Segmentation Distribution</span>
         </Card.Header>
-        <Card.Body className="text-center text-danger" style={{ height: '400px' }}>
+        <Card.Body
+          className="text-center text-danger"
+          style={{ height: "400px" }}
+        >
           {error}
         </Card.Body>
       </Card>
@@ -174,13 +210,21 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
         <span className="chart-headers">Segmentation Distribution</span>
         <div className="d-flex align-items-center gap-2">
           <Dropdown>
-            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+            <Dropdown.Toggle
+              variant="outline-default"
+              size="sm"
+              className="download-dropdown-btn"
+            >
               {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
               Export
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload("png")}>
+                Download PNG
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload("csv")}>
+                Download CSV
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -197,4 +241,4 @@ const CITSegmentationDistributionChart = ({ startDate, endDate }) => {
   );
 };
 
-export default CITSegmentationDistributionChart; 
+export default CITSegmentationDistributionChart;
