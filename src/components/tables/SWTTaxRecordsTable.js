@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Form, Badge } from 'react-bootstrap';
-import Table from '../Table';
-import swtService from '../../services/swt.service';
-import debounce from 'lodash/debounce';
-import '../../pages/Dashboard.css';
-import { Search } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from "react";
+import { Card, Form, Badge, Placeholder } from "react-bootstrap";
+import Table from "../Table";
+import swtService from "../../services/swt.service";
+import debounce from "lodash/debounce";
+import "../../pages/Dashboard.css";
+import { Search } from "lucide-react";
 
 const monthMap = {
   1: "January",
@@ -25,12 +25,12 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchTin, setSearchTin] = useState('');
+  const [searchTin, setSearchTin] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  const fetchRecords = async (tin = '', page = 1, append = false) => {
+  const fetchRecords = async (tin = "", page = 1, append = false) => {
     if (append && (loading || isLoadingMore)) return;
 
     if (page === 1) {
@@ -76,7 +76,7 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
       }
       setTotalRecords(response.total_data_count);
     } catch (err) {
-      setError('Failed to fetch tax records');
+      setError("Failed to fetch tax records");
     } finally {
       setLoading(false);
       setIsLoadingMore(false);
@@ -126,10 +126,10 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
   ]);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'PGK',
-      currencyDisplay: 'symbol',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "PGK",
+      currencyDisplay: "symbol",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
@@ -137,77 +137,77 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
 
   const columns = [
     {
-      accessorKey: 'tin',
-      header: 'TIN',
+      accessorKey: "tin",
+      header: "TIN",
     },
     {
-      accessorKey: 'taxpayer_name',
-      header: 'Taxpayer Name',
-      cell: ({ getValue }) => getValue() || 'N/A',
+      accessorKey: "taxpayer_name",
+      header: "Taxpayer Name",
+      cell: ({ getValue }) => getValue() || "N/A",
     },
     {
-      accessorKey: 'segmentation',
-      header: 'Segmentation',
+      accessorKey: "segmentation",
+      header: "Segmentation",
     },
     {
-      accessorKey: 'employees_on_payroll',
-      header: 'Employees on Payroll',
+      accessorKey: "employees_on_payroll",
+      header: "Employees on Payroll",
     },
     {
-      accessorKey: 'employees_paid_swt',
-      header: 'Employees Paid SWT',
+      accessorKey: "employees_paid_swt",
+      header: "Employees Paid SWT",
     },
     {
-      accessorKey: 'total_salary_wages_paid',
-      header: 'Total Salary Wages Paid',
+      accessorKey: "total_salary_wages_paid",
+      header: "Total Salary Wages Paid",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
-      accessorKey: 'sw_paid_for_swt_deduction',
-      header: 'Salary Wages Paid for SWT Deduction',
+      accessorKey: "sw_paid_for_swt_deduction",
+      header: "Salary Wages Paid for SWT Deduction",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
-      accessorKey: 'total_swt_tax_deducted',
-      header: 'Total SWT Tax Deducted',
+      accessorKey: "total_swt_tax_deducted",
+      header: "Total SWT Tax Deducted",
       cell: ({ getValue }) => formatCurrency(getValue()),
     },
     {
-      accessorKey: 'is_fraud',
-      header: 'Is Fraud',
+      accessorKey: "is_fraud",
+      header: "Is Fraud",
       cell: ({ getValue }) => {
         const isFraud = getValue();
         return (
           <div
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: '4px 12px',
-              borderRadius: '16px', // Adjust for more or less rounded corners
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "4px 12px",
+              borderRadius: "16px", // Adjust for more or less rounded corners
             }}
           >
             <span
               style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: isFraud ? '#FF3535' : '#34C759', // Red for Fraud, Green for Valid
-                marginRight: '8px',
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                backgroundColor: isFraud ? "#FF3535" : "#34C759", // Red for Fraud, Green for Valid
+                marginRight: "8px",
               }}
             ></span>
             <span
               style={{
-                color: '#000000',
-                fontSize: '14px',
-                fontWeight: '500',
+                color: "#000000",
+                fontSize: "14px",
+                fontWeight: "500",
               }}
             >
-              {isFraud ? 'Fraud' : 'Valid'}
+              {isFraud ? "Fraud" : "Valid"}
             </span>
           </div>
         );
       },
-      header: 'Is Fraud', // Keep this if you want to prevent filtering on this column
+      header: "Is Fraud", // Keep this if you want to prevent filtering on this column
     },
     // {
     //   accessorKey: 'fraud_reason',
@@ -216,21 +216,49 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
     // },
   ];
 
+  if (loading) {
+    return (
+      <Card className="mb-4 box-background">
+        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+          <div className="chart-headers" style={{ height: "30px" }}></div>
+        </Card.Header>
+        <Card.Body>
+          <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="mb-4 box-background">
+    <Card className="mb-4 box-background" style={{ border: "none" }}>
       <Card.Header className="chart-card-header">
         <div className="d-flex align-items-center justify-content-between w-100">
           <span className="chart-headers">Tax Records</span>
-          <Form.Group className="mb-0" style={{ width: '300px' }}>
-            <div style={{ position: 'relative', width: '300px' }}>
+          <Form.Group className="mb-0" style={{ width: "300px" }}>
+            <div style={{ position: "relative", width: "300px" }}>
               <Search
                 style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '10px',
-                  transform: 'translateY(-50%)',
-                  color: '#aaa',
-                  pointerEvents: 'none',
+                  position: "absolute",
+                  top: "50%",
+                  left: "10px",
+                  transform: "translateY(-50%)",
+                  color: "#aaa",
+                  pointerEvents: "none",
                 }}
               />
 
@@ -240,23 +268,23 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
                 value={searchTin}
                 onChange={handleSearchChange}
                 style={{
-                  paddingLeft: '35px', // Make room for the icon
-                  border: '1px solid #fff',
-                  borderRadius: '10px',
+                  paddingLeft: "35px", // Make room for the icon
+                  border: "1px solid #fff",
+                  borderRadius: "10px",
                 }}
               />
             </div>
           </Form.Group>
         </div>
       </Card.Header>
-      <Card.Body className='pt-0'>
+      <Card.Body className="pt-0 px-0">
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : error ? (
           <div className="text-center text-danger">{error}</div>
         ) : records.length === 0 ? (
           <>
-            <div className="text-center text-muted" style={{ padding: '2rem' }}>
+            <div className="text-center text-muted" style={{ padding: "2rem" }}>
               No Data Found
             </div>
           </>
@@ -270,7 +298,7 @@ const SWTTaxRecordsTable = ({ startDate, endDate }) => {
               hasMore={records.length < totalRecords}
               onLoadMore={handleLoadMore}
               loadingMore={isLoadingMore}
-              jobId={'test'}
+              jobId={"test"}
             />
           </>
         )}
