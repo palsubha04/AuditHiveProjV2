@@ -459,8 +459,27 @@
 .box-background {
   border-color: #dfe4f0;
   border-radius: 12px;
+  /* background: radial-gradient(circle at top left, #d5e6ff, #ffffff 550px); */
 }
 
 .chart-columns-div {
   margin-bottom: 12px;
+}
+
+.truncated-text {
+  /* Required for ellipsis */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* Set a maximum width */
+  max-width: 30px; /* This corresponds to your `width: "30px"` in the React component */
+}
+
+.truncated-text:hover {
+  /* On hover, remove truncation */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip; /* Or just remove it */
+  max-width: none; /* Allow full width */
 }

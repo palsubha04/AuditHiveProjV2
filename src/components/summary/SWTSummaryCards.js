@@ -7,7 +7,12 @@ import "../../pages/Dashboard.css";
 const MetricCard = ({ value, label, color }) => (
   <div style={{ textAlign: 'start', minWidth: 150, paddingLeft: '0.5rem' }}>
     <div style={{ fontWeight: 700, fontSize: 24, color }}>{value}</div>
-    <div style={{ fontSize: 15, color: '#fff', marginBottom: 4 }}>{label}</div>
+    <div style={{ fontSize: 15, color: '#fff', marginBottom: 4, textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden', // Essential for ellipsis
+          width: '200px',      // The width at which text truncates
+         }} title={label} // This is where the magic happens!
+         >{label}</div>
   </div>
 );
 
