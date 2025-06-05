@@ -32,6 +32,7 @@ import UploadHistory from './pages/UploadHistory';
 import Compliance from './pages/Compliance';
 import RecentUploads from './pages/RecentUploads';
 import ExcelViewer from './pages/ExcelViewer';
+import TaxpayerReport from './pages/TaxpayerReport';
 
 function App() {
   return (
@@ -137,7 +138,7 @@ function App() {
             path="/taxpayer-report-risk-profiling"
             element={
               <ProtectedRoute>
-                <ExcelViewer/>
+               <TaxpayerReport/>
               </ProtectedRoute>
             }
           />
