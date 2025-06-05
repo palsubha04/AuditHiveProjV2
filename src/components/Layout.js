@@ -31,6 +31,9 @@ function Layout({ children }) {
   } else if (location.pathname === '/recent-uploads') {
     headerTitle = 'Recent Uploads';
     headerSubtitle = '';
+  } else if (location.pathname === '/tax-payer-profile') {
+    headerTitle = 'Tax Payer Profile';
+    headerSubtitle = '';
   } else if (location.pathname === '/help-centre') {
     headerTitle = 'Help Centre';
     headerSubtitle = '';
@@ -49,16 +52,21 @@ function Layout({ children }) {
   }
 
   return (
-    <div className="d-flex flex-column overflow-hidden" style={{ height: '100vh' }}>
-      <div className='header-main'>
+    <div
+      className="d-flex flex-column overflow-hidden"
+      style={{ height: '100vh' }}
+    >
+      <div className="header-main">
         <Header />
       </div>
-      <div className='flex-fill d-flex flex-row overflow-hidden'>
-        <div className='h-100'>
+      <div className="flex-fill d-flex flex-row overflow-hidden">
+        <div className="h-100">
           <Sidenav isOpen={isSidenavOpen} toggleSidenav={toggleSidenav} />
         </div>
-        <div className='main-content'>
-          <div className='header-title-page'>{headerTitle} {headerSubtitle && <p>{headerSubtitle}</p>}</div>
+        <div className="main-content">
+          <div className="header-title-page">
+            {headerTitle} {headerSubtitle && <p>{headerSubtitle}</p>}
+          </div>
           <div>{children}</div>
         </div>
       </div>

@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
-import { Navbar, Container, Dropdown } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSearch,
-  faBell,
-  faUser,
-  faSignOutAlt,
-  faChevronDown,
-  faChevronUp,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
-import { Bell, CircleUserIcon, CircleUserRound, Search } from 'lucide-react';
+import { Bell, CircleUserIcon, Search } from 'lucide-react';
 
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -48,45 +41,6 @@ function Header() {
     return user.email;
   };
 
-  // let headerTitle = `Welcome Back, ${getFirstName()}`;
-  // let headerSubtitle = 'Here is the information about all your orders';
-  let headerTitle;
-  let headerSubtitle;
-  if (location.pathname === '/compliance') {
-    headerTitle = 'Compliance';
-    headerSubtitle = '';
-  } else if (location.pathname === '/risk-assessment') {
-    headerTitle = 'Risk Assessment';
-    headerSubtitle = '';
-  } else if (location.pathname === '/upload-history') {
-    headerTitle = 'Upload History';
-    headerSubtitle = '';
-  } else if (location.pathname === '/risk-profiling') {
-    headerTitle = 'Risk Profiling';
-    headerSubtitle = '';
-  } else if (location.pathname === '/upload-sheets') {
-    headerTitle = 'Upload Sheets';
-    headerSubtitle = '';
-  } else if (location.pathname === '/recent-uploads') {
-    headerTitle = 'Recent Uploads';
-    headerSubtitle = '';
-  } else if (location.pathname === '/help-centre') {
-    headerTitle = 'Help Centre';
-    headerSubtitle = '';
-  } else if (location.pathname === '/contact-us') {
-    headerTitle = 'Contact Us';
-    headerSubtitle = '';
-  } else if (location.pathname === '/gst') {
-    headerTitle = 'GST Dashboard';
-    headerSubtitle = '';
-  } else if (location.pathname === '/swt') {
-    headerTitle = 'SWT Dashboard';
-    headerSubtitle = '';
-  } else if (location.pathname === '/cit') {
-    headerTitle = 'CIT Dashboard';
-    headerSubtitle = '';
-  }
-
   return (
     <>
       <div className="header-left">
@@ -108,16 +62,23 @@ function Header() {
         >
           <Dropdown.Toggle className="user-dropdown">
             <CircleUserIcon />
-            <span style={{color:'#fff'}}>{getFullName()}</span>
+            <span style={{ color: '#fff' }}>{getFullName()}</span>
             <FontAwesomeIcon
               icon={isDropdownOpen ? faChevronUp : faChevronDown}
               className="dropdown-arrow"
             />
           </Dropdown.Toggle>
-          <Dropdown.Menu className='header-dropdown-item'>
-            <Dropdown.Item onClick={handleLogout} className='d-flex gap-2 header-dropdown-item'>
-              <img src="/header-icons/Logout.svg" alt="Logout" className="logout" />
-              <span style={{color : '#5671ff'}}>Logout</span>
+          <Dropdown.Menu className="header-dropdown-item">
+            <Dropdown.Item
+              onClick={handleLogout}
+              className="d-flex gap-2 header-dropdown-item"
+            >
+              <img
+                src="/header-icons/Logout.svg"
+                alt="Logout"
+                className="logout"
+              />
+              <span style={{ color: '#5671ff' }}>Logout</span>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

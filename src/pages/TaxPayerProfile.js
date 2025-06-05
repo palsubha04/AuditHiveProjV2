@@ -1,0 +1,242 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTaxPayerProfile } from '../slice/reports/taxPayerProfileSlice';
+import Layout from '../components/Layout';
+import Table from '../components/Table';
+import { Button } from 'react-bootstrap';
+import { Download, Funnel } from 'lucide-react';
+import * as XLSX from 'xlsx';
+import './Reports.css'; // Make sure to create this CSS file
+import { resetTaxPayerProfile } from '../slice/reports/taxPayerProfileSlice';
+
+const RecentUploads = () => {
+  const [selectedCategory, setSelectedCategory] = useState('gst');
+  const [startDate, setStartDate] = useState(''); // Added for start date
+  const [endDate, setEndDate] = useState(''); // Added for end date
+
+  const formatDate = (date) => {
+    const [year, month, day] = date.split('-');
+    return `${day}-${month}-${year}`;
+  };
+
+  const dispatch = useDispatch();
+  const {
+    taxPayerProfileData,
+    taxPayerProfileLoading,
+    taxPayerProfileError,
+    cursor,
+    results,
+    hasMore,
+  } = useSelector((state) => state?.taxPayerProfile);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  useEffect(() => {
+    dispatch(resetTaxPayerProfile());
+  }, [dispatch]);
+
+  const handleLoadMore = async () => {
+    if (cursor && !taxPayerProfileLoading && !isLoadingMore && hasMore) {
+      setIsLoadingMore(true);
+      try {
+        await dispatch(
+          fetchTaxPayerProfile({
+            tax_type: selectedCategory,
+            start_date: startDate,
+            end_date: endDate,
+            cursor,
+          })
+        ).unwrap();
+      } catch (e) {}
+      setIsLoadingMore(false);
+    }
+  };
+
+  // Infinite scroll handler
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 100 >=
+          document.documentElement.offsetHeight &&
+        !taxPayerProfileLoading &&
+        hasMore
+      ) {
+        dispatch(
+          fetchTaxPayerProfile({
+            tax_type: selectedCategory,
+            start_date: startDate,
+            end_date: endDate,
+            cursor,
+          })
+        );
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [taxPayerProfileLoading, hasMore, cursor, selectedCategory, dispatch]);
+
+  // Handler to export table data to Excel
+  const handleDownload = () => {
+    if (
+      !taxPayerProfileData ||
+      !taxPayerProfileData.results ||
+      taxPayerProfileData.results.length === 0
+    ) {
+      alert('No data available to download.');
+      return;
+    }
+    const worksheet = XLSX.utils.json_to_sheet(taxPayerProfileData.results);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'RecentUploads');
+    XLSX.writeFile(workbook, `TaxPayerProfile_${selectedCategory}.xlsx`);
+  };
+
+  const columns = [
+    {
+      accessorKey: 'tin',
+      header: 'Tin',
+    },
+    {
+      accessorKey: 'taxpayer_name',
+      header: 'Taxpayer Name',
+    },
+    {
+      accessorKey: 'tax_period_month',
+      header: 'Tax Period Month',
+    },
+    {
+      accessorKey: 'tax_period_year',
+      header: 'Tax Period Year',
+    },
+    {
+      accessorKey: 'segmentation',
+      header: 'Segmentation',
+    },
+    {
+      accessorKey: 'is_fraud',
+      header: 'Is Fraud',
+    },
+    {
+      accessorKey: 'fraud_reason',
+      header: 'Fraud Reason',
+      cell: ({ getValue }) => {
+        const value = getValue();
+        return (
+          <span
+            style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+            title={
+              typeof value === 'string'
+                ? value
+                : value
+                ? value.toString()
+                : undefined
+            }
+          >
+            {value || 'N/A'}
+          </span>
+        );
+      },
+    },
+  ];
+
+  const handleSearch = () => {
+    if (selectedCategory && startDate && endDate) {
+      dispatch(
+        fetchTaxPayerProfile({
+          tax_type: selectedCategory,
+          start_date: formatDate(startDate), // Use state variable
+          end_date: formatDate(endDate), // Use state variable
+        })
+      );
+    }
+  };
+
+  return (
+    <Layout>
+      <div className="selection-container">
+        <div className="d-flex" style={{ gap: '1rem', alignItems: 'center' }}>
+          <span>
+            <Funnel style={{ color: '#3470E2' }} />
+          </span>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="chart-filter2"
+          >
+            <option value="gst">GST</option>
+            <option value="swt">SWT</option>
+            <option value="cit">CIT</option>
+          </select>
+        </div>
+
+        <div className="d-flex" style={{ gap: '1rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <label htmlFor="start-date" style={{ whiteSpace: 'nowrap' }}>
+              Start Date
+            </label>
+            <input
+              type="date"
+              id="start-date"
+              value={startDate} // Bind value to state
+              onChange={(e) => setStartDate(e.target.value)} // Update state on change
+              className="date-conatiner"
+              placeholderText="Select"
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <label htmlFor="end-date" style={{ whiteSpace: 'nowrap' }}>
+              End Date
+            </label>
+            <input
+              type="date"
+              id="end-date"
+              value={endDate} // Bind value to state
+              onChange={(e) => setEndDate(e.target.value)} // Update state on change
+              className="date-conatiner"
+              placeholderText="Select"
+            />
+          </div>
+          <div className="search-container">
+            <button onClick={handleSearch} className="search-button">
+              Search
+            </button>
+          </div>
+        </div>
+
+        <Button
+          variant="outline-primary"
+          size="sm"
+          onClick={handleDownload}
+          className="download"
+          style={{
+            color: '#347AE2',
+            borderColor: '#347AE2',
+            marginLeft: '1rem',
+          }} // Added marginLeft for spacing
+        >
+          <Download
+            size={16}
+            style={{ marginRight: 6, marginBottom: 2, color: '#347AE2' }}
+          />
+          Download Sheet
+        </Button>
+      </div>
+
+      <Table
+        columns={columns}
+        data={results}
+        jobId={'test'}
+        hasMore={hasMore}
+        onLoadMore={handleLoadMore}
+        loadingMore={isLoadingMore}
+      />
+      {taxPayerProfileLoading && results.length === 0 && (
+        <div style={{ textAlign: 'center' }}>Loading...</div>
+      )}
+      {!hasMore && results.length > 0 && (
+        <div style={{ textAlign: 'center' }}>No more data.</div>
+      )}
+    </Layout>
+  );
+};
+
+export default RecentUploads;
