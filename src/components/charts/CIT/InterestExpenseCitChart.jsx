@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Dropdown, Spinner } from 'react-bootstrap';
-import Chart from 'react-apexcharts';
-import ApexCharts from 'apexcharts';
-import citService from '../../../services/cit.service';
-import CSVExportButton from '../../CSVExportButton';
+import React, { useState, useEffect } from "react";
+import { Card, Dropdown, Placeholder, Spinner } from "react-bootstrap";
+import Chart from "react-apexcharts";
+import ApexCharts from "apexcharts";
+import citService from "../../../services/cit.service";
+import CSVExportButton from "../../CSVExportButton";
 
 const sample = {
   png: 450,
@@ -17,13 +17,13 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
 
   const chartOptions = {
     chart: {
-      id: 'interest-png-foreign-chart',
+      id: "interest-png-foreign-chart",
       width: 380,
-      type: 'pie',
+      type: "pie",
       toolbar: { show: false },
     },
-    labels: ['PNG', 'Foreign'],
-    colors:  ["#00E096", "#0095FF"],
+    labels: ["PNG", "Foreign"],
+    colors: ["#00E096", "#0095FF"],
     legend: {
       position: "bottom",
     },
@@ -51,7 +51,7 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
             width: 200,
           },
           legend: {
-            position: 'bottom',
+            position: "bottom",
           },
         },
       },
@@ -86,17 +86,21 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
 
         const result = [];
 
-        response.forEach(entry => {
-          const { interest_expense_png, interest_expense_foreign, tax_period_year, records } = entry;
+        response.forEach((entry) => {
+          const {
+            interest_expense_png,
+            interest_expense_foreign,
+            tax_period_year,
+            records,
+          } = entry;
 
-          records.forEach(record => {
+          records.forEach((record) => {
             result.push({
               tin: record.tin,
               taxpayer_name: record.taxpayer_name,
               tax_period_year,
               interest_expense_png,
               interest_expense_foreign,
-
             });
           });
         });
@@ -111,19 +115,14 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
         }
 
         //var chart_Data = response;
-        var chartSeries = [
-          interest_expense_png,
-          interest_expense_foreign,
-        ];
-
+        var chartSeries = [interest_expense_png, interest_expense_foreign];
 
         setChartData((prevData) => ({
           ...prevData,
           series: chartSeries,
         }));
-
       } catch (err) {
-        setError('Failed to load Total Amount By Expense Type data');
+        setError("Failed to load Total Amount By Expense Type data");
       } finally {
         setLoading(false);
       }
@@ -142,26 +141,26 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
 
   // Toolbar functions
   const handleDownload = async (format) => {
-    const chart = await ApexCharts.getChartByID('interest-png-foreign-chart');
+    const chart = await ApexCharts.getChartByID("interest-png-foreign-chart");
     if (!chart) return;
 
-    if (format === 'png') {
+    if (format === "png") {
       chart.dataURI().then(({ imgURI }) => {
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = imgURI;
-        link.download = 'interest-png-foreign-chart.png';
+        link.download = "interest-png-foreign-chart.png";
         link.click();
       });
-    } else if (format === 'svg') {
-      chart.dataURI({ type: 'svg' }).then(({ svgURI }) => {
-        const link = document.createElement('a');
+    } else if (format === "svg") {
+      chart.dataURI({ type: "svg" }).then(({ svgURI }) => {
+        const link = document.createElement("a");
         link.href = svgURI;
-        link.download = 'interest-png-foreign-chart.svg';
+        link.download = "interest-png-foreign-chart.svg";
         link.click();
       });
-    } else if (format === 'csv') {
+    } else if (format === "csv") {
       chart.exportToCSV({
-        filename: 'interest-png-foreign-chart',
+        filename: "interest-png-foreign-chart",
       });
     }
   };
@@ -170,15 +169,40 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
     return (
       <Card className="mb-4 box-background">
         <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-          <span className="chart-headers">Interest PNG vs Foreign</span>
+          <div className="chart-headers" style={{ height: "30px" }}>
+            {/* Placeholder for the chart title */}
+            <Placeholder as="span" animation="glow" xs={5} />
+          </div>
+          {/* Placeholder for the export dropdown */}
         </Card.Header>
-        <Card.Body
-          className="d-flex align-items-center justify-content-center"
-          style={{ height: '400px' }}
-        >
-          <Spinner animation="border" role="status" variant="primary">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+        <Card.Body>
+          <div
+            style={{
+              height: 350,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Placeholder
+              as="div"
+              animation="glow"
+              // Set explicit equal width and height for a perfect circle
+              style={{
+                width: "250px", // Or any desired size, just make sure height matches
+                height: "250px",
+                borderRadius: "50%",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </div>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
         </Card.Body>
       </Card>
     );
@@ -192,7 +216,7 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
         </Card.Header>
         <Card.Body
           className="text-center text-danger"
-          style={{ height: '400px' }}
+          style={{ height: "400px" }}
         >
           {error}
         </Card.Body>
@@ -210,10 +234,10 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
           <div
             className="text-center text-muted"
             style={{
-              height: '350px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              height: "350px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             No Data Found
@@ -229,13 +253,21 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
         <span className="chart-headers">Interest PNG vs Foreign</span>
         <div className="d-flex gap-2">
           <Dropdown>
-            <Dropdown.Toggle variant="outline-default" size="sm" className='download-dropdown-btn'>
+            <Dropdown.Toggle
+              variant="outline-default"
+              size="sm"
+              className="download-dropdown-btn"
+            >
               {/* <Download style={{height : "18px",width:"18px", color:'#5671ff'}}/> */}
               Export
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleDownload('png')}>Download PNG</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleDownload('csv')}>Download CSV</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload("png")}>
+                Download PNG
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleDownload("csv")}>
+                Download CSV
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <CSVExportButton
@@ -246,14 +278,12 @@ const InterestExpenseCitChart = ({ startDate, endDate }) => {
         </div>
       </Card.Header>
       <Card.Body>
-
         <Chart
           options={chartData.options}
           series={chartData.series}
           type="pie"
           height={350}
         />
-
       </Card.Body>
     </Card>
   );
