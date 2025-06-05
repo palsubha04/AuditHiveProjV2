@@ -50,6 +50,10 @@ function Layout({ children }) {
     headerTitle = 'CIT Dashboard';
     headerSubtitle = '';
   }
+  else if (location.pathname === '/taxpayer-report-risk-profiling') {
+    headerTitle = 'Taxpayer Report Risk Profiling';
+    headerSubtitle = '';
+  } 
 
   return (
     <div

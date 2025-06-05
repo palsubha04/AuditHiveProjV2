@@ -31,6 +31,9 @@ import { AuthProvider } from './context/AuthContext';
 import UploadHistory from './pages/UploadHistory';
 import Compliance from './pages/Compliance';
 import RecentUploads from './pages/RecentUploads';
+
+import ExcelViewer from './pages/ExcelViewer';
+import TaxpayerReport from './pages/TaxpayerReport';
 import TaxPayerProfile from './pages/TaxPayerProfile';
 
 function App() {
@@ -77,6 +80,30 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* <Route
+            path="/consolidated-profile"
+            element={
+              <ProtectedRoute>
+                <ConsolidatedProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pending-returns"
+            element={
+              <ProtectedRoute>
+                <PendingReturns />
+              </ProtectedRoute>
+            }
+          /> */}
+          {/* <Route
+            path="/fraud-detections"
+            element={
+              <ProtectedRoute>
+                <FraudDetections />
+              </ProtectedRoute>
+            }
+          /> */}
           <Route
             path="/risk-assessment"
             element={
@@ -109,11 +136,11 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/tax-payer-profile"
+           <Route
+            path="/taxpayer-report-risk-profiling"
             element={
               <ProtectedRoute>
-                <TaxPayerProfile />
+               <TaxpayerReport/>
               </ProtectedRoute>
             }
           />
