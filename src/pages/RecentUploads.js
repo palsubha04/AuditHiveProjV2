@@ -6,7 +6,7 @@ import Table from '../components/Table';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
-import './RecentUploads.css'; // Make sure to create this CSS file
+import './Reports.css'; // Make sure to create this CSS file
 import { resetRecentUploads } from '../slice/reports/recentUploadsSlice';
 
 const RecentUploads = () => {
