@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchTaxPayerProfile } from '../slice/reports/taxPayerProfileSlice';
 import Layout from '../components/Layout';
 import Table from '../components/Table';
+import api from '../services/axios.config';
 import { Button } from 'react-bootstrap';
 import { Download, Funnel } from 'lucide-react';
-import * as XLSX from 'xlsx';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import './Reports.css'; // Make sure to create this CSS file
 import { resetTaxPayerProfile } from '../slice/reports/taxPayerProfileSlice';
 
@@ -13,6 +15,10 @@ const RecentUploads = () => {
   const [selectedCategory, setSelectedCategory] = useState('gst');
   const [startDate, setStartDate] = useState(''); // Added for start date
   const [endDate, setEndDate] = useState(''); // Added for end date
+  const [error, setError] = useState('');
+  if (error) {
+    console.log(error);
+  }
 
   const formatDate = (date) => {
     const [year, month, day] = date.split('-');
@@ -41,8 +47,8 @@ const RecentUploads = () => {
         await dispatch(
           fetchTaxPayerProfile({
             tax_type: selectedCategory,
-            start_date: startDate,
-            end_date: endDate,
+            start_date: formatDate(startDate),
+            end_date: formatDate(endDate),
             cursor,
           })
         ).unwrap();
@@ -63,8 +69,8 @@ const RecentUploads = () => {
         dispatch(
           fetchTaxPayerProfile({
             tax_type: selectedCategory,
-            start_date: startDate,
-            end_date: endDate,
+            start_date: formatDate(startDate),
+            end_date: formatDate(endDate),
             cursor,
           })
         );
@@ -75,19 +81,27 @@ const RecentUploads = () => {
   }, [taxPayerProfileLoading, hasMore, cursor, selectedCategory, dispatch]);
 
   // Handler to export table data to Excel
-  const handleDownload = () => {
-    if (
-      !taxPayerProfileData ||
-      !taxPayerProfileData.results ||
-      taxPayerProfileData.results.length === 0
-    ) {
-      alert('No data available to download.');
-      return;
+  const handleDownload = async () => {
+    try {
+      const response = await api.get(
+        `reports/generate-fraud-records?tax_type=${selectedCategory}&start_date=${formatDate(
+          startDate
+        )}&end_date=${formatDate(endDate)}&export_format=csv`,
+        {
+          responseType: 'blob',
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Tax_Payer_Profile_Data.csv');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      setError('Error downloading Tax Payer Profile records');
     }
-    const worksheet = XLSX.utils.json_to_sheet(taxPayerProfileData.results);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'RecentUploads');
-    XLSX.writeFile(workbook, `TaxPayerProfile_${selectedCategory}.xlsx`);
   };
 
   const columns = [
