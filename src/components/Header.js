@@ -63,6 +63,9 @@ function Header() {
   } else if (location.pathname === '/recent-uploads') {
     headerTitle = 'Recent Uploads';
     headerSubtitle = '';
+  } else if (location.pathname === '/tax-payer-profile') {
+    headerTitle = 'Taxpayer Profile';
+    headerSubtitle = '';
   } else if (location.pathname === '/help-centre') {
     headerTitle = 'Help Centre';
     headerSubtitle = '';
@@ -78,8 +81,7 @@ function Header() {
   } else if (location.pathname === '/cit') {
     headerTitle = 'CIT Dashboard';
     headerSubtitle = '';
-  }
-  else if (location.pathname === '/taxpayer-report-risk-profiling') {
+  } else if (location.pathname === '/taxpayer-report-risk-profiling') {
     headerTitle = 'Taxpayer Report Risk Profiling';
     headerSubtitle = '';
   }

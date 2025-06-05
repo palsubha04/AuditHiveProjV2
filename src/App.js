@@ -80,30 +80,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="/consolidated-profile"
-            element={
-              <ProtectedRoute>
-                <ConsolidatedProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/pending-returns"
-            element={
-              <ProtectedRoute>
-                <PendingReturns />
-              </ProtectedRoute>
-            }
-          /> */}
-          {/* <Route
-            path="/fraud-detections"
-            element={
-              <ProtectedRoute>
-                <FraudDetections />
-              </ProtectedRoute>
-            }
-          /> */}
           <Route
             path="/risk-assessment"
             element={
@@ -136,11 +112,19 @@ function App() {
               </ProtectedRoute>
             }
           />
-           <Route
+          <Route
+            path="/tax-payer-profile"
+            element={
+              <ProtectedRoute>
+                <TaxPayerProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/taxpayer-report-risk-profiling"
             element={
               <ProtectedRoute>
-               <TaxpayerReport/>
+                <TaxpayerReport />
               </ProtectedRoute>
             }
           />
