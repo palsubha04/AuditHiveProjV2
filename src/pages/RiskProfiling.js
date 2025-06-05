@@ -6,7 +6,7 @@ import { fetchDatasets } from '../slice/datasetsSlice';
 import { ChevronDown } from 'lucide-react';
 import { FixedSizeList as List } from 'react-window';
 import { fetchRiskBreakdownByCategoryProfiling, resetRiskBreakdownByCategoryProfiling } from '../slice/risk-profiling/riskBreakdownCategoryProfilingSlice';
-import { Card, Spinner } from 'react-bootstrap';
+import { Card, CardBody, CardHeader, Placeholder, Spinner } from 'react-bootstrap';
 import { fetchFrequencyOfAnomalyProfiling, resetFrequencyOfAnomalyProfiling } from '../slice/risk-profiling/frequencyOfAnomalyProfilingSlice';
 import RiskAnomalyFrequencyChart from '../components/charts/RiskAnomalyFrequencyChart';
 import RiskBreakdownCategoryProfilingChart from '../components/charts/risk-profiling/RiskBreakdownCategoryProfilingChart';
@@ -422,9 +422,9 @@ function RiskProfiling() {
             >
               {selectedTIN
                 ? selectedTIN +
-                  " - " +
-                  (data?.records?.find((record) => record.tin === selectedTIN)
-                    ?.taxpayer_name || "N/A")
+                " - " +
+                (data?.records?.find((record) => record.tin === selectedTIN)
+                  ?.taxpayer_name || "N/A")
                 : "Select TIN"}{" "}
               <ChevronDown />
             </div>
@@ -485,18 +485,51 @@ function RiskProfiling() {
         {/* <div className="content">
          
         </div> */}
-         <RiskProfilingSummaryCards taxpayerDetailsData={taxpayerDetailsData} taxpayerDetailsLoading={taxpayerDetailsLoading} taxpayerDetailsError={taxpayerDetailsError}/>
+        <RiskProfilingSummaryCards taxpayerDetailsData={taxpayerDetailsData} taxpayerDetailsLoading={taxpayerDetailsLoading} taxpayerDetailsError={taxpayerDetailsError} />
         <div className="content">
 
           <div className="d-flex flex-column" style={{ gap: "32px" }}>
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
                 {frequencyOfAnomalyProfilingLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <CardHeader className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}>
+                        {/* Placeholder for the chart title */}
+                        <Placeholder as="span" animation="glow" xs={5} />
+                      </div>
+                      {/* Placeholder for the export dropdown */}
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          height: 350,
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Placeholder
+                          as="div"
+                          animation="glow"
+                          // Set explicit equal width and height for a perfect circle
+                          style={{
+                            width: "250px", // Or any desired size, just make sure height matches
+                            height: "250px",
+                            borderRadius: "50%",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </div>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </CardBody>
+                  </>
                 ) : (
                   <div className="p-0 w-100">
                     <RiskAnomalyFrequencyChart
@@ -508,11 +541,44 @@ function RiskProfiling() {
               </Card>
               <Card className="chart-cards-half">
                 {riskBreakdownByCategoryProfilingLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <CardHeader className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}>
+                        {/* Placeholder for the chart title */}
+                        <Placeholder as="span" animation="glow" xs={5} />
+                      </div>
+                      {/* Placeholder for the export dropdown */}
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          height: 350,
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Placeholder
+                          as="div"
+                          animation="glow"
+                          // Set explicit equal width and height for a perfect circle
+                          style={{
+                            width: "250px", // Or any desired size, just make sure height matches
+                            height: "250px",
+                            borderRadius: "50%",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </div>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </CardBody>
+                  </>
                 ) : (
                   <RiskBreakdownCategoryProfilingChart
                     riskBreakdownByCategoryDataProfiling={
@@ -525,11 +591,29 @@ function RiskProfiling() {
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
                 {gstBenchmarkProfilingLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <div className="p-0 w-100">
                     <GSTBenchmarkProfilingChart
@@ -540,11 +624,29 @@ function RiskProfiling() {
               </Card>
               <Card className="chart-cards-half">
                 {gstBenchmarkCreditsProfilingLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <div className="p-0 w-100">
                     <GSTBenchmarkCreditsProfilingChart
@@ -559,11 +661,29 @@ function RiskProfiling() {
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
                 {swtBenchmarkProfilingLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <div className="p-0 w-100">
                     <SWTBenchmarkProfilingChart
@@ -574,11 +694,29 @@ function RiskProfiling() {
               </Card>
               <Card className="chart-cards-half">
                 {swtBenchmarkProfilingLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <div className="p-0 w-100">
                     <SWTBenchmarkEmployeesProfilingChart
@@ -593,17 +731,29 @@ function RiskProfiling() {
             <div className="d-flex flex-column" style={{ gap: "32px" }}>
               <Card className="chart-cards-full">
                 {monthlySalesLoading ? (
-                  <div className="chart-big">
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <MonthlySalesTaxSummaryChart
                     salesData={monthlySalesData}
@@ -614,20 +764,29 @@ function RiskProfiling() {
               </Card>
               <Card className="chart-cards-full">
                 {gstLoading ? (
-                  <div className="chart-big">
-                    {" "}
-                    <div className="spinner-div">
-                      {" "}
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        {" "}
-                        <span className="visually-hidden">Loading...</span>{" "}
-                      </Spinner>{" "}
-                    </div>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <TaxpayersRiskChart
                     data={gstData}
@@ -640,18 +799,29 @@ function RiskProfiling() {
             <div className="d-flex flex-column" style={{ gap: "32px" }}>
               <Card className="chart-cards-full">
                 {payrollLoading ? (
-                  <div className="chart-big">
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        {" "}
-                        <span className="visually-hidden">Loading...</span>{" "}
-                      </Spinner>{" "}
-                    </div>{" "}
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <EmployeeLineChart
                     data={payrollData}
@@ -662,17 +832,29 @@ function RiskProfiling() {
               </Card>
               <Card className="chart-cards-full">
                 {swtSalariesComparisonLoading ? (
-                  <div className="chart-big">
-                    <div className="spinner-div">
-                      <Spinner
-                        animation="border"
-                        role="status"
-                        variant="primary"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </Spinner>
-                    </div>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <SwtSalariesChart
                     data={swtSalariesComparisonData}
@@ -685,11 +867,29 @@ function RiskProfiling() {
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-full">
                 {delayedFilingLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <div className="p-0 w-100 h-100">
                     <DelayedReturnFilingTable

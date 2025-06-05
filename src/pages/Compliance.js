@@ -6,7 +6,7 @@ import { fetchDatasets } from '../slice/datasetsSlice';
 import { fetchtaxPayersDetails } from '../slice/taxPayersDetailsSlice';
 import { ChevronDown, Download } from 'lucide-react';
 import TaxPayersGrid from '../components/TaxPayersGrid';
-import { Card, CardBody, Spinner } from 'react-bootstrap';
+import { Card, CardBody, CardHeader, Placeholder, Spinner } from 'react-bootstrap';
 import './Compliance.css';
 import TaxFillingComplianceChart from '../components/charts/compliance/TaxFillingComplianceChart';
 import { fetchTaxFilingCompliance } from '../slice/compliance/taxFilingComplianceSlice';
@@ -100,11 +100,29 @@ const Compliance = () => {
             <div className="d-flex">
               <Card className="chart-cards-full">
                 {taxFilingComplianceLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <TaxFillingComplianceChart
                     taxFilingComplianceData={taxFilingComplianceData}
@@ -115,11 +133,44 @@ const Compliance = () => {
             <div className="d-flex" style={{ gap: '32px' }}>
               <Card className="chart-cards-half">
                 {taxDelayComplianceLoading ? (
-                  <div className="spinner-div">
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <CardHeader className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}>
+                        {/* Placeholder for the chart title */}
+                        <Placeholder as="span" animation="glow" xs={5} />
+                      </div>
+                      {/* Placeholder for the export dropdown */}
+                    </CardHeader>
+                    <CardBody>
+                      <div
+                        style={{
+                          height: 350,
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Placeholder
+                          as="div"
+                          animation="glow"
+                          // Set explicit equal width and height for a perfect circle
+                          style={{
+                            width: "250px", // Or any desired size, just make sure height matches
+                            height: "250px",
+                            borderRadius: "50%",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </div>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </CardBody>
+                  </>
                 ) : (
                   <TaxDelayComplianceChart
                     taxDelayComplianceData={taxDelayComplianceData}
@@ -128,11 +179,29 @@ const Compliance = () => {
               </Card>
               <Card className='chart-cards-half'>
                 {profitLossComplianceLoading ? (
-                  <div className='spinner-div'>
-                    <Spinner animation="border" role="status" variant="primary">
-                      <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                  </div>
+                  <>
+                    <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
+                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                        <Placeholder
+                          xs={12}
+                          style={{
+                            height: "100%",
+                            borderRadius: "0.25rem",
+                            backgroundColor: "#d5e6ff",
+                          }}
+                        />
+                      </Placeholder>
+                      <div className="d-flex justify-content-around mt-3">
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                      </div>
+                    </Card.Body>
+                  </>
                 ) : (
                   <ProfitLossComplianceChart profitLossComplianceData={profitLossComplianceData} />
                 )}
