@@ -72,6 +72,13 @@
   padding: 3px;
 }
 
+.chart-filter2 {
+  border: solid 0.6px #e6edff;
+  margin-left: 1px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.3rem;
+}
 /* .download-button:hover {
   background-color: none;
 } */
@@ -83,4 +90,19 @@
 .download:hover {
   background: none;
   color: white;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 12px;
+}
+
+.date-conatiner {
+  border: 1px solid #e6edff;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.3rem 0.5rem;
+  width: 220px;
 }

@@ -23,6 +23,7 @@ import profitLossComplianceReducer from './slice/compliance/profitLossCompliance
 import delayedFilingReducer from './slice/risk-profiling/delayedFilingsSlice';
 import uploadHistoryReducer from './slice/uploadHistorySlice';
 import recentUploadsReducer from './slice/reports/recentUploadsSlice';
+import taxPayerProfileReducer from './slice/reports/taxPayerProfileSlice';
 import taxPayerDetailsReducer from './slice/risk-profiling/taxpayerDetailsSlice';
 import taxpayerReportReducer from './slice/taxpayerReportSlice';
 
@@ -53,7 +54,8 @@ const store = configureStore({
     uploadHistory: uploadHistoryReducer,
     recentUploads: recentUploadsReducer,
     taxpayerDetails : taxPayerDetailsReducer,
-    taxpayerReport :taxpayerReportReducer
+    taxpayerReport :taxpayerReportReducer,
+    taxPayerProfile: taxPayerProfileReducer,
   },
 });
 
