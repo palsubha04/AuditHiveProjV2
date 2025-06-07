@@ -24,11 +24,12 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
     const result = Object.entries(
       profitLossComplianceData[selectedCategory]
     ).flatMap(([category, { records }]) =>
-      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+      records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month, status }) => ({
         Tin: tin,
         'Taxpayer Name': taxpayer_name,
         'Tax Period Year': tax_period_year,
         Segmentation: category,
+        'Status' : status
       }))
     );
 

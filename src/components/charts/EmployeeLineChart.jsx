@@ -146,9 +146,30 @@ const EmployeeLineChart = ({ data, start_date, end_date }) => {
         link.click();
       });
     } else if (format === 'csv') {
-      chart.exportToCSV({
-        filename: 'employees-on-payroll-vs-paid-swt',
-      });
+      const csvRows = [];
+
+      // Header
+      csvRows.push(['Date (MMM-YY)', 'Employees on Payroll', 'Employees Paid SWT'].join(','));
+
+      // Rows
+      for (let i = 0; i < categories.length; i++) {
+        const row = [
+          categories[i],
+          series[0].data[i] ?? 0,
+          series[1].data[i] ?? 0,
+        ];
+        csvRows.push(row.join(','));
+      }
+
+      // Blob download
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'employees-on-payroll-vs-paid-swt.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
@@ -175,20 +196,20 @@ const EmployeeLineChart = ({ data, start_date, end_date }) => {
         </Dropdown>
       </CardHeader>
       <CardBody>
-        {data?.records?.length > 0 ? 
-        <Chart options={options} series={series} type="line" height={430} />
-        :  <div
-        className="text-center text-muted"
-        style={{
-          height: '350px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        No Data Found
-      </div>
-}
+        {data?.records?.length > 0 ?
+          <Chart options={options} series={series} type="line" height={430} />
+          : <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        }
       </CardBody>
     </>
   );
