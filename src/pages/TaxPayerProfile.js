@@ -35,6 +35,7 @@ const RecentUploads = () => {
     hasMore,
   } = useSelector((state) => state?.taxPayerProfile);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isInitialOrSearchLoad, setIsInitialOrSearchLoad] = useState(true);
 
   useEffect(() => {
     dispatch(resetTaxPayerProfile());
@@ -43,6 +44,7 @@ const RecentUploads = () => {
   const handleLoadMore = async () => {
     if (cursor && !taxPayerProfileLoading && !isLoadingMore && hasMore) {
       setIsLoadingMore(true);
+      setIsInitialOrSearchLoad(false);
       try {
         await dispatch(
           fetchTaxPayerProfile({
@@ -154,6 +156,7 @@ const RecentUploads = () => {
 
   const handleSearch = () => {
     if (selectedCategory && startDate && endDate) {
+      setIsInitialOrSearchLoad(true);
       dispatch(
         fetchTaxPayerProfile({
           tax_type: selectedCategory,
@@ -164,7 +167,8 @@ const RecentUploads = () => {
     }
   };
 
-  const showSkeleton = taxPayerProfileLoading /*&& results.length === 0*/;
+  const showSkeleton =
+    isInitialOrSearchLoad && taxPayerProfileLoading ;
   return (
     <Layout>
       <div className="selection-container">
