@@ -134,7 +134,7 @@ const TopFraudRulesProfiling = ({
           buttonLabel="Download Top 10 Fraud List"
         />
       </CardHeader>
-      <CardBody>
+      <CardBody className='px-0'>
         {filteredData && filteredData.length > 0 ? (
           <Table
             columns={columns}

@@ -82,8 +82,8 @@ const ProfitLossComplianceChart = ({ profitLossComplianceData }) => {
           return `
             <div style="padding: 8px 12px;">
               <strong>${sizeLabel}</strong><br/>
-              Total Taxpayers: ${total}<br/>
-              Risk-Flagged: ${flagged}<br/>
+              Profit Taxpayers: ${total}<br/>
+              Loss Taxpayers: ${flagged}<br/>
             </div>
           `;
         },
