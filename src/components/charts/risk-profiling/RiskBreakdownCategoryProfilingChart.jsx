@@ -21,6 +21,16 @@ const RiskBreakdownCategoryProfilingChart = ({
     "Very Low Risk",
     "No Risk",
   ];
+  // Define a fixed color map for each risk level
+  const riskLevelColors = {
+    "Critical Risk": "#FF779D", // Example color for Critical Risk
+    "High Risk": "#00E096", // Example color for High Risk
+    "Moderate Risk": "#20E5F3", // Example color for Moderate Risk
+    "Elevated Risk": "#6287FF", // Example color for Elevated Risk
+    "Low Risk": "#347AE2", // Example color for Low Risk
+    "Very Low Risk": "#FFD12C", // Example color for Very Low Risk
+    "No Risk": "#008000", // Example color for No Risk
+  };
   const monthMap = {
     1: "January",
     2: "February",
@@ -58,9 +68,10 @@ const RiskBreakdownCategoryProfilingChart = ({
     }
   }, [riskBreakdownByCategoryDataProfiling, selectedCategory]);
 
-  const { labels, series } = useMemo(() => {
+  const { labels, series, colors } = useMemo(() => {
     const labels = [];
     const series = [];
+    const chartColors = [];
 
     for (let i = 0; i < riskLevels.length; i++) {
       const riskLevel = riskLevels[i];
@@ -68,12 +79,14 @@ const RiskBreakdownCategoryProfilingChart = ({
         series.push(filteredData[riskLevel]["count"]);
         if (riskLevel === "Unknown") {
           labels.push("High");
+          chartColors.push(riskLevelColors["High Risk"]);
         } else {
           labels.push(riskLevel);
+          chartColors.push(riskLevelColors[riskLevel]);
         }
       }
     }
-    return { labels, series };
+    return { labels, series, colors: chartColors };
   }, [filteredData]);
 
   const options = {
@@ -84,7 +97,7 @@ const RiskBreakdownCategoryProfilingChart = ({
       toolbar: { show: false },
     },
     labels: labels,
-    colors: ['#FF779D', '#00E096', '#20E5F3', '#6287FF', '#347AE2', '#FFD12C'],
+    colors: colors /*["#FF779D", "#00E096", "#20E5F3", "#6287FF", "#347AE2", "#FFD12C"]*/,
     noData: {
       text: "No Data Found",
       align: "center",
@@ -203,12 +216,17 @@ const RiskBreakdownCategoryProfilingChart = ({
           />
         </div>
       </CardHeader>
-      <CardBody style={{'paddingLeft':'105px'}}>
+      <CardBody style={{ paddingLeft: "105px" }}>
         {labels.length === 1 && labels[0] === "No Risk" ? (
-          <div className="spinner-div" style={{
-            fontSize : "17px",
-            opacity : 0.7
-          }}>No Risk</div>
+          <div
+            className="spinner-div"
+            style={{
+              fontSize: "17px",
+              opacity: 0.7,
+            }}
+          >
+            No Risk
+          </div>
         ) : (
           <ReactApexChart
             key={JSON.stringify(series)} // forces remount when data changes
