@@ -167,9 +167,35 @@ const SwtSalariesChart = ({ data, start_date, end_date }) => {
         link.click();
       });
     } else if (format === 'csv') {
-      chart.exportToCSV({
-        filename: 'swt-salaries-comparison',
-      });
+      const csvRows = [];
+
+      // Header row
+      csvRows.push([
+        'Date (MMM-YY)',
+        'Total Salary Wages Paid',
+        'SW Paid for SWT Deduction',
+        'Total SWT Tax Deducted',
+      ].join(','));
+
+      // Data rows
+      for (let i = 0; i < categories.length; i++) {
+        csvRows.push([
+          categories[i],
+          series[0].data[i] ?? 0,
+          series[1].data[i] ?? 0,
+          series[2].data[i] ?? 0,
+        ].join(','));
+      }
+
+      // Convert to blob and download
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'swt-salaries-comparison.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
@@ -196,20 +222,20 @@ const SwtSalariesChart = ({ data, start_date, end_date }) => {
         </Dropdown>
       </CardHeader>
       <CardBody>
-        {data?.records?.length > 0 ? 
-        <Chart options={options} series={series} type="area" height={430} />
-        :  <div
-        className="text-center text-muted"
-        style={{
-          height: '350px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        No Data Found
-      </div>
-}
+        {data?.records?.length > 0 ?
+          <Chart options={options} series={series} type="area" height={430} />
+          : <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        }
       </CardBody>
     </>
   );

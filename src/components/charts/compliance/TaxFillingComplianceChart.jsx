@@ -104,12 +104,13 @@ const TaxFillingComplianceChart = ({ taxFilingComplianceData }) => {
       const result = Object.entries(
         taxFilingComplianceData[defaultCategory]
       ).flatMap(([category, { records }]) =>
-        records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month }) => ({
+        records.map(({ tin, taxpayer_name, tax_period_year, tax_period_month, is_filing }) => ({
           Tin: tin,
           'Taxpayer Name': taxpayer_name,
           'Tax Period Year': tax_period_year,
           'Tax Period Month': monthMap[tax_period_month],
           Segmentation: category,
+          'Is Filing' : is_filing
         }))
       );
 

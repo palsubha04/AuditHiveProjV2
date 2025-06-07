@@ -131,9 +131,30 @@ const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
         link.click();
       });
     } else if (format === 'csv') {
-      chart.exportToCSV({
-        filename: 'gst-sales-comparison',
-      });
+      const csvRows = [];
+
+      // Header row
+      const headers = ['Date (MMM-YY)', ...chartSeries.map((s) => s.name)];
+      csvRows.push(headers.join(','));
+
+      // Row data
+      for (let i = 0; i < monthLabels.length; i++) {
+        const row = [monthLabels[i]];
+        chartSeries.forEach((series) => {
+          row.push(series.data[i] ?? 0);
+        });
+        csvRows.push(row.join(','));
+      }
+
+      // Convert to CSV and trigger download
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'gst-sales-comparison.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
   return (
@@ -159,26 +180,26 @@ const MonthlySalesTaxSummaryChart = ({ salesData, start_date, end_date }) => {
         </Dropdown>
       </CardHeader>
       <CardBody>
-        {salesData?.records?.length > 0 ? 
-        <Chart
-          options={chartOptions}
-          series={chartSeries}
-          type="line"
-          height={430}
-        />
-        :
-        <div
-        className="text-center text-muted"
-        style={{
-          height: '350px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        No Data Found
-      </div>
-  }
+        {salesData?.records?.length > 0 ?
+          <Chart
+            options={chartOptions}
+            series={chartSeries}
+            type="line"
+            height={430}
+          />
+          :
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        }
       </CardBody>
     </>
   );

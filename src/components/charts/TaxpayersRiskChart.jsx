@@ -145,8 +145,8 @@ const TaxpayersRiskChart = ({ data, start_date, end_date }) => {
         return `<div style="padding:10px 16px;background:#45457A;color:#fff;border-radius:10px;box-shadow:0 2px 8px #0002;">
           <div style="font-size:15px;font-weight:500;">${taxType} - ${label}</div>
           <div style="font-size:18px;font-weight:600;">${value.toLocaleString(
-            'en-US'
-          )}</div>
+          'en-US'
+        )}</div>
         </div>`;
       },
     },
@@ -188,9 +188,32 @@ const TaxpayersRiskChart = ({ data, start_date, end_date }) => {
         link.click();
       });
     } else if (format === 'csv') {
-      chart.exportToCSV({
-        filename: 'taxpayers-risk',
-      });
+      // Generate CSV with 'Date (MMM-YY)' header
+      const csvRows = [];
+
+      // Header row
+      const headers = ['Date (MMM-YY)', 'GST Payable', 'GST Refundable'];
+      csvRows.push(headers.join(','));
+
+      // Data rows
+      for (let i = 0; i < categories.length; i++) {
+        const row = [
+          categories[i],
+          series[0].data[i] ?? 0,
+          series[1].data[i] ?? 0,
+        ];
+        csvRows.push(row.join(','));
+      }
+
+      // Convert to CSV and trigger download
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'taxpayers-risk.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
   return (
@@ -216,26 +239,26 @@ const TaxpayersRiskChart = ({ data, start_date, end_date }) => {
         </Dropdown>
       </CardHeader>
       <CardBody>
-        {data?.records?.length > 0 ? 
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="bar"
-          height={430}
-        />
-        : 
-        <div
-        className="text-center text-muted"
-        style={{
-          height: '350px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        No Data Found
-      </div>
-}
+        {data?.records?.length > 0 ?
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="bar"
+            height={430}
+          />
+          :
+          <div
+            className="text-center text-muted"
+            style={{
+              height: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            No Data Found
+          </div>
+        }
       </CardBody>
     </>
   );
