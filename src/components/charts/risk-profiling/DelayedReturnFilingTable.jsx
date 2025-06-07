@@ -103,7 +103,7 @@ const DelayedReturnFilingTable = ({ delayedFilingData }) => {
           buttonLabel="Download Delayed Return Filings List"
         />
       </CardHeader>
-      <CardBody>
+      <CardBody className="px-0">
         {filteredData && filteredData.length > 0 ? (
           <Table columns={columns} data={filteredData} />
         ) : (

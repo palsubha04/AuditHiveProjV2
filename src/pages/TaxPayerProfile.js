@@ -4,7 +4,7 @@ import { fetchTaxPayerProfile } from '../slice/reports/taxPayerProfileSlice';
 import Layout from '../components/Layout';
 import Table from '../components/Table';
 import api from '../services/axios.config';
-import { Button } from 'react-bootstrap';
+import { Button, Placeholder } from 'react-bootstrap';
 import { Download, Funnel } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -35,6 +35,7 @@ const RecentUploads = () => {
     hasMore,
   } = useSelector((state) => state?.taxPayerProfile);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isInitialOrSearchLoad, setIsInitialOrSearchLoad] = useState(true);
 
   useEffect(() => {
     dispatch(resetTaxPayerProfile());
@@ -43,6 +44,7 @@ const RecentUploads = () => {
   const handleLoadMore = async () => {
     if (cursor && !taxPayerProfileLoading && !isLoadingMore && hasMore) {
       setIsLoadingMore(true);
+      setIsInitialOrSearchLoad(false);
       try {
         await dispatch(
           fetchTaxPayerProfile({
@@ -154,6 +156,7 @@ const RecentUploads = () => {
 
   const handleSearch = () => {
     if (selectedCategory && startDate && endDate) {
+      setIsInitialOrSearchLoad(true);
       dispatch(
         fetchTaxPayerProfile({
           tax_type: selectedCategory,
@@ -164,12 +167,14 @@ const RecentUploads = () => {
     }
   };
 
+  const showSkeleton =
+    isInitialOrSearchLoad && taxPayerProfileLoading ;
   return (
     <Layout>
       <div className="selection-container">
-        <div className="d-flex" style={{ gap: '1rem', alignItems: 'center' }}>
+        <div className="d-flex" style={{ gap: "1rem", alignItems: "center" }}>
           <span>
-            <Funnel style={{ color: '#3470E2' }} />
+            <Funnel style={{ color: "#3470E2" }} />
           </span>
           <select
             value={selectedCategory}
@@ -182,9 +187,9 @@ const RecentUploads = () => {
           </select>
         </div>
 
-        <div className="d-flex" style={{ gap: '1rem', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <label htmlFor="start-date" style={{ whiteSpace: 'nowrap' }}>
+        <div className="d-flex" style={{ gap: "1rem", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <label htmlFor="start-date" style={{ whiteSpace: "nowrap" }}>
               Start Date
             </label>
             <input
@@ -196,8 +201,8 @@ const RecentUploads = () => {
               placeholderText="Select"
             />
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <label htmlFor="end-date" style={{ whiteSpace: 'nowrap' }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <label htmlFor="end-date" style={{ whiteSpace: "nowrap" }}>
               End Date
             </label>
             <input
@@ -222,32 +227,135 @@ const RecentUploads = () => {
           onClick={handleDownload}
           className="download"
           style={{
-            color: '#347AE2',
-            borderColor: '#347AE2',
-            marginLeft: '1rem',
+            color: "#347AE2",
+            borderColor: "#347AE2",
+            marginLeft: "1rem",
           }} // Added marginLeft for spacing
         >
           <Download
             size={16}
-            style={{ marginRight: 6, marginBottom: 2, color: '#347AE2' }}
+            style={{ marginRight: 6, marginBottom: 2, color: "#347AE2" }}
           />
           Download Sheet
         </Button>
       </div>
 
-      <Table
-        columns={columns}
-        data={results}
-        jobId={'test'}
-        hasMore={hasMore}
-        onLoadMore={handleLoadMore}
-        loadingMore={isLoadingMore}
-      />
-      {taxPayerProfileLoading && results.length === 0 && (
-        <div style={{ textAlign: 'center' }}>Loading...</div>
-      )}
-      {!hasMore && results.length > 0 && (
-        <div style={{ textAlign: 'center' }}>No more data.</div>
+      {showSkeleton ? (
+        <>
+          <Placeholder
+            as="div"
+            animation="glow"
+            style={{ height: 100 }}
+            className="mb-1"
+          >
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <Placeholder
+            as="div"
+            animation="glow"
+            style={{ height: 100 }}
+            className="mb-1"
+          >
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <Placeholder
+            as="div"
+            animation="glow"
+            style={{ height: 100 }}
+            className="mb-1"
+          >
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <Placeholder
+            as="div"
+            animation="glow"
+            style={{ height: 100 }}
+            className="mb-1"
+          >
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <Placeholder
+            as="div"
+            animation="glow"
+            style={{ height: 100 }}
+            className="mb-1"
+          >
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <Placeholder
+            as="div"
+            animation="glow"
+            style={{ height: 100 }}
+            className="mb-1"
+          >
+            <Placeholder
+              xs={12}
+              style={{
+                height: "100%",
+                borderRadius: "0.25rem",
+                backgroundColor: "#d5e6ff",
+              }}
+            />
+          </Placeholder>
+          <div className="d-flex justify-content-around mt-3">
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+          </div>
+        </>
+      ) : (
+        <>
+          <Table
+            columns={columns}
+            data={results}
+            jobId={"test"}
+            hasMore={hasMore}
+            onLoadMore={handleLoadMore}
+            loadingMore={isLoadingMore}
+          />
+          {taxPayerProfileLoading && results.length === 0 && (
+            <div style={{ textAlign: "center" }}>Loading...</div>
+          )}
+          {!hasMore && results.length > 0 && (
+            <div style={{ textAlign: "center" }}>No more data.</div>
+          )}
+        </>
       )}
     </Layout>
   );

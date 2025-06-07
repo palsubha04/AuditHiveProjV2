@@ -134,7 +134,7 @@ function RiskAssessment() {
         <div className="top-filter-class">
           <TenureFilter
             onFilterChange={handleFilterChange}
-          //tenureOptions={yearOptions}
+            //tenureOptions={yearOptions}
           />
           <div className="d-flex ps-2 gap-2 justify-center align-items-center">
             <span>{dateRange.start_date}</span>
@@ -144,16 +144,23 @@ function RiskAssessment() {
         </div>
 
         <div className="content">
-          <div className="d-flex flex-column" style={{ gap: '32px' }}>
-            <div className="d-flex" style={{ gap: '32px' }}>
+          <div className="d-flex flex-column" style={{ gap: "32px" }}>
+            <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
                 {totalVsFlaggedTaxpayersLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -164,10 +171,22 @@ function RiskAssessment() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -212,10 +231,22 @@ function RiskAssessment() {
                         />
                       </div>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </CardBody>
                   </>
@@ -234,10 +265,17 @@ function RiskAssessment() {
                 {riskBreakdownByCategoryLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -248,10 +286,22 @@ function RiskAssessment() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -269,10 +319,17 @@ function RiskAssessment() {
                 {riskAnalysisLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -283,10 +340,22 @@ function RiskAssessment() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -298,14 +367,21 @@ function RiskAssessment() {
               </Card>
             </div>
             <div className="d-flex">
-              <Card className="chart-cards-table">
+              <Card className="chart-cards-table" style={{ border: "none" }}>
                 {topFraudRulesProfilingLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -316,10 +392,22 @@ function RiskAssessment() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>

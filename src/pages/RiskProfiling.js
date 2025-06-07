@@ -422,9 +422,9 @@ function RiskProfiling() {
             >
               {selectedTIN
                 ? selectedTIN +
-                " - " +
-                (data?.records?.find((record) => record.tin === selectedTIN)
-                  ?.taxpayer_name || "N/A")
+                  " - " +
+                  (data?.records?.find((record) => record.tin === selectedTIN)
+                    ?.taxpayer_name || "N/A")
                 : "Select TIN"}{" "}
               <ChevronDown />
             </div>
@@ -485,9 +485,12 @@ function RiskProfiling() {
         {/* <div className="content">
          
         </div> */}
-        <RiskProfilingSummaryCards taxpayerDetailsData={taxpayerDetailsData} taxpayerDetailsLoading={taxpayerDetailsLoading} taxpayerDetailsError={taxpayerDetailsError} />
+        <RiskProfilingSummaryCards
+          taxpayerDetailsData={taxpayerDetailsData}
+          taxpayerDetailsLoading={taxpayerDetailsLoading}
+          taxpayerDetailsError={taxpayerDetailsError}
+        />
         <div className="content">
-
           <div className="d-flex flex-column" style={{ gap: "32px" }}>
             <div className="d-flex" style={{ gap: "32px" }}>
               <Card className="chart-cards-half">
@@ -523,10 +526,22 @@ function RiskProfiling() {
                         />
                       </div>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </CardBody>
                   </>
@@ -572,10 +587,22 @@ function RiskProfiling() {
                         />
                       </div>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </CardBody>
                   </>
@@ -593,10 +620,17 @@ function RiskProfiling() {
                 {gstBenchmarkProfilingLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -607,10 +641,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -626,10 +672,17 @@ function RiskProfiling() {
                 {gstBenchmarkCreditsProfilingLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -640,10 +693,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -663,10 +728,17 @@ function RiskProfiling() {
                 {swtBenchmarkProfilingLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -677,10 +749,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -696,10 +780,17 @@ function RiskProfiling() {
                 {swtBenchmarkProfilingLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -710,10 +801,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -733,10 +836,17 @@ function RiskProfiling() {
                 {monthlySalesLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -747,10 +857,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -766,10 +888,17 @@ function RiskProfiling() {
                 {gstLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -780,10 +909,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -801,10 +942,17 @@ function RiskProfiling() {
                 {payrollLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -815,10 +963,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -834,10 +994,17 @@ function RiskProfiling() {
                 {swtSalariesComparisonLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -848,10 +1015,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
@@ -865,14 +1044,21 @@ function RiskProfiling() {
               </Card>
             </div>
             <div className="d-flex" style={{ gap: "32px" }}>
-              <Card className="chart-cards-full">
+              <Card className="chart-cards-full" style={{ border: "none" }}>
                 {delayedFilingLoading ? (
                   <>
                     <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-                      <div className="chart-headers" style={{ height: "30px" }}></div>
+                      <div
+                        className="chart-headers"
+                        style={{ height: "30px" }}
+                      ></div>
                     </Card.Header>
                     <Card.Body>
-                      <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+                      <Placeholder
+                        as="div"
+                        animation="glow"
+                        style={{ height: 350 }}
+                      >
                         <Placeholder
                           xs={12}
                           style={{
@@ -883,10 +1069,22 @@ function RiskProfiling() {
                         />
                       </Placeholder>
                       <div className="d-flex justify-content-around mt-3">
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-                        <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
+                        <Placeholder
+                          xs={2}
+                          style={{ backgroundColor: "#d5e6ff" }}
+                        />
                       </div>
                     </Card.Body>
                   </>
