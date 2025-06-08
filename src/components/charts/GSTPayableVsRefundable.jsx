@@ -203,9 +203,29 @@ const GSTPayableVsRefundable = ({ startDate, endDate }) => {
         link.click();
       });
     } else if (format === 'csv') {
-      chart.exportToCSV({
-        filename: 'sales_comparison_data',
-      });
+      const headers = ['Date[MMM-YY]', 'GST Payable', 'GST Refundable'];
+
+    const rows = chartData.options.xaxis.categories.map((month, index) => [
+      month,
+      chartData.series[0]?.data[index] ?? 0,
+      chartData.series[1]?.data[index] ?? 0,
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map(row =>
+        row
+          .map(cell =>
+            typeof cell === 'string' && cell.includes(',') ? `"${cell}"` : cell
+          )
+          .join(',')
+      )
+      .join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'gst_payable_vs_refundable_data.csv';
+    link.click();
     }
   };
 

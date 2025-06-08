@@ -187,9 +187,35 @@ const SWTPayableVsRefundable = ({ startDate, endDate }) => {
         link.click();
       });
     } else if (format === 'csv') {
-      chart.exportToCSV({
-        filename: 'salaries-comparison-chart',
-      });
+      const headers = [
+        'Date [MMM-YY]',
+        'Total Salary Wages Paid',
+        'Salary Wages Paid for SWT Deduction',
+        'Total SWT Tax Deducted',
+      ];
+  
+      const rows = chartData.xAxis.map((month, index) => [
+        month,
+        chartData.series[0]?.data[index] ?? 0,
+        chartData.series[1]?.data[index] ?? 0,
+        chartData.series[2]?.data[index] ?? 0,
+      ]);
+  
+      const csvContent = [headers, ...rows]
+        .map(row =>
+          row
+            .map(cell =>
+              typeof cell === 'string' && cell.includes(',') ? `"${cell}"` : cell
+            )
+            .join(',')
+        )
+        .join('\n');
+  
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'salaries-comparison-chart.csv';
+      link.click();
     }
   };
 
