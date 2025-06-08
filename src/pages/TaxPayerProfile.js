@@ -16,9 +16,6 @@ const RecentUploads = () => {
   const [startDate, setStartDate] = useState(''); // Added for start date
   const [endDate, setEndDate] = useState(''); // Added for end date
   const [error, setError] = useState('');
-  if (error) {
-    console.log(error);
-  }
 
   const formatDate = (date) => {
     const [year, month, day] = date.split('-');
@@ -97,7 +94,10 @@ const RecentUploads = () => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'Tax_Payer_Profile_Data.csv');
+      link.setAttribute(
+        'download',
+        `${selectedCategory.toUpperCase()}_Tax_Payer_Profile_Data.csv`
+      );
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -167,14 +167,13 @@ const RecentUploads = () => {
     }
   };
 
-  const showSkeleton =
-    isInitialOrSearchLoad && taxPayerProfileLoading ;
+  const showSkeleton = isInitialOrSearchLoad && taxPayerProfileLoading;
   return (
     <Layout>
       <div className="selection-container">
-        <div className="d-flex" style={{ gap: "1rem", alignItems: "center" }}>
+        <div className="d-flex" style={{ gap: '1rem', alignItems: 'center' }}>
           <span>
-            <Funnel style={{ color: "#3470E2" }} />
+            <Funnel style={{ color: '#3470E2' }} />
           </span>
           <select
             value={selectedCategory}
@@ -187,9 +186,9 @@ const RecentUploads = () => {
           </select>
         </div>
 
-        <div className="d-flex" style={{ gap: "1rem", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <label htmlFor="start-date" style={{ whiteSpace: "nowrap" }}>
+        <div className="d-flex" style={{ gap: '1rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <label htmlFor="start-date" style={{ whiteSpace: 'nowrap' }}>
               Start Date
             </label>
             <input
@@ -201,8 +200,8 @@ const RecentUploads = () => {
               placeholderText="Select"
             />
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <label htmlFor="end-date" style={{ whiteSpace: "nowrap" }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <label htmlFor="end-date" style={{ whiteSpace: 'nowrap' }}>
               End Date
             </label>
             <input
@@ -227,14 +226,14 @@ const RecentUploads = () => {
           onClick={handleDownload}
           className="download"
           style={{
-            color: "#347AE2",
-            borderColor: "#347AE2",
-            marginLeft: "1rem",
+            color: '#347AE2',
+            borderColor: '#347AE2',
+            marginLeft: '1rem',
           }} // Added marginLeft for spacing
         >
           <Download
             size={16}
-            style={{ marginRight: 6, marginBottom: 2, color: "#347AE2" }}
+            style={{ marginRight: 6, marginBottom: 2, color: '#347AE2' }}
           />
           Download Sheet
         </Button>
@@ -251,9 +250,9 @@ const RecentUploads = () => {
             <Placeholder
               xs={12}
               style={{
-                height: "100%",
-                borderRadius: "0.25rem",
-                backgroundColor: "#d5e6ff",
+                height: '100%',
+                borderRadius: '0.25rem',
+                backgroundColor: '#d5e6ff',
               }}
             />
           </Placeholder>
@@ -266,9 +265,9 @@ const RecentUploads = () => {
             <Placeholder
               xs={12}
               style={{
-                height: "100%",
-                borderRadius: "0.25rem",
-                backgroundColor: "#d5e6ff",
+                height: '100%',
+                borderRadius: '0.25rem',
+                backgroundColor: '#d5e6ff',
               }}
             />
           </Placeholder>
@@ -281,9 +280,9 @@ const RecentUploads = () => {
             <Placeholder
               xs={12}
               style={{
-                height: "100%",
-                borderRadius: "0.25rem",
-                backgroundColor: "#d5e6ff",
+                height: '100%',
+                borderRadius: '0.25rem',
+                backgroundColor: '#d5e6ff',
               }}
             />
           </Placeholder>
@@ -296,9 +295,9 @@ const RecentUploads = () => {
             <Placeholder
               xs={12}
               style={{
-                height: "100%",
-                borderRadius: "0.25rem",
-                backgroundColor: "#d5e6ff",
+                height: '100%',
+                borderRadius: '0.25rem',
+                backgroundColor: '#d5e6ff',
               }}
             />
           </Placeholder>
@@ -311,9 +310,9 @@ const RecentUploads = () => {
             <Placeholder
               xs={12}
               style={{
-                height: "100%",
-                borderRadius: "0.25rem",
-                backgroundColor: "#d5e6ff",
+                height: '100%',
+                borderRadius: '0.25rem',
+                backgroundColor: '#d5e6ff',
               }}
             />
           </Placeholder>
@@ -326,17 +325,17 @@ const RecentUploads = () => {
             <Placeholder
               xs={12}
               style={{
-                height: "100%",
-                borderRadius: "0.25rem",
-                backgroundColor: "#d5e6ff",
+                height: '100%',
+                borderRadius: '0.25rem',
+                backgroundColor: '#d5e6ff',
               }}
             />
           </Placeholder>
           <div className="d-flex justify-content-around mt-3">
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
+            <Placeholder xs={2} style={{ backgroundColor: '#d5e6ff' }} />
+            <Placeholder xs={2} style={{ backgroundColor: '#d5e6ff' }} />
+            <Placeholder xs={2} style={{ backgroundColor: '#d5e6ff' }} />
+            <Placeholder xs={2} style={{ backgroundColor: '#d5e6ff' }} />
           </div>
         </>
       ) : (
@@ -344,16 +343,16 @@ const RecentUploads = () => {
           <Table
             columns={columns}
             data={results}
-            jobId={"test"}
+            jobId={'test'}
             hasMore={hasMore}
             onLoadMore={handleLoadMore}
             loadingMore={isLoadingMore}
           />
           {taxPayerProfileLoading && results.length === 0 && (
-            <div style={{ textAlign: "center" }}>Loading...</div>
+            <div style={{ textAlign: 'center' }}>Loading...</div>
           )}
           {!hasMore && results.length > 0 && (
-            <div style={{ textAlign: "center" }}>No more data.</div>
+            <div style={{ textAlign: 'center' }}>No more data.</div>
           )}
         </>
       )}
