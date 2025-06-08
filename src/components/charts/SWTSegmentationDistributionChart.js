@@ -26,6 +26,7 @@ const SWTSegmentationDistributionChart = ({ startDate, endDate }) => {
       },
       labels: ["Micro", "Small", "Medium", "Large"],
       colors: ["#6287FF", "#00E096", "#FFD12C", "#FF779D"],
+     
       legend: {
         position: "bottom",
       },

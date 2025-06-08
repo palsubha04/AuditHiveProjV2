@@ -24,12 +24,12 @@ const RiskBreakdownCategoryProfilingChart = ({
   // Define a fixed color map for each risk level
   const riskLevelColors = {
     "Critical Risk": "#FF779D", // Example color for Critical Risk
-    "High Risk": "#00E096", // Example color for High Risk
+    "High Risk": "#FFD12C", // Example color for High Risk
     "Moderate Risk": "#20E5F3", // Example color for Moderate Risk
     "Elevated Risk": "#6287FF", // Example color for Elevated Risk
     "Low Risk": "#347AE2", // Example color for Low Risk
-    "Very Low Risk": "#FFD12C", // Example color for Very Low Risk
-    "No Risk": "#008000", // Example color for No Risk
+    "Very Low Risk": "#00E096", // Example color for Very Low Risk
+    "No Risk": "#47C99E", // Example color for No Risk
   };
   const monthMap = {
     1: "January",

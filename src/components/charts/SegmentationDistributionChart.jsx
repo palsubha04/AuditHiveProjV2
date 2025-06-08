@@ -7,11 +7,12 @@ import "../../pages/Dashboard.css";
 import "./charts.css";
 
 const COLORS = {
-  micro: "#FFD12C",
-  small: "#4485E5",
-  medium: "#FF779D",
-  large: "#00E096",
+  micro: "#6287FF",
+  small: "#00E096",
+  medium: "#FFD12C",
+  large: "#FF779D",
 };
+
 
 const VALID_SEGMENTS = ["micro", "small", "medium", "large"];
 
@@ -245,7 +246,7 @@ function SegmentationDistributionChart({ startDate, endDate }) {
   }
 
   return (
-    <Card className="chart-card box-background">
+    <Card className="box-background">
       <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
         <span className="chart-headers">Segmentation Distribution</span>
         <div className="d-flex align-items-center gap-2">

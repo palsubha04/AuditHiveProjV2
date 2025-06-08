@@ -321,9 +321,40 @@ const SalesComparison = ({ startDate, endDate }) => {
         link.click();
       });
     } else if (format === "csv") {
-      chart.exportToCSV({
-        filename: "sales_comparison_data",
-      });
+      const headers = [
+        "Date (MMM-YY)",
+        "Total Sales Income",
+        "Exempt Sales",
+        "Zero Rated Sales",
+        "GST Taxable Sales",
+      ];
+  
+      const rows = chartData.xAxis.map((date, i) => [
+        date,
+        chartData.series[0]?.data[i] ?? 0,
+        chartData.series[1]?.data[i] ?? 0,
+        chartData.series[2]?.data[i] ?? 0,
+        chartData.series[3]?.data[i] ?? 0,
+      ]);
+  
+      const csvContent = [headers, ...rows]
+        .map((row) =>
+          row
+            .map((cell) =>
+              typeof cell === "string" && cell.includes(",")
+                ? `"${cell}"`
+                : cell
+            )
+            .join(",")
+        )
+        .join("\n");
+  
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "sales_comparison_data.csv";
+      link.click();
+    
     }
   };
 
