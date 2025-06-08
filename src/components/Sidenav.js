@@ -37,9 +37,11 @@ function Sidenav({ isOpen, toggleSidenav }) {
   };
 
   const isReportsChildActive = () => {
-    return ['/recent-uploads', '/tax-payer-profile'].includes(
-      location.pathname
-    );
+    return [
+      '/recent-uploads',
+      '/tax-payer-profile',
+      '/taxpayer-report-risk-profiling',
+    ].includes(location.pathname);
   };
 
   // Check if any dashboard child route is active
@@ -219,7 +221,9 @@ function Sidenav({ isOpen, toggleSidenav }) {
               active={location.pathname === '/taxpayer-report-risk-profiling'}
               className="nav-item submenu-item"
             >
-              <span className='sidenav-items'>Taxpayer Report Risk Profiling</span>
+              <span className="sidenav-items">
+                Taxpayer Report Risk Profiling
+              </span>
             </Nav.Link>
           </div>
         </div>
