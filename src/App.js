@@ -50,9 +50,8 @@ function App() {
           <Route
             path="/gst"
             element={
-              <ProtectedRoute>
-                <GST />
-              </ProtectedRoute>
+              <ProtectedRoute> <GST/></ProtectedRoute>
+            
             }
           />
           <Route

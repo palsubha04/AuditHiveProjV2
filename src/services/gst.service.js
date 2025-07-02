@@ -44,31 +44,106 @@ const gstService = {
     }
   },
 
-  getTaxRecords: async (startDate, endDate, page = 1) => {
+  getTaxRecords: async (startDate, endDate, page = 1, activeSwitch) => {
     try {
-      const response = await api.get('/dashboard/gst/table', {
-        params: {
-          start_date: startDate,
-          end_date: endDate,
-          page
-        }
-      });
-      return response.data;
+      if(activeSwitch === 'all') {
+        const response = await api.get('/dashboard/gst/table', {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            bank: true,
+            custom: true,
+            page
+          }
+        });
+        return response.data;
+      }
+      else if(activeSwitch === 'banks') {
+        const response = await api.get('/dashboard/gst/table', {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            bank: true,
+            page
+          }
+        });
+        return response.data;
+      }
+      else if(activeSwitch === 'customs') {
+        const response = await api.get('/dashboard/gst/table', {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            custom: true,
+            page
+          }
+        });
+        return response.data;
+      }
+      else{
+        const response = await api.get('/dashboard/gst/table', {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            page
+          }
+        });
+        return response.data;
+      }
+      
+      
     } catch (error) {
       throw error;
     }
   },
 
-  getTaxRecordsByTIN: async (tin, startDate, endDate, page = 1) => {
+  getTaxRecordsByTIN: async (tin, startDate, endDate, activeSwitch) => {
     try {
-      const response = await api.get(`/dashboard/gst/table`, {
-        params: {
-          tin: tin,
-          start_date: startDate,
-          end_date: endDate
-        }
-      });
-      return response.data;
+      if(activeSwitch === 'all') {
+        const response = await api.get(`/dashboard/gst/table`, {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            bank: true,
+            custom: true,
+            tin: tin,
+          }
+        });
+        return response.data;
+      }
+      else if(activeSwitch === 'banks') {
+        const response = await api.get(`/dashboard/gst/table`, {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            bank: true,
+            tin: tin,
+          }
+        });
+        return response.data;
+      }
+      else if(activeSwitch === 'customs') {
+        const response = await api.get(`/dashboard/gst/table`, {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            custom: true,
+            tin: tin,
+          }
+        });
+        return response.data;
+      }
+      else{
+        const response = await api.get(`/dashboard/gst/table`, {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            tin: tin
+          }
+        });
+        return response.data;
+      }
+      
     } catch (error) {
       throw error;
     }
