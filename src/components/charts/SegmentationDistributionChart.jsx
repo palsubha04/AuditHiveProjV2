@@ -211,7 +211,7 @@ function SegmentationDistributionChart({ startDate, endDate }) {
 
   if (error) {
     return (
-      <Card className="chart-card">
+      <Card className="box-background">
         <Card.Header className="chart-card-header">
           <span className="chart-headers">Segmentation Distribution</span>
         </Card.Header>
@@ -224,7 +224,7 @@ function SegmentationDistributionChart({ startDate, endDate }) {
 
   if (!data || data.length === 0) {
     return (
-      <Card className="chart-card">
+      <Card className="box-background">
         <Card.Header className="chart-card-header">
           <span className="chart-headers">Segmentation Distribution</span>
         </Card.Header>

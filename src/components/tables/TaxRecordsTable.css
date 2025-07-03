@@ -1,0 +1,14 @@
+.custom-switch .form-check-input {
+    transform: scale(1.5); /* Makes the switch toggle bigger */
+    margin-right: 12px;
+    margin-top: 6px;
+  }
+  
+  .custom-switch .form-check-label {
+    font-size: 1rem; /* Makes label text bigger */
+  }
+  
+  .custom-switch-form {
+    padding: 10px;
+  }
+  
