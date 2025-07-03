@@ -65,6 +65,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
     try {
       let response;
       if (tin) {
+        console.log("Fetching records for TIN:", tin);
         if(activeSwitch){
           response = await gstService.getTaxRecordsByTIN(tin, startDate, endDate,activeSwitch);
         }
@@ -229,28 +230,25 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
       },
       header: "Is Fraud", // Keep this if you want to prevent filtering on this column
     },
+    {
+      accessorKey: "fraud_reason",
+      header: "Fraud Reason",
+      cell: ({ getValue }) => (
+        <span
+          style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+          title={getValue() || 'N/A'}
+        >
+          {getValue() || 'N/A'}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "third_party_resource",
+      header: "Third Party Resource",
+      cell: ({ getValue }) => getValue() == "None" ? "-" : getValue(),
+    }
   ];
-  if(activeSwitch) {
-    columns.push(
-      {
-        accessorKey: "fraud_reason",
-        header: "Fraud Reason",
-        cell: ({ getValue }) => (
-          <span
-            style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-            title={getValue() || 'N/A'}
-          >
-            {getValue() || 'N/A'}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "third_party_resource",
-        header: "Third Party Resource",
-        cell: ({ getValue }) => getValue() == "None" ? "Default" : getValue(),
-      }
-    )
-  }
+  
 
   if (loading) {
     return (
