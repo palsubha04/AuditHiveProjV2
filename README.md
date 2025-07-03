@@ -1,6 +1,6 @@
-# AuditHive Project V2
+# AuditHive Project
 
-AuditHive Project V2 is a comprehensive web-based platform designed to streamline and automate the management, analysis, and reporting of taxpayer data. The application provides tools for risk assessment, compliance tracking, fraud detection, analytics, and consolidated reporting, making it ideal for audit professionals and organizations handling large volumes of tax-related information.
+AuditHive Project is a comprehensive web-based platform designed to streamline and automate the management, analysis, and reporting of taxpayer data. The application provides tools for risk assessment, compliance tracking, fraud detection, analytics, and consolidated reporting, making it ideal for audit professionals and organizations handling large volumes of tax-related information.
 
 ## Project Overview
 
