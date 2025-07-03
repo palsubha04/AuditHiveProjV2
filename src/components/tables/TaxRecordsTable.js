@@ -41,16 +41,6 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
   const handleSwitchChange = (value) => {
     setActiveSwitch((prev) => (prev === value ? null : value)); // Toggle off if clicked again
   };
-  const [radioValue, setRadioValue] = useState("Default");
-
-  const radios = [
-    { name: "Default", value: "Default" },
-    { name: "Banks", value: "Banks" },
-    { name: "Customs", value: "Customs" },
-    { name: "All", value: "All" },
-  ];
-
-  //const [fraudFilter, setFraudFilter] = useState('all'); // all | fraud | valid
 
   const fetchRecords = async (tin = "", page = 1, append = false) => {
     if (loading || isLoadingMore) return;
@@ -245,6 +235,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
     {
       accessorKey: "third_party_resource",
       header: "Third Party Resource",
+      width: 250,
       cell: ({ getValue }) => getValue() == "None" ? "-" : getValue(),
     }
   ];
@@ -253,9 +244,63 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
   if (loading) {
     return (
       <Card className="mb-4 box-background">
-        <Card.Header className="chart-card-header d-flex justify-content-between align-items-center">
-          <div className="chart-headers" style={{ height: "30px" }}></div>
-        </Card.Header>
+        <Card.Header className="chart-card-header">
+        <div className="d-flex align-items-center justify-content-between w-100">
+          <span className="chart-headers">Tax Records</span>
+          <div className="d-flex gap-3">
+            <Form className="d-flex gap-4 py-1 custom-switch-form">
+              <Form.Check // prettier-ignore
+                type="switch"
+                className="custom-switch"
+                label="All"
+                checked={activeSwitch === 'all'}
+                onChange={() => handleSwitchChange('all')}
+              />
+              <Form.Check // prettier-ignore
+                type="switch"
+                label="Banks"
+                className="custom-switch"
+                checked={activeSwitch === 'banks'}
+                onChange={() => handleSwitchChange('banks')}
+              />
+              <Form.Check // prettier-ignore
+                type="switch"
+                label="Customs"
+                className="custom-switch"
+                checked={activeSwitch === 'customs'}
+                onChange={() => handleSwitchChange('customs')}
+              />
+            </Form>
+           
+            <Form.Group className="mb-0" style={{ width: "300px" }}>
+              <div style={{ position: "relative", width: "300px" }}>
+                <Search
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "10px",
+                    transform: "translateY(-50%)",
+                    color: "#aaa",
+                    pointerEvents: "none",
+                  }}
+                />
+
+                <Form.Control
+                  type="text"
+                  placeholder=" Search by TIN"
+                  value={searchTin}
+                  onChange={handleSearchChange}
+                  style={{
+                    paddingLeft: "35px", // Make room for the icon
+                    border: "1px solid #fff",
+                    borderRadius: "10px",
+                  }}
+                />
+              </div>
+            </Form.Group>
+          </div>
+        </div>
+      </Card.Header>
         <Card.Body>
           <Placeholder as="div" animation="glow" style={{ height: 350 }}>
             <Placeholder
@@ -284,23 +329,6 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
         <div className="d-flex align-items-center justify-content-between w-100">
           <span className="chart-headers">Tax Records</span>
           <div className="d-flex gap-3">
-            {/* <ButtonGroup style={{backgroundColor:"#fff", borderRadius: "12px"}}>
-            {radios.map((radio, idx) => (
-              <ToggleButton
-                key={idx}
-                id={`radio-${idx}`}
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value={radio.value}
-                checked={radioValue === radio.value}
-                onChange={(e) => setRadioValue(e.currentTarget.value)}
-              >
-                {radio.name}
-              </ToggleButton>
-            ))}
-    </ButtonGroup> */}
-    
             <Form className="d-flex gap-4 py-1 custom-switch-form">
               <Form.Check // prettier-ignore
                 type="switch"
@@ -368,6 +396,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
         ) : (
           <>
             <Table
+              tableId={'tax-records-table-gst'}
               columns={columns}
               data={records}
               loading={loading}
