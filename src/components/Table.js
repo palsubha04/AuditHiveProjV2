@@ -42,6 +42,7 @@ function Table({
   hasMore = false,
   loadingMore = false,
   jobId = null,
+  tableId,
 }) {
   const tableContainerRef = useRef(null);
   const [isFraudFilter, setIsFraudFilter] = useState('all');
@@ -205,6 +206,7 @@ function Table({
       onScroll={(e) => fetchMoreOnBottomReached(e.target)}
     >
       <table
+        id={tableId ? tableId : 'data-table'}
         className="table"
         style={{
           width: '100%',

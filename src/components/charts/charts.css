@@ -54,3 +54,8 @@
     font-weight: 400;
     line-height: 28px;
 }
+
+.apexcharts-legend-marker > svg{
+    border: solid 2px #fff;
+    border-radius: 10px;
+}
