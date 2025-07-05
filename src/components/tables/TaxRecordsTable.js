@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
+  Button,
   ButtonGroup,
   Card,
   Form,
+  Modal,
   Placeholder,
   ToggleButton,
 } from "react-bootstrap";
@@ -10,23 +12,14 @@ import Table from "../Table";
 import gstService from "../../services/gst.service";
 import debounce from "lodash/debounce";
 import "../../pages/Dashboard.css";
-import { Search } from "lucide-react";
+import { ChartPie, Download, Search } from "lucide-react";
 import "./TaxRecordsTable.css";
 import ReactApexChart from "react-apexcharts";
 
 const monthMap = {
-  1: "January",
-  2: "February",
-  3: "March",
-  4: "April",
-  5: "May",
-  6: "June",
-  7: "July",
-  8: "August",
-  9: "September",
-  10: "October",
-  11: "November",
-  12: "December",
+  1: "January", 2: "February", 3: "March", 4: "April",
+  5: "May", 6: "June", 7: "July", 8: "August",
+  9: "September", 10: "October", 11: "November", 12: "December",
 };
 
 const TaxRecordsTable = ({ startDate, endDate }) => {
@@ -39,61 +32,41 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
   const [pieRecords, setPieRecords] = useState({});
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [activeSwitch, setActiveSwitch] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleSwitchChange = (value) => {
-    setActiveSwitch((prev) => (prev === value ? null : value)); // Toggle off if clicked again
+    setActiveSwitch((prev) => (prev === value ? null : value));
   };
+
+  const handleModalOpen = () => setShowModal(true);
+  const handleModalClose = () => setShowModal(false);
 
   const fetchRecords = async (tin = "", page = 1, append = false) => {
     if (loading || isLoadingMore) return;
 
-    if (page === 1) {
-      setLoading(true);
-    } else {
-      setIsLoadingMore(true);
-    }
-
+    page === 1 ? setLoading(true) : setIsLoadingMore(true);
     setError(null);
+
     try {
       let response;
 
       if (tin) {
-        console.log("Fetching records for TIN:", tin);
-        if (activeSwitch) {
-          response = await gstService.getTaxRecordsByTIN(tin, startDate, endDate, activeSwitch);
-        }
-        else {
-          response = await gstService.getTaxRecordsByTIN(tin, startDate, endDate);
-        }
-
-        const modified = response.records.map((item) => ({
-          ...item,
-          tax_period_month:
-            monthMap[item.tax_period_month] || item.tax_period_month,
-        }));
-        setRecords(modified);
+        response = activeSwitch
+          ? await gstService.getTaxRecordsByTIN(tin, startDate, endDate, activeSwitch)
+          : await gstService.getTaxRecordsByTIN(tin, startDate, endDate);
       } else {
-        if (activeSwitch) {
-          response = await gstService.getTaxRecords(startDate, endDate, page, activeSwitch);
-        }
-        else {
-          response = await gstService.getTaxRecords(startDate, endDate, page);
-        }
-
-        const modified = response.records.map((item) => ({
-          ...item,
-          tax_period_month:
-            monthMap[item.tax_period_month] || item.tax_period_month,
-        }));
-        if (append) {
-          setRecords((prev) => [...prev, ...modified]);
-        } else {
-          setRecords(modified);
-        }
+        response = activeSwitch
+          ? await gstService.getTaxRecords(startDate, endDate, page, activeSwitch)
+          : await gstService.getTaxRecords(startDate, endDate, page);
       }
 
+      const modified = response.records.map((item) => ({
+        ...item,
+        tax_period_month: monthMap[item.tax_period_month] || item.tax_period_month,
+      }));
+
+      append ? setRecords((prev) => [...prev, ...modified]) : setRecords(modified);
       setTotalRecords(response.total_data_count);
-      setLoading(false);
     } catch (err) {
       setError("Failed to fetch tax records");
     } finally {
@@ -111,20 +84,14 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
     }
   };
 
-  // Debounced search function
   const debouncedSearch = useCallback(
     debounce((value) => {
       setCurrentPage(1);
-      if (value) {
-        fetchRecords(value);
-      } else {
-        fetchRecords();
-      }
+      fetchRecords(value);
     }, 500),
-    [startDate, endDate]
+    [startDate, endDate, activeSwitch]
   );
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTin(value);
@@ -145,44 +112,25 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
       setCurrentPage(nextPage);
       fetchRecords(searchTin, nextPage, true);
     }
-  }, [
-    records.length,
-    totalRecords,
-    loading,
-    isLoadingMore,
-    currentPage,
-    searchTin,
-  ]);
+  }, [records.length, totalRecords, loading, isLoadingMore, currentPage, searchTin]);
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat("en-US", {
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "PGK",
-      currencyDisplay: "symbol",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
-  };
 
-  // Define columns for the table
   const columns = [
-    {
-      accessorKey: "tin",
-      header: "TIN",
-    },
+    { accessorKey: "tin", header: "TIN" },
     {
       accessorKey: "taxpayer_name",
       header: "Taxpayer Name",
       cell: ({ getValue }) => getValue() || "N/A",
     },
-    {
-      accessorKey: "taxpayer_type",
-      header: "Type",
-    },
-    {
-      accessorKey: "segmentation",
-      header: "Segmentation",
-    },
+    { accessorKey: "taxpayer_type", header: "Type" },
+    { accessorKey: "segmentation", header: "Segmentation" },
     {
       accessorKey: "total_sales_income",
       header: "Total Sales",
@@ -204,138 +152,97 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
       cell: ({ getValue }) => {
         const isFraud = getValue();
         return (
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "4px 12px",
-              borderRadius: "16px", // Adjust for more or less rounded corners
-            }}
-          >
+          <div style={{ display: "inline-flex", alignItems: "center", padding: "4px 12px", borderRadius: "16px" }}>
             <span
               style={{
                 width: "8px",
                 height: "8px",
                 borderRadius: "50%",
-                backgroundColor: isFraud ? "#FF3535" : "#34C759", // Red for Fraud, Green for Valid
+                backgroundColor: isFraud ? "#FF3535" : "#34C759",
                 marginRight: "8px",
               }}
-            ></span>
-            <span
-              style={{
-                color: "#000000",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
+            />
+            <span style={{ fontSize: "14px", fontWeight: "500" }}>
               {isFraud ? "Fraud" : "Valid"}
             </span>
           </div>
         );
       },
-      header: "Is Fraud", // Keep this if you want to prevent filtering on this column
     },
     {
       accessorKey: "fraud_reason",
       header: "Fraud Reason",
       cell: ({ getValue }) => (
-        <span
-          style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-          title={getValue() || 'N/A'}
-        >
-          {getValue() || 'N/A'}
+        <span title={getValue() || "N/A"} style={{ whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+          {getValue() || "N/A"}
         </span>
       ),
     },
     {
       accessorKey: "third_party_resource",
       header: "Third Party Resource",
-      width: 250,
-      cell: ({ getValue }) => getValue() == "None" ? "-" : getValue(),
-    }
+      cell: ({ getValue }) => getValue() === "None" ? "-" : getValue(),
+    },
   ];
 
-  // Pie Chart data preparation
-
-  const options = {
+  const pieOptions = {
     chart: {
       id: "tax-records-pie-chart",
       type: "pie",
-      height: 350,
-      animations: {
-        enabled: true,
-      },
-      toolbar: {
-        show: false,
-      },
+      animations: { enabled: true },
+      toolbar: { show: false },
     },
-    stroke: {
-      show: true,
-      width: 0,
-      colors: ["transparent"],
-    },
-    labels: ['bank', 'custom', 'default'],
+    stroke: { show: true, width: 0, colors: ["transparent"] },
+    labels: ["bank", "custom", "default"],
     colors: ["#6287FF", "#00E096", "#FF779D"],
-    legend: {
-      position: "bottom",
-    },
+    legend: { position: "bottom" },
     tooltip: {
-      y: {
-        formatter: (value) => value.toLocaleString()
-      }
+      y: { formatter: (value) => value.toLocaleString() },
     },
     noData: {
       text: "No Data Found",
-      align: "center",
-      verticalAlign: "middle",
-      offsetX: 0,
-      offsetY: 0,
-      style: {
-        color: "#6c757d",
-        fontSize: "16px",
-        fontFamily: "inherit",
-      },
+      style: { color: "#6c757d", fontSize: "16px" },
     },
   };
 
-  const series = Object.keys(pieRecords).length > 0
-    ? [ pieRecords.bank.count || 0, pieRecords.custom.count || 0, pieRecords.default.count || 0 ] 
+  const pieSeries = Object.keys(pieRecords).length > 0
+    ? [pieRecords.bank?.count || 0, pieRecords.custom?.count || 0, pieRecords.default?.count || 0]
     : [];
-  console.log("Pie Chart Series:", series);
 
-  if (loading) {
-    return (
+  return (
+    <>
       <Card className="mb-4 box-background" style={{ border: "none" }}>
         <Card.Header className="chart-card-header">
           <div className="d-flex align-items-center justify-content-between w-100">
             <span className="chart-headers">Tax Records</span>
             <div className="d-flex gap-3">
               <Form className="d-flex gap-4 py-1 custom-switch-form">
-                <Form.Check // prettier-ignore
-                  type="switch"
-                  className="custom-switch"
-                  label="All"
-                  checked={activeSwitch === 'all'}
-                  onChange={() => handleSwitchChange('all')}
-                />
-                <Form.Check // prettier-ignore
-                  type="switch"
-                  label="Banks"
-                  className="custom-switch"
-                  checked={activeSwitch === 'banks'}
-                  onChange={() => handleSwitchChange('banks')}
-                />
-                <Form.Check // prettier-ignore
-                  type="switch"
-                  label="Customs"
-                  className="custom-switch"
-                  checked={activeSwitch === 'customs'}
-                  onChange={() => handleSwitchChange('customs')}
-                />
+                {["all", "banks", "customs"].map((type) => (
+                  <Form.Check
+                    key={type}
+                    type="switch"
+                    label={type.charAt(0).toUpperCase() + type.slice(1)}
+                    className="custom-switch"
+                    checked={activeSwitch === type}
+                    onChange={() => handleSwitchChange(type)}
+                  />
+                ))}
               </Form>
 
+              <Button
+                onClick={handleModalOpen}
+                variant="outline-default" 
+                size="sm" 
+                className='download-dropdown-btn'
+                title={"Show Chart"}
+                style={{ background: "#fff", padding: '5px', cursor: 'pointer', marginLeft: '-12px' }}
+              >
+                Show Chart
+                {/* <ChartPie style={{ height: "18px", width: "20px", color: '#5671ff' }} /> */}
+              </Button>
+
               <Form.Group className="mb-0" style={{ width: "300px" }}>
-                <div style={{ position: "relative", width: "300px" }}>
+                <div style={{ position: "relative" }}>
                   <Search
                     style={{
                       position: "absolute",
@@ -346,115 +253,42 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
                       pointerEvents: "none",
                     }}
                   />
-
                   <Form.Control
                     type="text"
                     placeholder=" Search by TIN"
                     value={searchTin}
                     onChange={handleSearchChange}
-                    style={{
-                      paddingLeft: "35px", // Make room for the icon
-                      border: "1px solid #fff",
-                      borderRadius: "10px",
-                    }}
+                    style={{ paddingLeft: "35px", height: "34px", border: "1px solid #fff", borderRadius: "10px" }}
                   />
                 </div>
               </Form.Group>
+
             </div>
           </div>
         </Card.Header>
+
         <Card.Body className="p-0">
-          <Placeholder as="div" animation="glow" style={{ height: 600 }}>
-            <Placeholder
-              xs={12}
-              style={{
-                height: "100%",
-                borderRadius: "0.5rem",
-                backgroundColor: "#d5e6ff",
-              }}
-            />
-          </Placeholder>
-
-        </Card.Body>
-      </Card>
-    );
-  }
-
-  return (
-    <Card className="mb-4 box-background" style={{ border: "none" }}>
-      <Card.Header className="chart-card-header">
-        <div className="d-flex align-items-center justify-content-between w-100">
-          <span className="chart-headers">Tax Records</span>
-          <div className="d-flex gap-3">
-            <Form className="d-flex gap-4 py-1 custom-switch-form">
-              <Form.Check // prettier-ignore
-                type="switch"
-                className="custom-switch"
-                label="All"
-                checked={activeSwitch === 'all'}
-                onChange={() => handleSwitchChange('all')}
+          {loading ? (
+            <Placeholder as="div" animation="glow" style={{ height: 600 }}>
+              <Placeholder
+                xs={12}
+                style={{
+                  height: "100%",
+                  borderRadius: "0.5rem",
+                  backgroundColor: "#d5e6ff",
+                }}
               />
-              <Form.Check // prettier-ignore
-                type="switch"
-                label="Banks"
-                className="custom-switch"
-                checked={activeSwitch === 'banks'}
-                onChange={() => handleSwitchChange('banks')}
-              />
-              <Form.Check // prettier-ignore
-                type="switch"
-                label="Customs"
-                className="custom-switch"
-                checked={activeSwitch === 'customs'}
-                onChange={() => handleSwitchChange('customs')}
-              />
-            </Form>
-
-            <Form.Group className="mb-0" style={{ width: "300px" }}>
-              <div style={{ position: "relative", width: "300px" }}>
-                <Search
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "10px",
-                    transform: "translateY(-50%)",
-                    color: "#aaa",
-                    pointerEvents: "none",
-                  }}
-                />
-
-                <Form.Control
-                  type="text"
-                  placeholder=" Search by TIN"
-                  value={searchTin}
-                  onChange={handleSearchChange}
-                  style={{
-                    paddingLeft: "35px", // Make room for the icon
-                    border: "1px solid #fff",
-                    borderRadius: "10px",
-                  }}
-                />
-              </div>
-            </Form.Group>
-          </div>
-        </div>
-      </Card.Header>
-      <Card.Body className="p-0">
-        {loading ? (
-          <div className="text-center">Loading...</div>
-        ) : error ? (
-          <div className="text-center text-danger">{error}</div>
-        ) : records.length === 0 ? (
-          <>
+            </Placeholder>
+          ) : error ? (
+            <div className="text-center text-danger">{error}</div>
+          ) : records.length === 0 ? (
             <div className="text-center text-muted" style={{ padding: "2rem" }}>
               No Data Found
             </div>
-          </>
-        ) : (
-          <div className="d-flex flex-column gap-4">
+          ) : (
             <div className="table-responsive" style={{ borderBottom: "1px solid #d5e6ff", borderRadius: "0.5rem" }}>
               <Table
-                tableId={'tax-records-table-gst'}
+                tableId="tax-records-table-gst"
                 columns={columns}
                 data={records}
                 loading={loading}
@@ -462,23 +296,28 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
                 hasMore={records.length < totalRecords}
                 onLoadMore={handleLoadMore}
                 loadingMore={isLoadingMore}
-                jobId={"test"}
+                jobId="test"
               />
             </div>
+          )}
+        </Card.Body>
+      </Card>
 
-            <div style={{ width: "100%", height: 380 }}>
-              <ReactApexChart
-                key={series.join("-")}               
-                options={options}
-                series={series}
-                type="pie"
-                height={350}
-              />
-            </div>
-          </div>
-        )}
-      </Card.Body>
-    </Card>
+      <Modal show={showModal} onHide={handleModalClose} size="lg" centered>
+        <Modal.Header closeButton>
+          <span className="chart-headers">Tax Records - Fraud Count</span>
+        </Modal.Header>
+        <Modal.Body>
+          <ReactApexChart
+            key={pieSeries.join("-")}
+            options={pieOptions}
+            series={pieSeries}
+            type="pie"
+            height={350}
+          />
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
