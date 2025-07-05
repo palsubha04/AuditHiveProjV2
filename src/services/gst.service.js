@@ -97,6 +97,25 @@ const gstService = {
     }
   },
 
+  getPieTaxRecords: async (startDate, endDate) => {
+    try {
+        const response = await api.get('/dashboard/gst/table', {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+            bank: true,
+            custom: true,
+            count: true,
+          }
+        });
+
+        return response.data;
+      }
+      catch (error) {
+        throw error;
+      }
+  },
+
   getTaxRecordsByTIN: async (tin, startDate, endDate, activeSwitch) => {
     try {
       if(activeSwitch === 'all') {
