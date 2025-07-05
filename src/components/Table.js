@@ -43,6 +43,7 @@ function Table({
   loadingMore = false,
   jobId = null,
   tableId,
+  className,
 }) {
   const tableContainerRef = useRef(null);
   const [isFraudFilter, setIsFraudFilter] = useState('all');
@@ -201,7 +202,7 @@ function Table({
   return (
     <div
       ref={tableContainerRef}
-      className="table-container"
+      className={`table-container ${className || ''}`}
       style={{ height: '600px', overflowY: 'auto' }}
       onScroll={(e) => fetchMoreOnBottomReached(e.target)}
     >

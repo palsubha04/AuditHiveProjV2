@@ -243,7 +243,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
 
   if (loading) {
     return (
-      <Card className="mb-4 box-background">
+      <Card className="mb-4 box-background" style={{ border: "none" }}>
         <Card.Header className="chart-card-header">
         <div className="d-flex align-items-center justify-content-between w-100">
           <span className="chart-headers">Tax Records</span>
@@ -301,23 +301,18 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
           </div>
         </div>
       </Card.Header>
-        <Card.Body>
-          <Placeholder as="div" animation="glow" style={{ height: 350 }}>
+        <Card.Body className="p-0">
+          <Placeholder as="div" animation="glow" style={{ height: 600 }}>
             <Placeholder
               xs={12}
               style={{
                 height: "100%",
-                borderRadius: "0.25rem",
+                borderRadius: "0.5rem",
                 backgroundColor: "#d5e6ff",
               }}
             />
           </Placeholder>
-          <div className="d-flex justify-content-around mt-3">
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-            <Placeholder xs={2} style={{ backgroundColor: "#d5e6ff" }} />
-          </div>
+          
         </Card.Body>
       </Card>
     );
@@ -382,7 +377,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
           </div>
         </div>
       </Card.Header>
-      <Card.Body className="pt-0 px-0">
+      <Card.Body className="p-0">
         {loading ? (
           <div className="text-center">Loading...</div>
         ) : error ? (
@@ -394,7 +389,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
             </div>
           </>
         ) : (
-          <>
+          <div className="table-responsive" style={{ borderBottom: "1px solid #d5e6ff", borderRadius: "0.5rem" }}>
             <Table
               tableId={'tax-records-table-gst'}
               columns={columns}
@@ -406,7 +401,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
               loadingMore={isLoadingMore}
               jobId={"test"}
             />
-          </>
+          </div>
         )}
       </Card.Body>
     </Card>
