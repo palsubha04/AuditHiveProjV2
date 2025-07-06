@@ -135,10 +135,12 @@ function SegmentationDistributionChart({ startDate, endDate }) {
 
   const series =
     data.length > 0
-      ? data.every((item) => item.value === 0)
+      ? data.every((item) => item.value == 0)
         ? []
         : data.map((item) => item.value)
       : [];
+
+    console.log("Series Data:", series);
 
   // Toolbar functions
   const handleDownload = async (format) => {
@@ -222,7 +224,7 @@ function SegmentationDistributionChart({ startDate, endDate }) {
     );
   }
 
-  if (!data || data.length === 0) {
+  if (!data || data.length === 0 || series.length === 0) {
     return (
       <Card className="box-background">
         <Card.Header className="chart-card-header">
