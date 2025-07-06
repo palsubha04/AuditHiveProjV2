@@ -2,3 +2,7 @@
   text-align: center;
   padding: 20px;
 } 
+
+.modal-content {
+  border-radius : 15px;
+}
