@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import SalesComparison from '../components/charts/SalesComparison';
 import GSTPayableVsRefundable from '../components/charts/GSTPayableVsRefundable';
@@ -8,6 +8,7 @@ import GSTSummaryCards from '../components/summary/GSTSummaryCards';
 import SegmentationDistributionChart from '../components/charts/SegmentationDistributionChart';
 import RiskCategoriesChart from '../components/charts/RiskCategoriesChart';
 import './Dashboard.css';
+import FraudTinByProvienceChart from '../components/charts/FraudTinByProvienceChart';
 
 function GST() {
   const [dateRange, setDateRange] = useState({
@@ -62,6 +63,12 @@ function GST() {
               taxType="gst"
             />
           </div>
+        </div>
+        <div className="col-12" style={{ marginBottom: '30px' }}>
+          <FraudTinByProvienceChart
+            startDate={dateRange.start_date}
+            endDate={dateRange.end_date}
+          />
         </div>
         <div className="col-12">
           <TaxRecordsTable
