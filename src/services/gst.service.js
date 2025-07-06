@@ -3,12 +3,15 @@ import api from './axios.config';
 const gstService = {
   getPayableVsRefundable: async (startDate, endDate) => {
     try {
-      const response = await api.get('/dashboard/gst/payable-vs-refundable-summary', {
-        params: {
-          start_date: startDate,
-          end_date: endDate
+      const response = await api.get(
+        '/dashboard/gst/payable-vs-refundable-summary',
+        {
+          params: {
+            start_date: startDate,
+            end_date: endDate,
+          },
         }
-      });
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -20,8 +23,8 @@ const gstService = {
       const response = await api.get('/dashboard/gst/sales-comparison', {
         params: {
           start_date: startDate,
-          end_date: endDate
-        }
+          end_date: endDate,
+        },
       });
       return response.data;
     } catch (error) {
@@ -35,8 +38,8 @@ const gstService = {
         params: {
           tax_type: 'gst',
           start_date: startDate,
-          end_date: endDate
-        }
+          end_date: endDate,
+        },
       });
       return response.data;
     } catch (error) {
@@ -46,52 +49,47 @@ const gstService = {
 
   getTaxRecords: async (startDate, endDate, page = 1, activeSwitch) => {
     try {
-      if(activeSwitch === 'all') {
+      if (activeSwitch === 'all') {
         const response = await api.get('/dashboard/gst/table', {
           params: {
             start_date: startDate,
             end_date: endDate,
             bank: true,
             custom: true,
-            page
-          }
+            page,
+          },
         });
         return response.data;
-      }
-      else if(activeSwitch === 'banks') {
+      } else if (activeSwitch === 'banks') {
         const response = await api.get('/dashboard/gst/table', {
           params: {
             start_date: startDate,
             end_date: endDate,
             bank: true,
-            page
-          }
+            page,
+          },
         });
         return response.data;
-      }
-      else if(activeSwitch === 'customs') {
+      } else if (activeSwitch === 'customs') {
         const response = await api.get('/dashboard/gst/table', {
           params: {
             start_date: startDate,
             end_date: endDate,
             custom: true,
-            page
-          }
+            page,
+          },
         });
         return response.data;
-      }
-      else{
+      } else {
         const response = await api.get('/dashboard/gst/table', {
           params: {
             start_date: startDate,
             end_date: endDate,
-            page
-          }
+            page,
+          },
         });
         return response.data;
       }
-      
-      
     } catch (error) {
       throw error;
     }
@@ -99,7 +97,7 @@ const gstService = {
 
   getTaxRecordsByTIN: async (tin, startDate, endDate, activeSwitch) => {
     try {
-      if(activeSwitch === 'all') {
+      if (activeSwitch === 'all') {
         const response = await api.get(`/dashboard/gst/table`, {
           params: {
             start_date: startDate,
@@ -107,43 +105,39 @@ const gstService = {
             bank: true,
             custom: true,
             tin: tin,
-          }
+          },
         });
         return response.data;
-      }
-      else if(activeSwitch === 'banks') {
+      } else if (activeSwitch === 'banks') {
         const response = await api.get(`/dashboard/gst/table`, {
           params: {
             start_date: startDate,
             end_date: endDate,
             bank: true,
             tin: tin,
-          }
+          },
         });
         return response.data;
-      }
-      else if(activeSwitch === 'customs') {
+      } else if (activeSwitch === 'customs') {
         const response = await api.get(`/dashboard/gst/table`, {
           params: {
             start_date: startDate,
             end_date: endDate,
             custom: true,
             tin: tin,
-          }
+          },
         });
         return response.data;
-      }
-      else{
+      } else {
         const response = await api.get(`/dashboard/gst/table`, {
           params: {
             start_date: startDate,
             end_date: endDate,
-            tin: tin
-          }
+            tin: tin,
+          },
         });
         return response.data;
       }
-      
     } catch (error) {
       throw error;
     }
@@ -154,8 +148,8 @@ const gstService = {
       const response = await api.get('/dashboard/gst/summery', {
         params: {
           start_date: startDate,
-          end_date: endDate
-        }
+          end_date: endDate,
+        },
       });
       return response.data;
     } catch (error) {
@@ -168,8 +162,8 @@ const gstService = {
       const response = await api.get('/dashboard/gst/summary', {
         params: {
           start_date: startDate,
-          end_date: endDate
-        }
+          end_date: endDate,
+        },
       });
       return response.data;
     } catch (error) {
@@ -183,14 +177,28 @@ const gstService = {
         params: {
           tax_type: 'gst',
           start_date: startDate,
-          end_date: endDate
-        }
+          end_date: endDate,
+        },
       });
       return response.data;
     } catch (error) {
       throw error;
     }
-  }
+  },
+
+  async getFraudTinByProvince(startDate, endDate) {
+    try {
+      const response = await api.get('/dashboard/fraud-tin-by-province-csv', {
+        params: {
+          start_date: startDate,
+          end_date: endDate,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
-export default gstService; 
+export default gstService;
