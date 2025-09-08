@@ -3,8 +3,8 @@ import * as XLSX from "xlsx";
 import Layout from "../components/Layout";
 import { set } from "date-fns";
 
-const ExcelViewer = ({taxpayerReportData}) => {
-    console.log("taxpayerReportData", taxpayerReportData);
+const ExcelViewer = ({ taxpayerReportData }) => {
+  console.log("taxpayerReportData", taxpayerReportData);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -19,68 +19,77 @@ const ExcelViewer = ({taxpayerReportData}) => {
     //     console.log("Excel data loaded:", data);
     //   })
     //   .catch((err) => console.error("Error loading Excel file:", err));
-    setData(taxpayerReportData ? taxpayerReportData : []);
-
+    setData(taxpayerReportData ? taxpayerReportData.data : []);
   }, [taxpayerReportData]);
 
+  const handleDownload = () => {
+    if (taxpayerReportData?.blob) {
+      const url = window.URL.createObjectURL(taxpayerReportData.blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `taxpayer_report.csv`; // filename
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
   return (
-  
-   
-     
-      <div className="overflow-auto">
-        {data.length > 0 ? (
-          <table className="table-auto border-collapse border border-gray-300 w-full">
-            <thead>
+    <div className="overflow-auto">
+      {data.length > 0 ? (
+        <table className="table-auto border-collapse border border-gray-300 w-full">
+          <thead>
             <tr>
-  {Object.keys(data[0])
-    .filter((key) => !key.includes("EMPTY"))
-    .map((key) => (
-      <th
-        key={key}
-        colSpan={Object.keys(data[0]).length}
-        style={{ textAlign: "center", fontSize: "1.2rem" }}
-        className="border px-4 py-2 bg-gray-200"
-      >
-        {key}
-      </th>
-    ))}
-</tr>
-<tr>
-{Object.entries(data[0])
-  .filter(([key]) => !key.includes("EMPTY"))
-  .map(([key, value]) => (
-    <th
-      key={key}
-      colSpan={Object.keys(data[0]).length}
-      style={{ textAlign: "center" }}
-      className="border px-4 py-2 bg-gray-200"
-    >
-      {value}
-    </th>
-  ))}
-</tr>
-            </thead>
-            <tbody>
-
-            {data.map((row, i) =>
-  i > 0 && (
-    <tr key={i}>
-      {Object.values(row).map((val, j) => (
-        <td key={j} className="border px-4 py-2">
-          {val}
-        </td>
-      ))}
-    </tr>
-  )
-)}
-            </tbody>
-          </table>
-        ) : (
-          <p>Loading Excel data...</p>
-        )}
-      </div>
-   
-
+              {Object.keys(data[0])
+                .filter((key) => !key.includes("EMPTY"))
+                .map((key) => (
+                  <th
+                    key={key}
+                    colSpan={Object.keys(data[0]).length}
+                    style={{ textAlign: "center", fontSize: "1.2rem" }}
+                    className="border px-4 py-2 bg-gray-200"
+                  >
+                    {key}
+                  </th>
+                ))}
+            </tr>
+            <tr>
+              {Object.entries(data[0])
+                .filter(([key]) => !key.includes("EMPTY"))
+                .map(([key, value]) => (
+                  <th
+                    key={key}
+                    colSpan={Object.keys(data[0]).length}
+                    style={{ textAlign: "center" }}
+                    className="border px-4 py-2 bg-gray-200"
+                  >
+                    {value}
+                  </th>
+                ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map(
+              (row, i) =>
+                i > 0 && (
+                  <tr key={i}>
+                    {Object.values(row).map((val, j) => (
+                      <td
+                        key={j}
+                        className="border px-4 py-2"
+                        style={{ whiteSpace: "pre-line" }}
+                      >
+                        {val}
+                      </td>
+                    ))}
+                  </tr>
+                )
+            )}
+          </tbody>
+        </table>
+      ) : (
+        <p>Loading Excel data...</p>
+      )}
+    </div>
   );
 };
 

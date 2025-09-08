@@ -19,7 +19,11 @@ export const fetchTaxpayerReport = createAsyncThunk(
 
     // Convert the sheet to JSON
     const json = XLSX.utils.sheet_to_json(sheet, { defval: '' });
-    return json;
+    // return json;
+    return {
+      data: json, // usable JSON for table display
+      blob: new Blob([response.data], { type: "text/csv" }), // keep CSV for download
+    };
    
   }
 );
