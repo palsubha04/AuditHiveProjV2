@@ -228,6 +228,25 @@ function UploadSheets() {
     }
   };
 
+  const handleDownloadDuplicateRecords = async () => {
+    try {
+      const response = await api.get(`/tax/jobs/${jobId}/duplicate-records`, {
+        responseType: "blob",
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "duplicate_records.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      setError("Error downloading invalid records");
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedFile || !formData.startDate || !formData.endDate) return;
@@ -318,6 +337,8 @@ function UploadSheets() {
     });
   };
 
+  console.log("job status", jobStatus)
+
   return (
     <Layout>
       <h6 className="mb-3">
@@ -325,26 +346,26 @@ function UploadSheets() {
           ? `${formData.type.toUpperCase()} data for ${formatDate(
               formData.startDate
             )} to ${formatDate(formData.endDate)}`
-          : ''}
+          : ""}
       </h6>
 
       {error && <Alert variant="danger">{error}</Alert>}
-      {success && jobStatus?.status !== 'finished' && (
+      {success && jobStatus?.status !== "finished" && (
         <Alert
           variant="warning"
           className="d-flex justify-content-between align-items-center"
         >
-          <span style={{ fontSize: '16px' }}>Your data sync is in transit</span>
+          <span style={{ fontSize: "16px" }}>Your data sync is in transit</span>
           <Spinner animation="border" role="status" variant="primary">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         </Alert>
       )}
-      {jobStatus?.status === 'finished' && (
+      {jobStatus?.status === "finished" && (
         <Alert variant="success">
           <div className="d-flex justify-content-between align-items-center">
             <p className="mb-0">
-              {jobStatus.valid_records} data passed validations and{' '}
+              {jobStatus.valid_records} data passed validations and{" "}
               {jobStatus.invalid_records} data failed in validation and
               available to download.
             </p>
@@ -356,6 +377,28 @@ function UploadSheets() {
               >
                 <FontAwesomeIcon icon={faDownload} className="me-2" />
                 Download Invalid Records
+              </Button>
+            )}
+          </div>
+        </Alert>
+      )}
+
+      {jobStatus?.status === "finished" && (
+        <Alert variant="success">
+          <div className="d-flex justify-content-between align-items-center">
+            <p className="mb-0">
+              {jobStatus.valid_records} data passed validations and{" "}
+              {jobStatus.duplicate_records} duplicate data found and available
+              to download.
+            </p>
+            {jobStatus.duplicate_records > 0 && (
+              <Button
+                variant="outline-primary"
+                size="sm"
+                onClick={handleDownloadDuplicateRecords}
+              >
+                <FontAwesomeIcon icon={faDownload} className="me-2" />
+                Download Duplicate Records
               </Button>
             )}
           </div>
@@ -386,7 +429,7 @@ function UploadSheets() {
                   )
                 )
               ) : (
-                'Loading audit history...'
+                "Loading audit history..."
               )}
             </div>
             <div className="preview-info-right">
@@ -395,18 +438,18 @@ function UploadSheets() {
                   `No ${formData.type} data upload found.` && (
                   <span className="date-time">
                     <span>
-                      Date:{' '}
-                      {new Date().toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
+                      Date:{" "}
+                      {new Date().toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
                       })}
                     </span>
                     <span>
-                      Time:{' '}
-                      {new Date().toLocaleTimeString('en-US', {
-                        hour: 'numeric',
-                        minute: 'numeric',
+                      Time:{" "}
+                      {new Date().toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                        minute: "numeric",
                         hour12: true,
                       })}
                     </span>
@@ -415,104 +458,104 @@ function UploadSheets() {
             </div>
           </div>
 
-          {jobStatus?.status === 'finished' && validRecords.length > 0 ? (
+          {jobStatus?.status === "finished" && validRecords.length > 0 ? (
             <>
               <UploadSheetTableSubmit
                 data={validRecords}
                 columns={[
                   {
-                    header: 'Tin',
-                    accessorKey: 'tin',
+                    header: "Tin",
+                    accessorKey: "tin",
                     size: 150,
                     cell: ({ getValue }) => (
                       <span
                         style={{
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
                         }}
-                        title={getValue() || 'N/A'}
+                        title={getValue() || "N/A"}
                       >
-                        {getValue() || 'N/A'}
+                        {getValue() || "N/A"}
                       </span>
                     ),
                   },
                   {
-                    header: 'Taxpayer Name',
-                    accessorKey: 'taxpayer_name',
+                    header: "Taxpayer Name",
+                    accessorKey: "taxpayer_name",
                     size: 150,
                     cell: ({ getValue }) => (
                       <span
                         style={{
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
                         }}
-                        title={getValue() || 'N/A'}
+                        title={getValue() || "N/A"}
                       >
-                        {getValue() || 'N/A'}
+                        {getValue() || "N/A"}
                       </span>
                     ),
                   },
                   {
-                    header: 'Taxpayer Type',
-                    accessorKey: 'taxpayer_type',
+                    header: "Taxpayer Type",
+                    accessorKey: "taxpayer_type",
                     size: 150,
                     cell: ({ getValue }) => (
                       <span
                         style={{
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
                         }}
-                        title={getValue() || 'N/A'}
+                        title={getValue() || "N/A"}
                       >
-                        {getValue() || 'N/A'}
+                        {getValue() || "N/A"}
                       </span>
                     ),
                   },
                   {
-                    header: 'Tax Account No',
-                    accessorKey: 'tax_account_number',
+                    header: "Tax Account No",
+                    accessorKey: "tax_account_number",
                     size: 150,
                     cell: ({ getValue }) => (
                       <span
                         style={{
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
                         }}
-                        title={getValue() || 'N/A'}
+                        title={getValue() || "N/A"}
                       >
-                        {getValue() || 'N/A'}
+                        {getValue() || "N/A"}
                       </span>
                     ),
                   },
                   {
-                    header: 'Is Fraud',
-                    accessorKey: 'is_fraud',
+                    header: "Is Fraud",
+                    accessorKey: "is_fraud",
                     size: 150,
                     cell: ({ getValue }) => (
                       <span
                         style={{
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
                         }}
-                        title={getValue() || 'N/A'}
+                        title={getValue() || "N/A"}
                       >
-                        {getValue() || 'N/A'}
+                        {getValue() || "N/A"}
                       </span>
                     ),
                   },
                   {
-                    header: 'Fraud Reason',
-                    accessorKey: 'fraud_reason',
+                    header: "Fraud Reason",
+                    accessorKey: "fraud_reason",
                     size: 150,
                     cell: ({ getValue }) => (
                       <span
                         style={{
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
                         }}
-                        title={getValue() || 'N/A'}
+                        title={getValue() || "N/A"}
                       >
-                        {getValue() || 'N/A'}
+                        {getValue() || "N/A"}
                       </span>
                     ),
                   },
@@ -549,7 +592,7 @@ function UploadSheets() {
                   onClick={handleSubmit}
                   disabled={uploading}
                 >
-                  {uploading ? 'Uploading...' : 'Submit'}
+                  {uploading ? "Uploading..." : "Submit"}
                 </Button>
               </>
             )}
@@ -570,7 +613,7 @@ function UploadSheets() {
                 ref={fileInputRef}
                 onChange={handleFileInputChange}
                 accept=".csv"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               />
               <div className="upload-content">
                 {selectedFile ? (
@@ -608,7 +651,7 @@ function UploadSheets() {
                 <Form.Label>Select Tax Parameter</Form.Label>
                 <Form.Select
                   className="p-2"
-                  style={{ borderRadius: '7px' }}
+                  style={{ borderRadius: "7px" }}
                   value={formData.type}
                   onChange={(e) =>
                     setFormData({ ...formData, type: e.target.value })
@@ -657,26 +700,26 @@ function UploadSheets() {
                         // Generate months array if not provided
                         if (!months.length) {
                           months = [
-                            'January',
-                            'February',
-                            'March',
-                            'April',
-                            'May',
-                            'June',
-                            'July',
-                            'August',
-                            'September',
-                            'October',
-                            'November',
-                            'December',
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December",
                           ];
                         }
 
                         return (
                           <div
                             style={{
-                              display: 'flex',
-                              justifyContent: 'center',
+                              display: "flex",
+                              justifyContent: "center",
                               gap: 8,
                             }}
                           >
@@ -750,26 +793,26 @@ function UploadSheets() {
                         // Generate months array if not provided
                         if (!months.length) {
                           months = [
-                            'January',
-                            'February',
-                            'March',
-                            'April',
-                            'May',
-                            'June',
-                            'July',
-                            'August',
-                            'September',
-                            'October',
-                            'November',
-                            'December',
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December",
                           ];
                         }
 
                         return (
                           <div
                             style={{
-                              display: 'flex',
-                              justifyContent: 'center',
+                              display: "flex",
+                              justifyContent: "center",
                               gap: 8,
                             }}
                           >

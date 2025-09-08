@@ -1,127 +1,135 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Layout from '../components/Layout';
-import ExcelViewer from './ExcelViewer';
-import TenureFilter from '../components/filters/TenureFilter';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchDatasets } from '../slice/datasetsSlice';
-import { ChevronDown } from 'lucide-react';
-import { FixedSizeList as List } from 'react-window';
-import { fetchTaxpayerReport, resetTaxpayerReport } from '../slice/taxpayerReportSlice';
-import { Placeholder } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from "react";
+import Layout from "../components/Layout";
+import ExcelViewer from "./ExcelViewer";
+import TenureFilter from "../components/filters/TenureFilter";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDatasets } from "../slice/datasetsSlice";
+import { ChevronDown, Download } from "lucide-react";
+import { FixedSizeList as List } from "react-window";
+import {
+  fetchTaxpayerReport,
+  resetTaxpayerReport,
+} from "../slice/taxpayerReportSlice";
+import { Button, Placeholder } from "react-bootstrap";
 
 const TaxpayerReport = () => {
-    const [dateRange, setDateRange] = useState({
-        start_date: "01-01-2022",
-        end_date: "31-12-2022",
+  const [dateRange, setDateRange] = useState({
+    start_date: "01-01-2022",
+    end_date: "31-12-2022",
+  });
+  const dispatch = useDispatch();
+  const [selectedTIN, setSelectedTIN] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [tins, setTins] = useState([]);
+  const [tinWithLabel, setTinWithLabel] = useState([]);
+  const [tinLabels, setTinLabels] = useState([]);
+  const { data, loading, error } = useSelector((state) => state?.datasets);
+  const { taxpayerReportData, taxpayerReportLoading, taxpayerReportError } =
+    useSelector((state) => state?.taxpayerReport);
+
+  useEffect(() => {
+    if (!data) {
+      dispatch(fetchDatasets());
+    }
+
+    return () => {
+      dispatch(resetTaxpayerReport());
+    };
+  }, [data, dispatch]);
+
+  const fetchedRangeRef = useRef(null);
+  const handleFilterChange = (range) => {
+    if (
+      range.start_date !== dateRange.start_date ||
+      range.end_date !== dateRange.end_date
+    ) {
+      setDateRange(range);
+    }
+  };
+
+  useEffect(() => {
+    if (data?.records && data.records.length > 0) {
+      const tinList = data.records.map((e, index) => {
+        return data.records[index].tin;
       });
-      const dispatch = useDispatch();
-      const [selectedTIN, setSelectedTIN] = useState("");
-      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-      const dropdownRef = useRef(null);
-      const [searchTerm, setSearchTerm] = useState("");
-      const [tins, setTins] = useState([]);
-      const [tinWithLabel, setTinWithLabel] = useState([]);
-      const [tinLabels, setTinLabels] = useState([]);
-      const { data, loading, error } = useSelector((state) => state?.datasets);
-      const {
-        taxpayerReportData,
-        taxpayerReportLoading,
-        taxpayerReportError,
-      } = useSelector((state) => state?.taxpayerReport);
-    
-      useEffect(() => {
-        if (!data) {
-          dispatch(fetchDatasets());
-        }
-    
-        return () => {
-          dispatch(resetTaxpayerReport());
-        
-        };
-      }, [data, dispatch]);
-    
-      const fetchedRangeRef = useRef(null);
-      const handleFilterChange = (range) => {
-        if (
-          range.start_date !== dateRange.start_date ||
-          range.end_date !== dateRange.end_date
-        ) {
-          setDateRange(range);
-        }
-      };
-    
-      useEffect(() => {
-        if (data?.records && data.records.length > 0) {
-          const tinList = data.records.map((e, index) => {
-            return data.records[index].tin;
-          });
-          setTins(tinList);
-          setSelectedTIN(tinList[tinList.length - 1]);
-          const tinLabelList = [];
-          const tinWithTaxpayerName = [];
-          for (let i = 0; i < data.records.length; i++) {
-            tinLabelList.push({
-              label: data.records[i].tin + " - " + data.records[i].taxpayer_name,
-              value: data.records[i].tin,
-            });
-            tinWithTaxpayerName.push(
-              data.records[i].tin + " - " + data.records[i].taxpayer_name
-            );
-          }
-          setTinLabels(tinWithTaxpayerName);
-          setTinWithLabel(tinLabelList);
-        }
-      }, [data]);
-    
-      const yearOptions =
-        data?.years?.map((year) => ({
-          label: String(year),
-          value: String(year),
-        })) || [];
-    
-      useEffect(() => {
-        function handleClickOutside(event) {
-          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setIsDropdownOpen(false);
-          }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-      }, []);
-    
-      // Fix: Filter tinWithLabel instead of tins
-      const filteredTins = tinWithLabel.filter((tin) =>
-        tin.label.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      useEffect(() => {
-        if (selectedTIN) {
-        
-          if (!taxpayerReportData) {
-            dispatch(
-              fetchTaxpayerReport({
-                start_date: dateRange.start_date,
-                end_date: dateRange.end_date,
-                tin: selectedTIN
-              })
-            );
-          }
-        }
-      }, [data, selectedTIN, dateRange]);
-        const handleSearch = () => {
-            dispatch(
-                fetchTaxpayerReport({
-                  start_date: dateRange.start_date,
-                  end_date: dateRange.end_date,
-                  tin: selectedTIN,
-                })
-              );
-        };
-       
-    
+      setTins(tinList);
+      setSelectedTIN(tinList[tinList.length - 1]);
+      const tinLabelList = [];
+      const tinWithTaxpayerName = [];
+      for (let i = 0; i < data.records.length; i++) {
+        tinLabelList.push({
+          label: data.records[i].tin + " - " + data.records[i].taxpayer_name,
+          value: data.records[i].tin,
+        });
+        tinWithTaxpayerName.push(
+          data.records[i].tin + " - " + data.records[i].taxpayer_name
+        );
+      }
+      setTinLabels(tinWithTaxpayerName);
+      setTinWithLabel(tinLabelList);
+    }
+  }, [data]);
+
+  const yearOptions =
+    data?.years?.map((year) => ({
+      label: String(year),
+      value: String(year),
+    })) || [];
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Fix: Filter tinWithLabel instead of tins
+  const filteredTins = tinWithLabel.filter((tin) =>
+    tin.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  useEffect(() => {
+    if (selectedTIN) {
+      if (!taxpayerReportData) {
+        dispatch(
+          fetchTaxpayerReport({
+            start_date: dateRange.start_date,
+            end_date: dateRange.end_date,
+            tin: selectedTIN,
+          })
+        );
+      }
+    }
+  }, [data, selectedTIN, dateRange]);
+  const handleSearch = () => {
+    dispatch(
+      fetchTaxpayerReport({
+        start_date: dateRange.start_date,
+        end_date: dateRange.end_date,
+        tin: selectedTIN,
+      })
+    );
+  };
+
+  const handleDownload = () => {
+    if (taxpayerReportData?.blob) {
+      const url = window.URL.createObjectURL(taxpayerReportData.blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `taxpayer_report.csv`; // filename
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
   return (
     <Layout>
       <div className="page-container">
-        <div className="top-filter-class">
+        <div className="top-filter-class" style={{ alignItems: "center" }}>
           <div ref={dropdownRef} className="tin-container pe-3 me-3">
             <label
               style={{
@@ -197,6 +205,19 @@ const TaxpayerReport = () => {
               Search
             </button>
           </div>
+          <Button
+            variant="outline-primary"
+            size="sm"
+            onClick={handleDownload}
+            className="download"
+            style={{ color: "#347AE2", hoverColor: "#", marginLeft: "12px" }}
+          >
+            <Download
+              size={16}
+              style={{ marginRight: 6, marginBottom: 2, color: "#347AE2" }}
+            />
+            Download Sheet
+          </Button>
         </div>
         {taxpayerReportLoading ? (
           <>
@@ -305,6 +326,6 @@ const TaxpayerReport = () => {
       </div>
     </Layout>
   );
-}
+};
 
-export default TaxpayerReport
+export default TaxpayerReport;
