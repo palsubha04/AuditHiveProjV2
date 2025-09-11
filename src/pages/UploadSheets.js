@@ -14,6 +14,7 @@ import UploadSheetTable from '../components/UploadSheetTable';
 import Papa from 'papaparse';
 import './Dashboard.css';
 import UploadSheetTableSubmit from '../components/UploadSheetTableSubmit';
+import SampleCards from '../components/SampleCards'
 
 function UploadSheets() {
   const [uploading, setUploading] = useState(false);
@@ -863,6 +864,7 @@ function UploadSheets() {
             >
               Preview
             </Button>
+            <SampleCards />
           </div>
         </Form>
       )}

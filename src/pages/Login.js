@@ -99,6 +99,7 @@ function Login() {
     <div
       className="login-page"
       style={{ backgroundImage: `url('/login/LoginBackground.svg')` }}
+      // style={{ backgroundImage: `url('/login/background_image_2.jpeg')` }}
     >
       <div className="login-logo">
         <img src="/header-icons/logo.png" alt="Logo" />
