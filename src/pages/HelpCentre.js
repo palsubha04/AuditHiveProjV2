@@ -1,71 +1,101 @@
-import React from 'react';
-import Layout from '../components/Layout';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { BarChart2, Upload, LineChart, FileText } from 'lucide-react';
+import React, { useState } from "react";
+import Layout from "../components/Layout";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Modal,
+  ButtonGroup,
+} from "react-bootstrap";
+import { BarChart2, Upload, LineChart, FileText } from "lucide-react";
+import { Document, Page, pdfjs } from "react-pdf";
 
-function HelpCentre() {
+pdfjs.GlobalWorkerOptions.workerSrc = `/react-pdf/pdf.worker.mjs`;
+
+const HelpCentre = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [numPages, setNumPages] = useState(null);
+  const [scale, setScale] = useState(1.2);
+
+  const pdfPath = "/help-center/pdf123.pdf";
+
+  // Handlers
+  const handleView = () => {
+    setNumPages(null); // reset before loading again
+    setShowModal(true);
+  };
+  const handleClose = () => setShowModal(false);
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = pdfPath;
+    link.download = "pdf123.pdf";
+    link.click();
+  };
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages((prev) => prev ?? numPages);
+  };
+  // Zoom controls
+  const zoomIn = () => setScale((prev) => prev + 0.2);
+  const zoomOut = () => setScale((prev) => (prev > 0.6 ? prev - 0.2 : 0.6));
+  const resetZoom = () => setScale(1.2);
+
+  // Cards data
+  const helpCards = [
+    {
+      icon: (
+        <BarChart2
+          size={40}
+          className="text-success"
+          style={{ color: "#10d327" }}
+        />
+      ),
+      title: "Dashboard",
+      text: "Get a quick overview of key metrics and recent activity.",
+    },
+    {
+      icon: <Upload size={40} className="text-primary" />,
+      title: "Upload Sheets",
+      text: "Easily upload and manage your data sheets in one place.",
+    },
+    {
+      icon: <LineChart size={40} className="text-info" />,
+      title: "Analytics",
+      text: "Dive deep into data trends and performance insights.",
+    },
+    {
+      icon: <FileText size={40} className="text-danger" />,
+      title: "Reports",
+      text: "Generate, view, and download detailed reports.",
+    },
+  ];
+
   return (
     <Layout>
       <Container className="py-4">
-        <h2 className="mb-4">Hi, how can we help ?</h2>
+        {/* Title */}
+        <h2 className="mb-4">Hi, how can we help?</h2>
+
+        {/* Feature Cards */}
         <Row className="mb-5 text-center">
-          <Col md={3} sm={6} xs={12} className="mb-4">
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <div className="d-flex justify-content-center mb-3">
-                  <BarChart2
-                    size={40}
-                    className="text-success"
-                    style={{ color: '#10d327' }}
-                  />
-                </div>
-                <Card.Title>Dashboard</Card.Title>
-                <Card.Text>
-                  Get a quick overview of key metrics and recent activity.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} className="mb-4">
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <div className="d-flex justify-content-center mb-3">
-                  <Upload size={40} className="text-primary" />
-                </div>
-                <Card.Title>Upload Sheets</Card.Title>
-                <Card.Text>
-                  Easily upload and manage your data sheets in one place.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} className="mb-4">
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <div className="d-flex justify-content-center mb-3">
-                  <LineChart size={40} className="text-info" />
-                </div>
-                <Card.Title>Analytics</Card.Title>
-                <Card.Text>
-                  Dive deep into data trends and performance insights.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={3} sm={6} xs={12} className="mb-4">
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <div className="d-flex justify-content-center mb-3">
-                  <FileText size={40} className="text-danger" />
-                </div>
-                <Card.Title>Reports</Card.Title>
-                <Card.Text>
-                  Generate, view, and download detailed reports.
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+          {helpCards.map((card, idx) => (
+            <Col key={idx} md={3} sm={6} xs={12} className="mb-4">
+              <Card className="h-100 shadow-sm">
+                <Card.Body>
+                  <div className="d-flex justify-content-center mb-3">
+                    {card.icon}
+                  </div>
+                  <Card.Title>{card.title}</Card.Title>
+                  <Card.Text>{card.text}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
+
+        {/* Info Section */}
         <div>
           <p>
             Help Center pages provide information about how to use a particular
@@ -112,9 +142,63 @@ function HelpCentre() {
             </li>
           </ol>
         </div>
+
+        {/* Rules Section */}
+        <div className="mt-5">
+          <h5>📑 Rules</h5>
+          <p>Here is the sample PDF with guidelines:</p>
+          <div className="d-flex align-items-center gap-3">
+            <span>
+              <strong>pdf123.pdf</strong>
+            </span>
+            <Button variant="primary" size="sm" onClick={handleView}>
+              View
+            </Button>
+            <Button variant="success" size="sm" onClick={handleDownload}>
+              Download
+            </Button>
+          </div>
+        </div>
+
+        {/* PDF Modal */}
+        <Modal show={showModal} onHide={handleClose} size="lg" centered>
+          <Modal.Header closeButton>
+            <Modal.Title>View PDF</Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ maxHeight: "80vh", overflowY: "auto" }}>
+            <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
+              {numPages &&
+                Array.from({ length: numPages }, (_, index) => (
+                  <div key={`page_${index + 1}`} className="mb-4">
+                    <Page pageNumber={index + 1} scale={scale} />
+                    <p className="text-muted small">
+                      Page {index + 1} of {numPages}
+                    </p>
+                  </div>
+                ))}
+            </Document>
+          </Modal.Body>
+          <Modal.Footer className="d-flex justify-content-between">
+            {/* Zoom Controls */}
+            <ButtonGroup>
+              <Button variant="outline-primary" onClick={zoomOut}>
+                Zoom Out
+              </Button>
+              <Button variant="outline-primary" onClick={resetZoom}>
+                Reset
+              </Button>
+              <Button variant="outline-primary" onClick={zoomIn}>
+                Zoom In
+              </Button>
+            </ButtonGroup>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </Layout>
   );
-}
+};
 
 export default HelpCentre;
