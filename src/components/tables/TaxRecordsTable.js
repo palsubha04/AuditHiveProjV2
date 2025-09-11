@@ -178,11 +178,11 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
         </span>
       ),
     },
-    {
-      accessorKey: "third_party_resource",
-      header: "Third Party Resource",
-      cell: ({ getValue }) => getValue() === "None" ? "-" : getValue(),
-    },
+    // {
+    //   accessorKey: "third_party_resource",
+    //   header: "Third Party Resource",
+    //   cell: ({ getValue }) => getValue() === "None" ? "-" : getValue(),
+    // },
   ];
 
   const pieOptions = {
@@ -216,7 +216,7 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
           <div className="d-flex align-items-center justify-content-between w-100">
             <span className="chart-headers">Tax Records</span>
             <div className="d-flex gap-3">
-              <Form className="d-flex gap-4 py-1 custom-switch-form">
+              {/* <Form className="d-flex gap-4 py-1 custom-switch-form">
                 {["all", "banks", "customs"].map((type) => (
                   <Form.Check
                     key={type}
@@ -227,9 +227,9 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
                     onChange={() => handleSwitchChange(type)}
                   />
                 ))}
-              </Form>
+              </Form> */}
 
-              <Button
+              {/* <Button
                 onClick={handleModalOpen}
                 variant="outline-default" 
                 size="sm" 
@@ -238,8 +238,8 @@ const TaxRecordsTable = ({ startDate, endDate }) => {
                 style={{ background: "#fff", padding: '5px', cursor: 'pointer', marginLeft: '-12px' }}
               >
                 Show Chart
-                {/* <ChartPie style={{ height: "18px", width: "20px", color: '#5671ff' }} /> */}
-              </Button>
+                {/* <ChartPie style={{ height: "18px", width: "20px", color: '#5671ff' }} /> 
+              </Button> */}
 
               <Form.Group className="mb-0" style={{ width: "300px" }}>
                 <div style={{ position: "relative" }}>
