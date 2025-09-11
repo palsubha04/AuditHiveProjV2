@@ -98,13 +98,12 @@ function Login() {
   return (
     <div
       className="login-page"
-      style={{ backgroundImage: `url('/login/LoginBackground.svg')` }}
-      // style={{ backgroundImage: `url('/login/background_image_2.jpeg')` }}
+      style={{ backgroundImage: `url('/login/Login-bg-new.png')` }}
     >
       <div className="login-logo">
         <img src="/header-icons/logo.png" alt="Logo" />
       </div>
-      <div className="login-graphics">
+      {/* <div className="login-graphics">
         {charts.map((chart, index) => (
           <div key={index} className="chart-card">
             <ReactApexChart
@@ -123,10 +122,10 @@ function Login() {
             />
           </div>
         ))}
-      </div>
+      </div> */}
 
-      <Container
-        style={{ borderRadius: "25px 0 0 25px" }}
+      <div
+        style={{ borderRadius: "25px 0 0 25px", marginLeft: "200px" }}
         className="d-flex align-items-center justify-content-center"
       >
         <div className={error ? "login-box-error" : "login-box"}>
@@ -229,7 +228,7 @@ function Login() {
             </Form>
           )}
         </div>
-      </Container>
+      </div>
     </div>
   );
 }

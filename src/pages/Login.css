@@ -1,13 +1,16 @@
 .login-page {
     display: flex;
     min-height: 100vh;
-    background-color: #121212;
+    width: 100%;
+    background: #121212;
     color: #ffffff;
     font-family: 'Poppins', sans-serif;
-    background-size: cover;
+    background-size: cover;   /* makes image fit without zoom */
     background-repeat: no-repeat;
-    background-position: center;
-    /* background: linear-gradient(to right, #161b36, #000); */
+    background-position: right center; /* keep image aligned to right */
+    justify-content: flex-start;  /* move login box to left */
+    align-items: center; /* vertically center login box */
+    padding-left: 5%; /* add spacing from left edge */
 }
 
 .login-graphics {
@@ -39,11 +42,11 @@
 
 .login-box,
 .login-box-error {
-    flex: 1;
-    max-width: 500px;
+    max-width: 450px;
+    width: 100%;
     padding: 2rem 3rem;
     border-radius: 20px;
-    margin: auto;
+    background: rgba(0, 0, 0, 21%); /* optional for contrast */
 }
 
 .login-title {
