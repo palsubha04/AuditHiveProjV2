@@ -47,7 +47,7 @@
 }
 
 .header-main {
-  background-color: #5671FF;
+  background: linear-gradient(to right, #140650, #5671FF);
   display: flex;
   padding-top: 15px;
   padding-bottom: 15px;

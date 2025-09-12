@@ -9,7 +9,7 @@ import {
   Modal,
   ButtonGroup,
 } from "react-bootstrap";
-import { BarChart2, Upload, LineChart, FileText } from "lucide-react";
+import { BarChart2, Upload, LineChart, FileText, Eye, Download } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `/react-pdf/pdf.worker.mjs`;
@@ -74,12 +74,9 @@ const HelpCentre = () => {
 
   return (
     <Layout>
-      <Container className="py-4">
-        {/* Title */}
-        <h2 className="mb-4">Hi, how can we help?</h2>
-
+      <div className="py-3">
         {/* Feature Cards */}
-        <Row className="mb-5 text-center">
+        <Row className="mb-2 text-center">
           {helpCards.map((card, idx) => (
             <Col key={idx} md={3} sm={6} xs={12} className="mb-4">
               <Card className="h-100 shadow-sm">
@@ -145,18 +142,24 @@ const HelpCentre = () => {
 
         {/* Rules Section */}
         <div className="mt-5">
-          <h5>📑 Rules</h5>
+          <h5>Rules</h5>
           <p>Here is the sample PDF with guidelines:</p>
           <div className="d-flex align-items-center gap-3">
             <span>
               <strong>pdf123.pdf</strong>
             </span>
-            <Button variant="primary" size="sm" onClick={handleView}>
-              View
-            </Button>
-            <Button variant="success" size="sm" onClick={handleDownload}>
-              Download
-            </Button>
+            <button
+              className="sample-card-btn"
+              onClick={handleView}
+            >
+              <Eye size={18} />
+            </button>
+            <button
+              className="sample-card-btn"
+              onClick={handleDownload}
+            >
+              <Download size={18} />
+            </button>
           </div>
         </div>
 
@@ -196,7 +199,7 @@ const HelpCentre = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      </Container>
+      </div>
     </Layout>
   );
 };
