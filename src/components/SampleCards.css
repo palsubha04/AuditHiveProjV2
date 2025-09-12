@@ -106,3 +106,8 @@
   max-width: 200px !important;
   width: 200px !important;
 }
+
+.Spreadsheet__cell--readonly {
+  color: #000;
+}
+
