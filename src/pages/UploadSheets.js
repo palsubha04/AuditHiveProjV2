@@ -864,10 +864,11 @@ function UploadSheets() {
             >
               Preview
             </Button>
-            <SampleCards />
+           
           </div>
         </Form>
       )}
+       <SampleCards />
     </Layout>
   );
 }

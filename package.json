@@ -29,6 +29,7 @@
     "react-scripts": "5.0.1",
     "react-shimmer-effects": "^1.0.4",
     "react-spinners": "^0.17.0",
+    "react-spreadsheet": "^0.10.1",
     "react-toastify": "^11.0.5",
     "react-window": "^1.8.11",
     "redux-persist": "^6.0.0",

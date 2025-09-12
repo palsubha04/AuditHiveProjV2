@@ -94,3 +94,15 @@
   padding: 6px 10px;
   font-size: 14px;
 }
+
+.spreadsheet-container .Spreadsheet__header {
+  min-width: 200px !important;
+  max-width: 200px !important;
+  width: 200px !important;
+}
+
+.spreadsheet-container .Spreadsheet__cell {
+  min-width: 200px !important;
+  max-width: 200px !important;
+  width: 200px !important;
+}
