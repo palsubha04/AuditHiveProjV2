@@ -35,7 +35,7 @@ function Layout({ children }) {
     headerTitle = 'Tax Payer Profile';
     headerSubtitle = '';
   } else if (location.pathname === '/help-centre') {
-    headerTitle = 'Help Centre';
+    headerTitle = 'Hi, how can we help?';
     headerSubtitle = '';
   } else if (location.pathname === '/contact-us') {
     headerTitle = 'Contact Us';
