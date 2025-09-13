@@ -99,12 +99,12 @@ function Header() {
         </div>
       </div>
       <div className="header-right">
-        <button className="icon-button">
+        {/* <button className="icon-button">
           <Bell />
         </button>
         <button className="icon-button">
           <Search />
-        </button>
+        </button> */}
         <Dropdown
           align="end"
           show={isDropdownOpen}

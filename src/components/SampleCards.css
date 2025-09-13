@@ -108,6 +108,6 @@
 }
 
 .Spreadsheet__cell--readonly {
-  color: #000;
+  color: #000 !important;
 }
 

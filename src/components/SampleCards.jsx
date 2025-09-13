@@ -8,7 +8,7 @@ const SampleCards = () => {
   const samples = [
     { name: "sample_gst.csv", label: "sample_gst.csv" },
     { name: "sample_swt.csv", label: "sample_swt.csv" },
-    { name: "sample_swt.csv", label: "sample_cit.csv" },
+    { name: "sample_cit.csv", label: "sample_cit.csv" },
   ];
 
   const [isModalOpen, setModalOpen] = useState(false);
