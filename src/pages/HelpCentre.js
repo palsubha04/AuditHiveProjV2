@@ -19,7 +19,7 @@ const HelpCentre = () => {
   const [numPages, setNumPages] = useState(null);
   const [scale, setScale] = useState(1.2);
 
-  const pdfPath = "/help-center/pdf123.pdf";
+  const pdfPath = "/help-center/png_tax_project_Stages_2.2.3_submitted to IRC.pdf";
 
   // Handlers
   const handleView = () => {
@@ -30,7 +30,7 @@ const HelpCentre = () => {
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = pdfPath;
-    link.download = "pdf123.pdf";
+    link.download = "png_tax_project_Stages_2.2.3_submitted to IRC.pdf";
     link.click();
   };
 
@@ -146,7 +146,7 @@ const HelpCentre = () => {
           <p>Here is the sample PDF with guidelines:</p>
           <div className="d-flex align-items-center gap-3">
             <span>
-              <strong>pdf123.pdf</strong>
+              <strong>png_tax_project_Stages_2.2.3_submitted to IRC.pdf</strong>
             </span>
             <button
               className="sample-card-btn"
