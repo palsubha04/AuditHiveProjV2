@@ -6,41 +6,33 @@ import {
   Col,
   Card,
   Button,
-  Modal,
-  ButtonGroup,
 } from "react-bootstrap";
 import { BarChart2, Upload, LineChart, FileText, Eye, Download } from "lucide-react";
-import { Document, Page, pdfjs } from "react-pdf";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `/react-pdf/pdf.worker.mjs`;
 
 const HelpCentre = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [numPages, setNumPages] = useState(null);
-  const [scale, setScale] = useState(1.2);
-
+  const [showPlaceholder, setShowPlaceholder] = useState(false); // if you need any small placeholder state
   const pdfPath = "/help-center/png_tax_project_Stages_2.2.3_submitted to IRC.pdf";
 
   // Handlers
   const handleView = () => {
-    setNumPages(null); // reset before loading again
-    setShowModal(true);
+    // Open PDF in a new tab/window (browser will use built-in PDF viewer if available)
+    const newWin = window.open(pdfPath, "_blank");
+    if (newWin) newWin.focus();
+    else {
+      // fallback: inform user (you can improve with a toast)
+      setShowPlaceholder(true);
+      console.warn("Popup blocked. Please allow popups or use the Download button.");
+    }
   };
-  const handleClose = () => setShowModal(false);
+
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = pdfPath;
     link.download = "png_tax_project_Stages_2.2.3_submitted to IRC.pdf";
+    document.body.appendChild(link);
     link.click();
+    link.remove();
   };
-
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages((prev) => prev ?? numPages);
-  };
-  // Zoom controls
-  const zoomIn = () => setScale((prev) => prev + 0.2);
-  const zoomOut = () => setScale((prev) => (prev > 0.6 ? prev - 0.2 : 0.6));
-  const resetZoom = () => setScale(1.2);
 
   // Cards data
   const helpCards = [
@@ -151,54 +143,26 @@ const HelpCentre = () => {
             <button
               className="sample-card-btn"
               onClick={handleView}
+              title="View in new tab"
             >
               <Eye size={18} />
             </button>
             <button
               className="sample-card-btn"
               onClick={handleDownload}
+              title="Download"
             >
               <Download size={18} />
             </button>
           </div>
-        </div>
 
-        {/* PDF Modal */}
-        <Modal show={showModal} onHide={handleClose} size="lg" centered>
-          <Modal.Header closeButton>
-            <Modal.Title>View PDF</Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ maxHeight: "80vh", overflowY: "auto" }}>
-            <Document file={pdfPath} onLoadSuccess={onDocumentLoadSuccess}>
-              {numPages &&
-                Array.from({ length: numPages }, (_, index) => (
-                  <div key={`page_${index + 1}`} className="mb-4">
-                    <Page pageNumber={index + 1} scale={scale} />
-                    <p className="text-muted small">
-                      Page {index + 1} of {numPages}
-                    </p>
-                  </div>
-                ))}
-            </Document>
-          </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-between">
-            {/* Zoom Controls */}
-            <ButtonGroup>
-              <Button variant="outline-primary" onClick={zoomOut}>
-                Zoom Out
-              </Button>
-              <Button variant="outline-primary" onClick={resetZoom}>
-                Reset
-              </Button>
-              <Button variant="outline-primary" onClick={zoomIn}>
-                Zoom In
-              </Button>
-            </ButtonGroup>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
+          {showPlaceholder && (
+            <p className="text-muted small mt-2">
+              If the PDF didn't open, your browser may be blocking pop-ups. Use
+              the download button or allow pop-ups for this site.
+            </p>
+          )}
+        </div>
       </div>
     </Layout>
   );
