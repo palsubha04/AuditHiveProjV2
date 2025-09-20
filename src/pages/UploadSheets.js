@@ -365,11 +365,19 @@ function UploadSheets() {
       {jobStatus?.status === "finished" && (
         <Alert variant="success">
           <div className="d-flex justify-content-between align-items-center">
-            <p className="mb-0">
-              {jobStatus.valid_records} data passed validations and{" "}
-              {jobStatus.invalid_records} data failed in validation and
-              available to download.
-            </p>
+            {jobStatus.total_existing_records > 0 ?
+           ( <p className="mb-0">
+           Upload Summary : {jobStatus.total_records} records processed – {jobStatus.total_existing_records} existing, {jobStatus.total_new_records} new, {jobStatus.valid_records} valid, {jobStatus.invalid_records} invalid, {jobStatus.duplicate_records} duplicate.
+           {/* {jobStatus.valid_records} data passed validations and{" "}
+           {jobStatus.invalid_records} data failed in validation and
+           available to download. */}
+         </p>): <p className="mb-0">
+           Upload Summary : {jobStatus.total_records} records processed – {jobStatus.valid_records} valid, {jobStatus.invalid_records} invalid, {jobStatus.duplicate_records} duplicate.
+           {/* {jobStatus.valid_records} data passed validations and{" "}
+           {jobStatus.invalid_records} data failed in validation and
+           available to download. */}
+         </p>}
+         <div className='d-flex gap-2'>
             {jobStatus.invalid_records > 0 && (
               <Button
                 variant="outline-primary"
@@ -377,14 +385,25 @@ function UploadSheets() {
                 onClick={handleDownloadInvalidRecords}
               >
                 <FontAwesomeIcon icon={faDownload} className="me-2" />
-                Download Invalid Records
+                 Invalid Records
               </Button>
             )}
+             {jobStatus.duplicate_records > 0 && (
+              <Button
+                variant="outline-primary"
+                size="sm"
+                onClick={handleDownloadDuplicateRecords}
+              >
+                <FontAwesomeIcon icon={faDownload} className="me-2" />
+                 Duplicate Records
+              </Button>
+            )}
+            </div>
           </div>
         </Alert>
       )}
 
-      {jobStatus?.status === "finished" && (
+      {/* {jobStatus?.status === "finished" && (
         <Alert variant="success">
           <div className="d-flex justify-content-between align-items-center">
             <p className="mb-0">
@@ -404,7 +423,7 @@ function UploadSheets() {
             )}
           </div>
         </Alert>
-      )}
+      )} */}
 
       {showPreview ? (
         <>
