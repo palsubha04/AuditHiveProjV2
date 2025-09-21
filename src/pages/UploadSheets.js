@@ -1,31 +1,31 @@
-import React, { useRef, useState, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { Form, Button, Alert, ProgressBar, Spinner } from 'react-bootstrap';
-import api from '../services/axios.config';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useRef, useState, useEffect } from "react";
+import Layout from "../components/Layout";
+import { Form, Button, Alert, ProgressBar, Spinner } from "react-bootstrap";
+import api from "../services/axios.config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUpload,
   faCalendarAlt,
   faDownload,
-} from '@fortawesome/free-solid-svg-icons';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import UploadSheetTable from '../components/UploadSheetTable';
-import Papa from 'papaparse';
-import './Dashboard.css';
-import UploadSheetTableSubmit from '../components/UploadSheetTableSubmit';
-import SampleCards from '../components/SampleCards'
+} from "@fortawesome/free-solid-svg-icons";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import UploadSheetTable from "../components/UploadSheetTable";
+import Papa from "papaparse";
+import "./Dashboard.css";
+import UploadSheetTableSubmit from "../components/UploadSheetTableSubmit";
+import SampleCards from "../components/SampleCards";
 
 function UploadSheets() {
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
-    type: 'gst',
+    type: "gst",
     startDate: null,
     endDate: null,
   });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [previewData, setPreviewData] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
   const [jobId, setJobId] = useState(null);
@@ -70,16 +70,16 @@ function UploadSheets() {
         const status = response.data;
         setJobStatus(status);
 
-        if (status.status === 'finished') {
+        if (status.status === "finished") {
           setProgress(100);
           // Load initial valid records
           loadValidRecords(jobId);
         } else if (
-          status.status === 'processing' ||
-          status.status === 'started'
+          status.status === "processing" ||
+          status.status === "started"
         ) {
           // Set progress based on status
-          if (status.status === 'started') {
+          if (status.status === "started") {
             setProgress(25);
           } else {
             setProgress(50);
@@ -88,7 +88,7 @@ function UploadSheets() {
           timeoutId = setTimeout(pollStatus, 5000);
         }
       } catch (error) {
-        setError('Error checking job status');
+        setError("Error checking job status");
         // Even on error, continue polling
         timeoutId = setTimeout(pollStatus, 5000);
       }
@@ -107,12 +107,12 @@ function UploadSheets() {
 
   const handleFileUpload = async (file) => {
     if (!file) return;
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     // Check if file is CSV
-    if (!file.name.toLowerCase().endsWith('.csv')) {
-      setError('Please upload a CSV file only');
+    if (!file.name.toLowerCase().endsWith(".csv")) {
+      setError("Please upload a CSV file only");
       return;
     }
 
@@ -124,8 +124,8 @@ function UploadSheets() {
     if (!selectedFile || !formData.startDate || !formData.endDate) return;
 
     try {
-      setError('');
-      setSuccess('');
+      setError("");
+      setSuccess("");
 
       // Parse CSV file
       Papa.parse(selectedFile, {
@@ -141,10 +141,10 @@ function UploadSheets() {
               size: 150,
               cell: ({ getValue }) => (
                 <span
-                  style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
-                  title={getValue() || 'N/A'}
+                  style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                  title={getValue() || "N/A"}
                 >
-                  {getValue() || 'N/A'}
+                  {getValue() || "N/A"}
                 </span>
               ),
             }));
@@ -164,15 +164,15 @@ function UploadSheets() {
             });
             setShowPreview(true);
           } else {
-            setError('No data found in CSV file');
+            setError("No data found in CSV file");
           }
         },
         error: (error) => {
-          setError('Error parsing CSV file');
+          setError("Error parsing CSV file");
         },
       });
     } catch (error) {
-      setError('Error previewing file');
+      setError("Error previewing file");
     }
   };
 
@@ -199,7 +199,7 @@ function UploadSheets() {
       setNextCursor(next_cursor);
       setHasMore(has_more);
     } catch (error) {
-      setError('Error loading valid records');
+      setError("Error loading valid records");
     } finally {
       setLoadingMore(false);
     }
@@ -214,18 +214,18 @@ function UploadSheets() {
   const handleDownloadInvalidRecords = async () => {
     try {
       const response = await api.get(`/tax/jobs/${jobId}/invalid-records`, {
-        responseType: 'blob',
+        responseType: "blob",
       });
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'invalid_records.csv');
+      link.setAttribute("download", "invalid_records.csv");
       document.body.appendChild(link);
       link.click();
       link.remove();
     } catch (error) {
-      setError('Error downloading invalid records');
+      setError("Error downloading invalid records");
     }
   };
 
@@ -254,36 +254,36 @@ function UploadSheets() {
 
     try {
       setUploading(true);
-      setError('');
-      setSuccess('');
+      setError("");
+      setSuccess("");
 
       const formPayload = new FormData();
-      formPayload.append('file', selectedFile);
-      formPayload.append('tax_type', formData.type);
+      formPayload.append("file", selectedFile);
+      formPayload.append("tax_type", formData.type);
       formPayload.append(
-        'start_date',
-        formData.startDate.toLocaleDateString('en-GB')
+        "start_date",
+        formData.startDate.toLocaleDateString("en-GB")
       );
       formPayload.append(
-        'end_date',
-        formData.endDate.toLocaleDateString('en-GB')
+        "end_date",
+        formData.endDate.toLocaleDateString("en-GB")
       );
 
-      const response = await api.post('/tax/upload', formPayload, {
+      const response = await api.post("/tax/upload", formPayload, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
       setJobId(response.data.job_id);
-      setSuccess('Your data is in sync transmit.');
+      setSuccess("Your data is in sync transmit.");
       setProgress(0);
     } catch (error) {
       if (error.response?.status === 401) {
         // Let the axios interceptor handle the logout
         return;
       }
-      setError(error.response?.data?.message || 'Error uploading file');
+      setError(error.response?.data?.message || "Error uploading file");
     } finally {
       setUploading(false);
     }
@@ -292,19 +292,19 @@ function UploadSheets() {
   const handleDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    e.currentTarget.classList.add('dragging');
+    e.currentTarget.classList.add("dragging");
   };
 
   const handleDragLeave = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    e.currentTarget.classList.remove('dragging');
+    e.currentTarget.classList.remove("dragging");
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    e.currentTarget.classList.remove('dragging');
+    e.currentTarget.classList.remove("dragging");
 
     const file = e.dataTransfer.files[0];
     handleFileUpload(file);
@@ -320,25 +320,38 @@ function UploadSheets() {
   };
 
   const formatDate = (date) => {
-    return date.toLocaleString('default', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
+    return date.toLocaleString("default", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 
   const formatDateTime = (date) => {
-    return date.toLocaleString('default', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
+    return date.toLocaleString("default", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
       hour12: true,
     });
   };
 
-  console.log("job status", jobStatus)
+  console.log("job status", jobStatus);
+
+  const handleBack = () => {
+    setShowPreview(false);
+    setSelectedFile(null);
+    setFormData({
+      type: "gst",
+      startDate: null,
+      endDate: null,
+    });
+    setJobId(null);
+    setJobStatus(null);
+    setSuccess("")
+  };
 
   return (
     <Layout>
@@ -365,39 +378,48 @@ function UploadSheets() {
       {jobStatus?.status === "finished" && (
         <Alert variant="success">
           <div className="d-flex justify-content-between align-items-center">
-            {jobStatus.total_existing_records > 0 ?
-           ( <p className="mb-0">
-           Upload Summary : {jobStatus.total_records} records processed – {jobStatus.total_existing_records} existing, {jobStatus.total_new_records} new, {jobStatus.valid_records} valid, {jobStatus.invalid_records} invalid, {jobStatus.duplicate_records} duplicate.
-           {/* {jobStatus.valid_records} data passed validations and{" "}
+            {jobStatus.total_existing_records > 0 ? (
+              <p className="mb-0">
+                Upload Summary : {jobStatus.total_records} records processed –{" "}
+                {jobStatus.total_existing_records} existing,{" "}
+                {jobStatus.total_new_records} new, {jobStatus.valid_records}{" "}
+                valid, {jobStatus.invalid_records} invalid,{" "}
+                {jobStatus.duplicate_records} duplicate.
+                {/* {jobStatus.valid_records} data passed validations and{" "}
            {jobStatus.invalid_records} data failed in validation and
            available to download. */}
-         </p>): <p className="mb-0">
-           Upload Summary : {jobStatus.total_records} records processed – {jobStatus.valid_records} valid, {jobStatus.invalid_records} invalid, {jobStatus.duplicate_records} duplicate.
-           {/* {jobStatus.valid_records} data passed validations and{" "}
+              </p>
+            ) : (
+              <p className="mb-0">
+                Upload Summary : {jobStatus.total_records} records processed –{" "}
+                {jobStatus.valid_records} valid, {jobStatus.invalid_records}{" "}
+                invalid, {jobStatus.duplicate_records} duplicate.
+                {/* {jobStatus.valid_records} data passed validations and{" "}
            {jobStatus.invalid_records} data failed in validation and
            available to download. */}
-         </p>}
-         <div className='d-flex gap-2'>
-            {jobStatus.invalid_records > 0 && (
-              <Button
-                variant="outline-primary"
-                size="sm"
-                onClick={handleDownloadInvalidRecords}
-              >
-                <FontAwesomeIcon icon={faDownload} className="me-2" />
-                 Invalid Records
-              </Button>
+              </p>
             )}
-             {jobStatus.duplicate_records > 0 && (
-              <Button
-                variant="outline-primary"
-                size="sm"
-                onClick={handleDownloadDuplicateRecords}
-              >
-                <FontAwesomeIcon icon={faDownload} className="me-2" />
-                 Duplicate Records
-              </Button>
-            )}
+            <div className="d-flex gap-2">
+              {jobStatus.invalid_records > 0 && (
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={handleDownloadInvalidRecords}
+                >
+                  <FontAwesomeIcon icon={faDownload} className="me-2" />
+                  Invalid Records
+                </Button>
+              )}
+              {jobStatus.duplicate_records > 0 && (
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={handleDownloadDuplicateRecords}
+                >
+                  <FontAwesomeIcon icon={faDownload} className="me-2" />
+                  Duplicate Records
+                </Button>
+              )}
             </div>
           </div>
         </Alert>
@@ -598,11 +620,7 @@ function UploadSheets() {
           )}
 
           <div className="preview-actions">
-            <Button
-              variant="secondary"
-              onClick={() => setShowPreview(false)}
-              className="me-2"
-            >
+            <Button variant="secondary" onClick={handleBack} className="me-2">
               Back
             </Button>
             {!jobId && (
@@ -883,11 +901,10 @@ function UploadSheets() {
             >
               Preview
             </Button>
-           
           </div>
         </Form>
       )}
-       <SampleCards />
+      <SampleCards />
     </Layout>
   );
 }
