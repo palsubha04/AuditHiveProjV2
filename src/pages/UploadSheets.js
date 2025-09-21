@@ -350,7 +350,7 @@ function UploadSheets() {
     });
     setJobId(null);
     setJobStatus(null);
-    setSuccess("")
+    setSuccess("");
   };
 
   return (
@@ -379,15 +379,22 @@ function UploadSheets() {
         <Alert variant="success">
           <div className="d-flex justify-content-between align-items-center">
             {jobStatus.total_existing_records > 0 ? (
+              //     <p className="mb-0">
+              //       Upload Summary : {jobStatus.total_records} records processed –{" "}
+              //       {jobStatus.total_existing_records} existing,{" "}
+              //       {jobStatus.total_new_records} new, {jobStatus.valid_records}{" "}
+              //       valid, {jobStatus.invalid_records} invalid,{" "}
+              //       {jobStatus.duplicate_records} duplicate.
+              //       {/* {jobStatus.valid_records} data passed validations and{" "}
+              //  {jobStatus.invalid_records} data failed in validation and
+              //  available to download. */}
+              //     </p>
               <p className="mb-0">
                 Upload Summary : {jobStatus.total_records} records processed –{" "}
-                {jobStatus.total_existing_records} existing,{" "}
-                {jobStatus.total_new_records} new, {jobStatus.valid_records}{" "}
-                valid, {jobStatus.invalid_records} invalid,{" "}
-                {jobStatus.duplicate_records} duplicate.
-                {/* {jobStatus.valid_records} data passed validations and{" "}
-           {jobStatus.invalid_records} data failed in validation and
-           available to download. */}
+                {jobStatus.valid_records} valid out of which{" "}
+                {jobStatus.total_existing_records} existing and{" "}
+                {jobStatus.total_new_records} new, {jobStatus.invalid_records}{" "}
+                invalid, {jobStatus.duplicate_records} duplicate
               </p>
             ) : (
               <p className="mb-0">
