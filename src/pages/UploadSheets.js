@@ -389,12 +389,21 @@ function UploadSheets() {
               //  {jobStatus.invalid_records} data failed in validation and
               //  available to download. */}
               //     </p>
+              // <p className="mb-0">
+              //   Upload Summary : {jobStatus.total_records} records processed –{" "}
+              //   {jobStatus.valid_records} valid out of which{" "}
+              //   {jobStatus.total_existing_records} existing and{" "}
+              //   {jobStatus.total_new_records} new, {jobStatus.invalid_records}{" "}
+              //   invalid, {jobStatus.duplicate_records} duplicate
+              // </p>
               <p className="mb-0">
-                Upload Summary : {jobStatus.total_records} records processed –{" "}
-                {jobStatus.valid_records} valid out of which{" "}
-                {jobStatus.total_existing_records} existing and{" "}
-                {jobStatus.total_new_records} new, {jobStatus.invalid_records}{" "}
-                invalid, {jobStatus.duplicate_records} duplicate
+                Upload Summary: {jobStatus.total_records} records processed{" "}
+                {"–"} {jobStatus.valid_records} valid {"("}
+                {jobStatus.total_existing_records} existing,{" "}
+                {jobStatus.conflicting_records} conflicts,{" "}
+                {jobStatus.total_new_records} new{")"},{" "}
+                {jobStatus.invalid_records} invalid,{" "}
+                {jobStatus.duplicate_records} duplicate
               </p>
             ) : (
               <p className="mb-0">
